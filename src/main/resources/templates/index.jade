@@ -1,6 +1,6 @@
 html
   head
-    title Join #{slack.name} on Slack!
+    title Join #{org.name} on Slack!
     meta(name='viewport', content='width=device-width,initial-scale=1.0,minimum-scale=1.0,user-scalable=no')
   .splash
     .logos
@@ -8,12 +8,12 @@ html
       .logo.slack
     p
       | Join
-      b  #{slack.name}
+      b  #{org.name}
       |  on Slack.
     p.status
-      b.active #{slack.users.active}
+      b.active #{org.users.active}
       |  users online now of
-      b.total  #{slack.users.total}
+      b.total  #{org.users.total}
       |  registered.
     form
       input(type='email', placeholder='you@yourdomain.com', autofocus='true')
@@ -68,7 +68,7 @@ html
       }
 
       .logo.org {
-        background-image: url(#{slack.logo});
+        background-image: url(#{org.logo});
         margin-right: 70px
       }
 

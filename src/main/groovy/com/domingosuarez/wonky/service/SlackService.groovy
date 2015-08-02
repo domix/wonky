@@ -1,6 +1,8 @@
 package com.domingosuarez.wonky.service
 
 import groovy.json.JsonSlurper
+import groovy.util.logging.Slf4j
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 import wslite.rest.RESTClient
 import wslite.rest.Response
@@ -9,6 +11,7 @@ import wslite.rest.Response
  * Created by domix on 19/07/15.
  */
 @Service
+@Slf4j
 class SlackService {
   Map slack(String token, String host) {
     RESTClient client = new RESTClient("https://${host}.slack.com/api")
@@ -17,8 +20,18 @@ class SlackService {
     new JsonSlurper().parseText(response.contentAsString)
   }
 
+  @Cacheable('slackPublicData')
   Map publicData(String token, String host) {
-    publicData(slack(token, host))
+    log.debug 'Searching public data in Slack for {}', host
+    Map result = [:]
+
+    if (token && host) {
+      result = publicData(slack(token, host))
+    } else {
+      log.warn 'The token or host for Slack are not set up. Please configure Wonky correctly'
+    }
+
+    result
   }
 
   Map publicData(Map data) {
