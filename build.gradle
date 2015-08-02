@@ -40,6 +40,9 @@ dependencies {
   compile 'com.domingosuarez.boot:spring-boot-starter-jade4j:0.3.0'
   compile 'com.github.groovy-wslite:groovy-wslite:1.1.2'
 
+  compile 'org.webjars:webjars-locator:0.27'
+  compile 'org.webjars.bower:superagent:1.2.0'
+
   runtime 'net.sf.ehcache:ehcache'
 
   testCompile "org.spockframework:spock-core:${spockVersion}"
