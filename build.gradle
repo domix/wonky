@@ -11,6 +11,8 @@ buildscript {
     classpath("org.springframework.boot:spring-boot-gradle-plugin:1.3.0.M2")
     classpath 'com.bluepapa32:gradle-watch-plugin:0.1.5'
     classpath "io.spring.gradle:dependency-management-plugin:0.5.3.RELEASE"
+
+    classpath "com.github.houbie:lesscss-gradle-plugin:1.0.3-less-1.7.0"
   }
 }
 
@@ -23,6 +25,7 @@ apply plugin: 'findbugs'
 apply plugin: 'jacoco'
 apply plugin: 'com.bluepapa32.watch'
 apply plugin: "io.spring.dependency-management"
+apply plugin: "lesscss"
 
 sourceCompatibility = project.javaVersion
 targetCompatibility = project.javaVersion
@@ -69,4 +72,11 @@ watch {
     files files('src/main/groovy')
     tasks 'compileGroovy'
   }
+}
+
+lessc {
+  sourceDir "src/main/less"
+  include "**/*.less", "**/*.js"
+  exclude "imports/**/*"
+  destinationDir = "$buildDir/css"
 }

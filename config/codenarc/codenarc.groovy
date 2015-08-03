@@ -14,7 +14,9 @@ ruleset {
     exclude 'DuplicateNumberLiteral'
   }
   ruleset('rulesets/enhanced.xml')
-  ruleset('rulesets/exceptions.xml')
+  ruleset('rulesets/exceptions.xml') {
+    exclude 'CatchException'
+  }
   ruleset('rulesets/formatting.xml') {
     exclude 'ClassJavadoc'
     exclude 'SpaceAroundMapEntryColon'
