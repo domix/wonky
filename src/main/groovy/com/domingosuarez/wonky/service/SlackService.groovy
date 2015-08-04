@@ -20,6 +20,13 @@ class SlackService {
     new JsonSlurper().parseText(response.contentAsString)
   }
 
+  String invite(String token, String host, String email) {
+    new RESTClient("https://${host}.slack.com/api/users.admin.invite").post {
+      charset 'UTF-8'
+      urlenc token: token, email: email
+    }.contentAsString
+  }
+
   @Cacheable('slackPublicData')
   Map publicData(String token, String host) {
     log.debug 'Searching public data in Slack for {}', host
