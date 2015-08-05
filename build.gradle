@@ -44,7 +44,7 @@ dependencies {
   compile 'com.github.groovy-wslite:groovy-wslite:1.1.2'
 
   compile 'org.webjars:webjars-locator:0.27'
-  compile 'org.webjars.bower:superagent:1.2.0'
+  //compile 'org.webjars.npm:request:2.55.0'
 
   runtime 'net.sf.ehcache:ehcache'
 
