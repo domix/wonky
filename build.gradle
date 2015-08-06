@@ -1,19 +1,24 @@
-ext {
-  groovyVersion = '2.4.4'
-  javaVersion = '1.8'
-  spockVersion = '1.0-groovy-2.4'
-}
-
 buildscript {
-  repositories { jcenter() }
+  repositories {
+    mavenCentral()
+    jcenter()
+  }
   dependencies {
+    classpath 'com.bertramlabs.plugins:asset-pipeline-gradle:2.4.3'
+    classpath 'com.bertramlabs.plugins:coffee-asset-pipeline:2.0.7'
+
     classpath 'com.github.ben-manes:gradle-versions-plugin:0.11.3'
     classpath("org.springframework.boot:spring-boot-gradle-plugin:1.3.0.M2")
     classpath 'com.bluepapa32:gradle-watch-plugin:0.1.5'
     classpath "io.spring.gradle:dependency-management-plugin:0.5.3.RELEASE"
 
-    classpath "com.github.houbie:lesscss-gradle-plugin:1.0.3-less-1.7.0"
+
   }
+}
+
+plugins {
+  id "com.github.hierynomus.license" version "0.11.0"
+  id 'net.researchgate.release' version '2.1.2'
 }
 
 apply plugin: 'idea'
@@ -25,7 +30,13 @@ apply plugin: 'findbugs'
 apply plugin: 'jacoco'
 apply plugin: 'com.bluepapa32.watch'
 apply plugin: "io.spring.dependency-management"
-apply plugin: "lesscss"
+apply plugin: 'com.bertramlabs.asset-pipeline'
+
+ext {
+  groovyVersion = '2.4.4'
+  javaVersion = '1.8'
+  spockVersion = '1.0-groovy-2.4'
+}
 
 sourceCompatibility = project.javaVersion
 targetCompatibility = project.javaVersion
@@ -44,7 +55,7 @@ dependencies {
   compile 'com.github.groovy-wslite:groovy-wslite:1.1.2'
 
   compile 'org.webjars:webjars-locator:0.27'
-  //compile 'org.webjars.npm:request:2.55.0'
+  compile 'org.webjars:zeptojs:1.1.6'
 
   runtime 'net.sf.ehcache:ehcache'
 
@@ -72,9 +83,16 @@ watch {
   }
 }
 
-lessc {
-  sourceDir "src/main/less"
-  include "**/*.less", "**/*.js"
-  exclude "imports/**/*"
-  destinationDir = "$buildDir/css"
+assets {
+  compileDir = 'build/resources/main/static/assets'
 }
+
+license {
+  excludes(["**/*.yml", "**/*.jade", "**/*.svg"])
+  header rootProject.file('HEADER_LICENSE')
+  strictCheck true
+}
+
+classes.dependsOn licenseFormat
+
+processResources.dependsOn assetCompile
