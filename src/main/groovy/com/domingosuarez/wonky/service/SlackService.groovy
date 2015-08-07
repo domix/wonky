@@ -57,7 +57,7 @@ class SlackService {
 
   @Cacheable('slackPublicData')
   Map publicData(String token, String host) {
-    log.debug 'Searching public data in Slack for {}', host
+    log.info 'Searching public data in Slack for {}', host
     Map result = [:]
 
     if (token && host) {

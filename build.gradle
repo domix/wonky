@@ -88,7 +88,7 @@ assets {
 }
 
 license {
-  excludes(["**/*.yml", "**/*.jade", "**/*.svg"])
+  excludes(["**/*.yml", "**/*.jade", "**/*.svg", '**/*.txt'])
   header rootProject.file('HEADER_LICENSE')
   strictCheck true
 }
