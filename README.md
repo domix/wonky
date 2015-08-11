@@ -1,4 +1,7 @@
 # wonky
+[![Build Status](https://travis-ci.org/domix/wonky.svg)](https://travis-ci.org/domix/wonky)
+[![Coverage Status](https://coveralls.io/repos/domix/wonky/badge.svg?branch=master&service=github)](https://coveralls.io/github/domix/wonky?branch=master)
+[![codecov.io](http://codecov.io/github/domix/wonky/coverage.svg?branch=master)](http://codecov.io/github/domix/wonky?branch=master)
 
 Wonky is a port of [slacking](https://github.com/rauchg/slackin/), to the JVM written in [Groovy](http://www.groovy-lang.org) and [SpringBoot](http://projects.spring.io/spring-boot/).
 

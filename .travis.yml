@@ -1,0 +1,19 @@
+sudo: false
+
+cache:
+  directories:
+  - $HOME/.gradle
+
+language: groovy
+
+jdk:
+- oraclejdk8
+
+env:
+- TERM=dumb
+
+script:
+- ./gradlew test jacocoTestReport coveralls
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
