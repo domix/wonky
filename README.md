@@ -23,14 +23,14 @@ In order to run `wonky` you need to provide the following settings:
 - `slack.token`
 - `slack.host`
 
-By default wonky runs on port 3030, as any Spring Boot application you can chance the port as you wish.
+By default wonky runs on port `3030`, as any `Spring Boot` application you can chance the port as you wish.
 
 ### Setting configuration values
 
 You have different options for this:
 
 ```bash
-  java -Dslack.token={your_token_here} -Dslack.host={your_slack_host_here} -jar build/libs/wonky-x.x.x.jar
+  java -Dslack.token={your_token} -Dslack.host={your_slack_host} -jar wonky-x.x.x.jar
 ```
 
 

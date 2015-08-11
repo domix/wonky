@@ -42,7 +42,7 @@ appender('FILE', RollingFileAppender) {
 root ERROR, ['CONSOLE', 'FILE']
 //root loggingLevel, appenders
 
-logger 'com.domingosuarez.wonky', ERROR
+logger 'com.domingosuarez.wonky', WARN
 logger 'org.apache.tomcat', ERROR
 logger 'org.apache.coyote', ERROR
 logger 'org.apache.catalina', ERROR

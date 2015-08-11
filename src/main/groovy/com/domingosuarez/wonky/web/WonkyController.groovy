@@ -22,12 +22,13 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST
 import com.domingosuarez.wonky.service.SlackService
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Controller
 import org.springframework.ui.ModelMap
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
+
+import javax.servlet.http.HttpServletRequest
 
 /**
  * Created by domix on 19/07/15.
@@ -36,24 +37,31 @@ import org.springframework.web.bind.annotation.ResponseBody
 @Controller
 @RequestMapping('/')
 class WonkyController {
-  @Value('${slack.token:}')
-  String slackToken
-
-  @Value('${slack.host:}')
-  String slackHost
 
   @Autowired
   SlackService slackService
 
   @RequestMapping(method = GET)
-  String index(ModelMap model) {
-    model.addAttribute('org', slackService.publicData(slackToken, slackHost))
-    'index'
+  String index(ModelMap model, HttpServletRequest request) {
+    String host = getHostname(request)
+
+    Map slack = slackService.slack(host)
+    if (slack) {
+      model.addAttribute('org', slack)
+      'index'
+    } else {
+      'landing'
+    }
   }
 
   @RequestMapping(method = POST)
   @ResponseBody
-  Map invite(@RequestBody Map jsonString) {
-    slackService.invite(slackToken, slackHost, jsonString.email)
+  Map invite(@RequestBody Map jsonString, HttpServletRequest request) {
+    String host = getHostname(request)
+    slackService.invite(host, jsonString.email)
+  }
+
+  String getHostname(HttpServletRequest request) {
+    new URL(request.requestURL.toString()).host
   }
 }
