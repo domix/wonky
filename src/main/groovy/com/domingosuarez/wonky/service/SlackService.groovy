@@ -18,6 +18,7 @@ package com.domingosuarez.wonky.service
 
 import static java.util.Collections.emptyList
 import static java.util.Collections.emptyMap
+import static java.util.Optional.of
 import static java.util.Optional.ofNullable
 import static org.springframework.context.i18n.LocaleContextHolder.locale
 
@@ -48,14 +49,14 @@ class SlackService {
   @Autowired
   SlackOrgs slackOrgs
 
-  SlackOrganization getSlackOrg(String hostname) {
-    orgs.stream().filter { it.wonkyDomain == hostname }.findFirst().orElseGet {
+  Optional<SlackOrganization> getSlackOrg(String hostname) {
+    orgs.stream().filter { it.wonkyDomain == hostname }.findFirst().map { of(it) }.orElseGet {
       SlackOrganization result = null
 
       if (slackToken) {
         result = new SlackOrganization(teamDomain: slackHost, token: slackToken)
       }
-      result
+      ofNullable(result)
     }
   }
 
@@ -63,8 +64,9 @@ class SlackService {
     ofNullable(slackOrgs).map { it.orgs }.orElse(emptyList())
   }
 
+  @Cacheable('slackPublicData')
   Map slack(String hostname) {
-    ofNullable(getSlackOrg(hostname))
+    getSlackOrg(hostname)
       .map { publicData(it.token, it.teamDomain) }
       .orElse(emptyMap())
   }
@@ -76,7 +78,7 @@ class SlackService {
   }
 
   Map invite(String hostname, String email) {
-    ofNullable(getSlackOrg(hostname))
+    getSlackOrg(hostname)
       .map { invite(it.token, it.teamDomain, email) }
       .orElse { emptyMap() }
   }
@@ -96,7 +98,6 @@ class SlackService {
     response
   }
 
-  @Cacheable('slackPublicData')
   Map publicData(String token, String host) {
     log.info 'Searching public data in Slack for {}', host
     publicData(slack(token, host))
