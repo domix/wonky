@@ -44,7 +44,7 @@ class WonkyController {
   @RequestMapping(method = GET)
   String index(ModelMap model, HttpServletRequest request) {
     String host = getHostname(request)
-
+    log.info 'wonky for {}', host
     Map slack = slackService.slack(host)
     if (slack) {
       model.addAttribute('org', slack)

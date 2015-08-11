@@ -48,14 +48,14 @@ class SlackService {
   @Autowired
   SlackOrgs slackOrgs
 
-  Optional<SlackOrganization> getSlackOrg(String hostname) {
+  SlackOrganization getSlackOrg(String hostname) {
     orgs.stream().filter { it.wonkyDomain == hostname }.findFirst().orElseGet {
       SlackOrganization result = null
 
       if (slackToken) {
         result = new SlackOrganization(teamDomain: slackHost, token: slackToken)
       }
-      ofNullable(result)
+      result
     }
   }
 
@@ -64,7 +64,7 @@ class SlackService {
   }
 
   Map slack(String hostname) {
-    getSlackOrg(hostname)
+    ofNullable(getSlackOrg(hostname))
       .map { publicData(it.token, it.teamDomain) }
       .orElse(emptyMap())
   }
@@ -76,7 +76,7 @@ class SlackService {
   }
 
   Map invite(String hostname, String email) {
-    getSlackOrg(hostname)
+    ofNullable(getSlackOrg(hostname))
       .map { invite(it.token, it.teamDomain, email) }
       .orElse { emptyMap() }
   }
