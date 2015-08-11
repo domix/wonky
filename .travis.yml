@@ -13,7 +13,7 @@ env:
 - TERM=dumb
 
 script:
-- ./gradlew test jacocoTestReport coveralls
+- ./gradlew test jacocoTestReport
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
