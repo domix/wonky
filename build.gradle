@@ -68,6 +68,13 @@ dependencies {
   codenarc "org.codehaus.groovy:groovy-all:${groovyVersion}"
 }
 
+jacocoTestReport {
+  reports {
+    xml.enabled = true // coveralls plugin depends on xml format report
+    html.enabled = true
+  }
+}
+
 codenarc {
   configFile = file('./config/codenarc/codenarc.groovy')
 }
