@@ -50,4 +50,4 @@ You have different options for this:
 
 [![Stories in Ready](https://badge.waffle.io/domix/wonky.svg?label=ready&title=Ready)](http://waffle.io/domix/wonky)
 
-[![Throughput Graph](https://graphs.waffle.io/domix/wonky/throughput.svg)](https://waffle.io/domix/wonky/metrics))
+[![Throughput Graph](https://graphs.waffle.io/domix/wonky/throughput.svg)](https://waffle.io/domix/wonky/metrics)
