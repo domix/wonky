@@ -48,6 +48,10 @@ You have different options for this:
 
 - [SpringHispano.org](http://slack.springhispano.org)
 
+### Development badges
+
 [![Stories in Ready](https://badge.waffle.io/domix/wonky.svg?label=ready&title=Ready)](http://waffle.io/domix/wonky)
 
 [![Throughput Graph](https://graphs.waffle.io/domix/wonky/throughput.svg)](https://waffle.io/domix/wonky/metrics)
+
+![codecov.io](http://codecov.io/github/domix/wonky/branch.svg?branch=master)
