@@ -37,6 +37,7 @@ class SlackServiceSpec extends Specification {
       null      | null  || false
       fooOrgs() | null  || true
       null      | 'foo' || true
+      null      | ' '   || false
   }
 
   def fooOrgs() {
