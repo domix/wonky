@@ -33,11 +33,12 @@ class SlackServiceSpec extends Specification {
     then:
       org.isPresent() == result
     where:
-      orgs      | token || result
-      null      | null  || false
-      fooOrgs() | null  || true
-      null      | 'foo' || true
-      null      | ' '   || false
+      orgs            | token || result
+      null            | null  || false
+      fooOrgs()       | null  || true
+      null            | 'foo' || true
+      null            | ' '   || false
+      new SlackOrgs() | null  || false
   }
 
   def fooOrgs() {
