@@ -36,6 +36,7 @@ class SlackServiceSpec extends Specification {
       orgs            | token || result
       null            | null  || false
       fooOrgs()       | null  || true
+      fooOrgs()       | 'foo' || true
       null            | 'foo' || true
       null            | ' '   || false
       new SlackOrgs() | null  || false
