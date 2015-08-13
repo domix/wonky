@@ -101,7 +101,6 @@ license {
 }
 
 classes.dependsOn licenseFormat
-jacocoTestReport.dependsOn test
+jacocoTestReport.dependsOn check
 bootRepackage.dependsOn jacocoTestReport
-
 processResources.dependsOn assetCompile
