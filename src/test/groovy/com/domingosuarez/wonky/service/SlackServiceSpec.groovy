@@ -23,10 +23,12 @@ import spock.lang.Specification
  */
 class SlackServiceSpec extends Specification {
 
-  def foo() {
+  def 'should not find any organization for "foo" hostname'() {
     setup:
       SlackService service = new SlackService()
-    expect:
-      service
+    when:
+      Optional<SlackOrganization> org = service.getSlackOrg('foo')
+    then:
+      !org.isPresent()
   }
 }

@@ -36,7 +36,9 @@ ruleset {
     exclude 'Println'
     exclude 'PrintStackTrace'
   }
-  ruleset('rulesets/naming.xml')
+  ruleset('rulesets/naming.xml') {
+    exclude 'MethodName'
+  }
   ruleset('rulesets/security.xml')
   ruleset('rulesets/serialization.xml') {
     exclude 'SerializableClassMustDefineSerialVersionUID'
