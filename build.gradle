@@ -100,7 +100,7 @@ license {
   strictCheck true
 }
 
+processResources.dependsOn assetCompile
 classes.dependsOn licenseFormat
 jacocoTestReport.dependsOn check
 bootRepackage.dependsOn jacocoTestReport
-processResources.dependsOn assetCompile
