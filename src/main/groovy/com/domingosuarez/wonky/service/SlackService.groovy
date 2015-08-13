@@ -51,12 +51,8 @@ class SlackService {
 
   Optional<SlackOrganization> getSlackOrg(String hostname) {
     orgs.stream().filter { it.wonkyDomain == hostname }.findFirst().map { of(it) }.orElseGet {
-      SlackOrganization result = null
-
-      if (slackToken) {
-        result = new SlackOrganization(teamDomain: slackHost, token: slackToken)
-      }
-      ofNullable(result)
+      ofNullable(slackToken).filter { !it.trim().isEmpty() }
+        .map { new SlackOrganization(teamDomain: slackHost, token: slackToken) }
     }
   }
 

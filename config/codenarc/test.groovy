@@ -15,6 +15,7 @@ ruleset {
   }
   ruleset('rulesets/dry.xml') {
     exclude 'DuplicateNumberLiteral'
+    exclude 'DuplicateStringLiteral'
   }
   ruleset('rulesets/enhanced.xml')
   ruleset('rulesets/exceptions.xml')
@@ -48,6 +49,8 @@ ruleset {
     exclude 'MethodSize'
   }
 
-  ruleset('rulesets/unnecessary.xml')
+  ruleset('rulesets/unnecessary.xml') {
+    exclude 'UnnecessaryBooleanExpression'
+  }
   ruleset('rulesets/unused.xml')
 }

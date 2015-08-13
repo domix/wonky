@@ -16,19 +16,30 @@
  */
 package com.domingosuarez.wonky.service
 
+import com.domingosuarez.wonky.config.SlackOrgs
 import spock.lang.Specification
+import spock.lang.Unroll
 
 /**
  * Created by domix on 12/08/15.
  */
 class SlackServiceSpec extends Specification {
 
-  def 'should not find any organization for "foo" hostname'() {
-    setup:
-      SlackService service = new SlackService()
+  @Unroll
+  def 'should be #result when search organization for "foo" hostname, with orgs #orgs and token: #token'() {
     when:
+      SlackService service = new SlackService(slackOrgs: orgs, slackToken: token)
       Optional<SlackOrganization> org = service.getSlackOrg('foo')
     then:
-      !org.isPresent()
+      org.isPresent() == result
+    where:
+      orgs      | token || result
+      null      | null  || false
+      fooOrgs() | null  || true
+      null      | 'foo' || true
+  }
+
+  def fooOrgs() {
+    new SlackOrgs(orgs: [new SlackOrganization(wonkyDomain: 'foo')])
   }
 }
