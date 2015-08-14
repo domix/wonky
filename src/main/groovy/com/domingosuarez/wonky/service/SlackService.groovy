@@ -49,6 +49,9 @@ class SlackService {
   @Autowired
   SlackOrgs slackOrgs
 
+  @Autowired
+  RemoteService remoteService
+
   Optional<SlackOrganization> getSlackOrg(String hostname) {
     orgs.stream().filter { it.wonkyDomain == hostname }.findFirst().map { of(it) }.orElseGet {
       ofNullable(slackToken).filter { !it.trim().isEmpty() }
@@ -68,9 +71,9 @@ class SlackService {
   }
 
   Map slack(String token, String host) {
-    new RESTClient("https://${host}.slack.com/api")
-      .get(path: '/rtm.start', query: [token: token])
-      .parsedResponseContent.json
+    Map params = [path: '/rtm.start', query: [token: token]]
+
+    remoteService.simpleGet("https://${host}.slack.com/api", params)
   }
 
   Map invite(String hostname, String email) {
@@ -109,7 +112,7 @@ class SlackService {
       logo : data.team.icon.image_132,
       users: [
         active: active,
-        total : data.users.size()
+        total : data.users.size() - 1
       ]
     ]
   }

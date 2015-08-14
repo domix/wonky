@@ -21,9 +21,7 @@ ruleset {
   ruleset('rulesets/exceptions.xml')
   ruleset('rulesets/formatting.xml') {
     exclude 'ClassJavadoc'
-    SpaceAroundMapEntryColon {
-      characterAfterColonRegex = /\s/
-    }
+    exclude 'SpaceAroundMapEntryColon'
   }
   ruleset('rulesets/generic.xml')
   ruleset('rulesets/groovyism.xml')
