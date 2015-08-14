@@ -24,9 +24,14 @@ import wslite.rest.RESTClient
  */
 @Service
 class RemoteService {
-  Map simpleGet(String url, Map request) {
+  Map get(String url, Map request) {
     new RESTClient(url)
       .get(request)
+      .parsedResponseContent.json
+  }
+
+  Map post(String url, Closure content) {
+    new RESTClient(url).post(content)
       .parsedResponseContent.json
   }
 }

@@ -19,6 +19,7 @@ package com.domingosuarez.wonky.service
 import static java.util.Collections.emptyMap
 
 import com.domingosuarez.wonky.config.SlackOrgs
+import org.springframework.context.MessageSource
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -28,6 +29,7 @@ import spock.lang.Unroll
 class SlackServiceSpec extends Specification {
 
   static final Map<String, Serializable> SLACK_EXPECTED_DATA = [name: 'foo', logo: 'foo', users: [active: 1, total: 2]]
+  static final Map<String, Boolean> INVITE_RESPONSE = [ok: true, message: null]
 
   @Unroll
   def 'should be #result when search organization for "foo" hostname, with orgs #orgs and token: "#token"'() {
@@ -50,7 +52,7 @@ class SlackServiceSpec extends Specification {
   def 'should return #result when the orgs are #orgs and token is "#token"'() {
     when:
       def remoteService = Stub(RemoteService)
-      remoteService.simpleGet(_, _) >> [
+      remoteService.get(_, _) >> [
         users: [
           [id: 'USLACKBOT', presence: 'active'],
           [id: 'domix', presence: 'inactive'],
@@ -71,6 +73,29 @@ class SlackServiceSpec extends Specification {
       fooOrgs()       | null  || SLACK_EXPECTED_DATA
       fooOrgs()       | 'foo' || SLACK_EXPECTED_DATA
       null            | 'foo' || SLACK_EXPECTED_DATA
+      null            | ' '   || emptyMap()
+      new SlackOrgs() | null  || emptyMap()
+  }
+
+  @Unroll
+  def invite() {
+    when:
+      def messageSource = Mock(MessageSource)
+      def remoteService = Stub(RemoteService)
+      remoteService.post(_, _) >> [
+        ok: true
+      ]
+      SlackService service = new SlackService(
+        slackOrgs: orgs, slackToken: token, remoteService: remoteService, messageSource: messageSource)
+      def slack = service.invite('foo', 'domingo.suarez@gmail.com')
+    then:
+      slack == result
+    where:
+      orgs            | token || result
+      null            | null  || emptyMap()
+      fooOrgs()       | null  || INVITE_RESPONSE
+      fooOrgs()       | 'foo' || INVITE_RESPONSE
+      null            | 'foo' || INVITE_RESPONSE
       null            | ' '   || emptyMap()
       new SlackOrgs() | null  || emptyMap()
   }
