@@ -29,7 +29,6 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.context.MessageSource
 import org.springframework.stereotype.Service
-import wslite.rest.RESTClient
 
 /**
  * Created by domix on 19/07/15.
@@ -73,20 +72,20 @@ class SlackService {
   Map slack(String token, String host) {
     Map params = [path: '/rtm.start', query: [token: token]]
 
-    remoteService.simpleGet("https://${host}.slack.com/api", params)
+    remoteService.get("https://${host}.slack.com/api", params)
   }
 
   Map invite(String hostname, String email) {
     getSlackOrg(hostname)
       .map { invite(it.token, it.teamDomain, email) }
-      .orElse { emptyMap() }
+      .orElseGet { emptyMap() }
   }
 
   Map invite(String token, String host, String email) {
-    Map response = new RESTClient("https://${host}.slack.com/api/users.admin.invite").post {
+    Map response = remoteService.post("https://${host}.slack.com/api/users.admin.invite") {
       charset 'UTF-8'
       urlenc token: token, email: email
-    }.parsedResponseContent.json
+    }
 
     if (response.ok) {
       response.message = messageSource.getMessage('invite.success', [].toArray(), 'WOOT. Check your email!', locale)
