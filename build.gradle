@@ -4,7 +4,7 @@ buildscript {
     jcenter()
   }
   dependencies {
-    classpath 'com.bertramlabs.plugins:asset-pipeline-gradle:2.4.3'
+    classpath 'com.bertramlabs.plugins:asset-pipeline-gradle:2.5.0'
     classpath 'com.bertramlabs.plugins:coffee-asset-pipeline:2.0.7'
 
     classpath 'com.github.ben-manes:gradle-versions-plugin:0.11.3'
