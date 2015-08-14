@@ -49,7 +49,7 @@ class SlackServiceSpec extends Specification {
   }
 
   @Unroll
-  def 'should return #result when the orgs are #orgs and token is "#token"'() {
+  def 'should get slack data with #result when the orgs are #orgs and token is "#token"'() {
     when:
       def remoteService = Stub(RemoteService)
       remoteService.get(_, _) >> [
@@ -78,7 +78,7 @@ class SlackServiceSpec extends Specification {
   }
 
   @Unroll
-  def invite() {
+  def 'should invite a slacker when orgs are #orgs and token is "#token" with result #result '() {
     when:
       def messageSource = Mock(MessageSource)
       def remoteService = Stub(RemoteService)
