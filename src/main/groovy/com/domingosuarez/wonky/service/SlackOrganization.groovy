@@ -16,12 +16,9 @@
  */
 package com.domingosuarez.wonky.service
 
-import groovy.transform.ToString
-
 /**
  * Created by domix on 09/08/15.
  */
-@ToString
 class SlackOrganization {
   String teamDomain
   String token
