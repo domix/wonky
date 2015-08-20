@@ -64,6 +64,7 @@ dependencies {
   testCompile "org.springframework:spring-test"
   testCompile "org.springframework.boot:spring-boot-starter-test"
   testCompile 'cglib:cglib-nodep:3.1'
+  testCompile 'com.github.kristofa:mock-http-server:4.1'
 
   codenarc 'org.codenarc:CodeNarc:0.24'
   codenarc "org.codehaus.groovy:groovy-all:${groovyVersion}"

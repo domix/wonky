@@ -17,6 +17,7 @@
 package com.domingosuarez.wonky.web
 
 import static groovy.json.JsonOutput.toJson
+import static java.util.Collections.emptyMap
 import static org.springframework.http.MediaType.APPLICATION_JSON
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
@@ -53,7 +54,7 @@ class WonkyControllerSpec extends Specification {
   def 'should invite a slacker'() {
     when:
       SlackService slackService = Stub(SlackService)
-      slackService.invite(_, _) >> Collections.emptyMap()
+      slackService.invite(_, _) >> emptyMap()
 
       def mockMvc = standaloneSetup(new WonkyController(slackService: slackService)).build()
       def perform = mockMvc.perform(post('/')
