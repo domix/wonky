@@ -19,7 +19,6 @@ package com.domingosuarez.wonky.service
 import static java.util.Collections.emptyMap
 
 import com.domingosuarez.wonky.config.SlackOrgs
-import groovy.util.logging.Slf4j
 import org.springframework.context.MessageSource
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -102,36 +101,7 @@ class SlackServiceSpec extends Specification {
       fooOrgs()       | 'foo' | [error: 'invalid_email'] || [error: null]
   }
 
-  def fooOrgs() {
+  static SlackOrgs fooOrgs() {
     new SlackOrgs(orgs: [new SlackOrganization(wonkyDomain: 'foo')])
-  }
-}
-
-@Slf4j
-class TestRemoteService implements RemoteService {
-  private final Map response
-
-  TestRemoteService(Map response) {
-
-    this.response = response
-  }
-
-  @Override
-  Map get(String url, Map request) {
-    response
-  }
-
-  @Override
-  Map post(String url, Closure content) {
-    Closure c = content.clone()
-    c.resolveStrategy = Closure.DELEGATE_FIRST
-    c.delegate = this
-    c.call()
-    response
-  }
-
-  def methodMissing(String name, args) {
-    log.debug 'method {} with {}', name, args
-    args
   }
 }

@@ -46,12 +46,16 @@ class WonkyController {
     String host = getHostname(request)
     log.info 'wonky for {}', host
     Map slack = slackService.slack(host)
+    String view
+
     if (slack) {
       model.addAttribute('org', slack)
-      'index'
+      view = 'index'
     } else {
-      'landing'
+      view = 'landing'
     }
+
+    view
   }
 
   @RequestMapping(method = POST)
