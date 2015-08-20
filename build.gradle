@@ -69,10 +69,22 @@ dependencies {
   codenarc "org.codehaus.groovy:groovy-all:${groovyVersion}"
 }
 
+test {
+  jacoco {
+    //excludes = ['**/WonkyApp.class']
+  }
+}
+
 jacocoTestReport {
   reports {
     xml.enabled = true // coveralls plugin depends on xml format report
     html.enabled = true
+  }
+
+  afterEvaluate {
+    classDirectories = files(classDirectories.files.collect {
+      fileTree(dir: it, exclude: ['**/WonkyApp.class', '**/SlackOrgs.class', '**/WebJar.class'])
+    })
   }
 }
 

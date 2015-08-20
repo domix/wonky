@@ -83,8 +83,6 @@ class SlackServiceSpec extends Specification {
   def 'should invite a slacker when orgs are #orgs and token is "#token" with result #result '() {
     when:
       def messageSource = Mock(MessageSource)
-      //def remoteService = Stub(RemoteService)
-      //remoteService.post(_, _) >> slackResponse
 
       def remoteService = new TestRemoteService(slackResponse)
 
@@ -134,5 +132,6 @@ class TestRemoteService implements RemoteService {
 
   def methodMissing(String name, args) {
     log.debug 'method {} with {}', name, args
+    args
   }
 }
