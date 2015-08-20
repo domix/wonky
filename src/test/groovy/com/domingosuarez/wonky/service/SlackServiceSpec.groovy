@@ -19,6 +19,7 @@ package com.domingosuarez.wonky.service
 import static java.util.Collections.emptyMap
 
 import com.domingosuarez.wonky.config.SlackOrgs
+import groovy.util.logging.Slf4j
 import org.springframework.context.MessageSource
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -30,6 +31,7 @@ class SlackServiceSpec extends Specification {
 
   static final Map<String, Serializable> SLACK_EXPECTED_DATA = [name: 'foo', logo: 'foo', users: [active: 1, total: 2]]
   static final Map<String, Boolean> INVITE_RESPONSE = [ok: true, message: null]
+  static final Map<String, Boolean> OK_SLACK_RESPONSE = [ok: true]
 
   @Unroll
   def 'should be #result when search organization for "foo" hostname, with orgs #orgs and token: "#token"'() {
@@ -81,26 +83,56 @@ class SlackServiceSpec extends Specification {
   def 'should invite a slacker when orgs are #orgs and token is "#token" with result #result '() {
     when:
       def messageSource = Mock(MessageSource)
-      def remoteService = Stub(RemoteService)
-      remoteService.post(_, _) >> [
-        ok: true
-      ]
+      //def remoteService = Stub(RemoteService)
+      //remoteService.post(_, _) >> slackResponse
+
+      def remoteService = new TestRemoteService(slackResponse)
+
       SlackService service = new SlackService(
         slackOrgs: orgs, slackToken: token, remoteService: remoteService, messageSource: messageSource)
       def slack = service.invite('foo', 'domingo.suarez@gmail.com')
     then:
       slack == result
     where:
-      orgs            | token || result
-      null            | null  || emptyMap()
-      fooOrgs()       | null  || INVITE_RESPONSE
-      fooOrgs()       | 'foo' || INVITE_RESPONSE
-      null            | 'foo' || INVITE_RESPONSE
-      null            | ' '   || emptyMap()
-      new SlackOrgs() | null  || emptyMap()
+      orgs            | token | slackResponse            || result
+      null            | null  | OK_SLACK_RESPONSE        || emptyMap()
+      fooOrgs()       | null  | OK_SLACK_RESPONSE        || INVITE_RESPONSE
+      fooOrgs()       | 'foo' | OK_SLACK_RESPONSE        || INVITE_RESPONSE
+      null            | 'foo' | OK_SLACK_RESPONSE        || INVITE_RESPONSE
+      null            | ' '   | OK_SLACK_RESPONSE        || emptyMap()
+      new SlackOrgs() | null  | OK_SLACK_RESPONSE        || emptyMap()
+      fooOrgs()       | 'foo' | [error: 'invalid_email'] || [error: null]
   }
 
   def fooOrgs() {
     new SlackOrgs(orgs: [new SlackOrganization(wonkyDomain: 'foo')])
+  }
+}
+
+@Slf4j
+class TestRemoteService implements RemoteService {
+  private final Map response
+
+  TestRemoteService(Map response) {
+
+    this.response = response
+  }
+
+  @Override
+  Map get(String url, Map request) {
+    response
+  }
+
+  @Override
+  Map post(String url, Closure content) {
+    Closure c = content.clone()
+    c.resolveStrategy = Closure.DELEGATE_FIRST
+    c.delegate = this
+    c.call()
+    response
+  }
+
+  def methodMissing(String name, args) {
+    log.debug 'method {} with {}', name, args
   }
 }

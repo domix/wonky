@@ -16,22 +16,11 @@
  */
 package com.domingosuarez.wonky.service
 
-import org.springframework.stereotype.Service
-import wslite.rest.RESTClient
-
 /**
  * Created by domix on 13/08/15.
  */
-@Service
-class RemoteService {
-  Map get(String url, Map request) {
-    new RESTClient(url)
-      .get(request)
-      .parsedResponseContent.json
-  }
+interface RemoteService {
+  Map get(String url, Map request)
 
-  Map post(String url, Closure content) {
-    new RESTClient(url).post(content)
-      .parsedResponseContent.json
-  }
+  Map post(String url, Closure content)
 }

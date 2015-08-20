@@ -70,9 +70,7 @@ class SlackService {
   }
 
   Map slack(String token, String host) {
-    Map params = [path: '/rtm.start', query: [token: token]]
-
-    remoteService.get("https://${host}.slack.com/api", params)
+    remoteService.get("https://${host}.slack.com/api", [path: '/rtm.start', query: [token: token]])
   }
 
   Map invite(String hostname, String email) {

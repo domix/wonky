@@ -2,3 +2,5 @@ security.basic.enabled: false
 
 server.port: 3030
 management.port: 3031
+
+spring.resources.cachePeriod: 60
