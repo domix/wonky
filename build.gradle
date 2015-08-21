@@ -80,7 +80,7 @@ jacocoTestReport {
 
   afterEvaluate {
     classDirectories = files(classDirectories.files.collect {
-      fileTree(dir: it, exclude: ['**/WonkyApp.class', '**/SlackOrgs.class', '**/WebJar.class'])
+      fileTree(dir: it, exclude: ['**/WonkyApp.class', '**/SlackOrg*.class', '**/WebJar.class'])
     })
   }
 }

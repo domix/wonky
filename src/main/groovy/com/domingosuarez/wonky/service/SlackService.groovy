@@ -76,7 +76,7 @@ class SlackService {
   Map invite(String hostname, String email) {
     getSlackOrg(hostname)
       .map { invite(it.token, it.teamDomain, email) }
-      .orElseGet { emptyMap() }
+      .orElse(emptyMap())
   }
 
   Map invite(String token, String host, String email) {
