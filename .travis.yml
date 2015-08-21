@@ -12,6 +12,8 @@ jdk:
 env:
 - TERM=dumb
 
+install: true
+
 before_script:
   - ./gradlew --version
 
