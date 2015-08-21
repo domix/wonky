@@ -16,6 +16,7 @@
  */
 package com.domingosuarez.wonky.web
 
+import static java.util.Optional.of
 import static org.springframework.web.bind.annotation.RequestMethod.GET
 import static org.springframework.web.bind.annotation.RequestMethod.POST
 
@@ -45,14 +46,11 @@ class WonkyController {
   String index(ModelMap model, HttpServletRequest request) {
     String host = getHostname(request)
     log.info 'wonky for {}', host
-    Map slack = slackService.slack(host)
-    String view
+    String view = 'landing'
 
-    if (slack) {
-      model.addAttribute('org', slack)
+    of(slackService.slack(host)).filter { !it.isEmpty() }.ifPresent {
+      model.addAttribute('org', it)
       view = 'index'
-    } else {
-      view = 'landing'
     }
 
     view
