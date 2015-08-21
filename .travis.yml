@@ -12,8 +12,11 @@ jdk:
 env:
 - TERM=dumb
 
+before_script:
+  - ./gradlew --version
+
 script:
-- ./gradlew codenarcMain
+  - ./gradlew jacocoTestReport
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
