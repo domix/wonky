@@ -46,14 +46,11 @@ class WonkyController {
   String index(ModelMap model, HttpServletRequest request) {
     String host = getHostname(request)
     log.info 'wonky for {}', host
-    String view = 'landing'
 
-    of(slackService.slack(host)).filter { !it.isEmpty() }.ifPresent {
+    of(slackService.slack(host)).filter { !it.isEmpty() }.map {
       model.addAttribute('org', it)
-      view = 'index'
-    }
-
-    view
+      'index'
+    }.orElse('landing')
   }
 
   @RequestMapping(method = POST)

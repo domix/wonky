@@ -85,13 +85,11 @@ class SlackService {
       urlenc token: token, email: email
     }
 
-    if (response.ok) {
-      response.message = messageSource.getMessage('invite.success', [].toArray(), 'WOOT. Check your email!', locale)
-    } else {
-      response.error = messageSource.getMessage(response.error, [].toArray(), response.error, locale)
+    response + ofNullable(response.ok).filter { it == true }.map {
+      [message: messageSource.getMessage('invite.success', [].toArray(), 'WOOT. Check your email!', locale)]
+    }.orElseGet {
+      [error: messageSource.getMessage(response.error, [].toArray(), response.error, locale)]
     }
-
-    response
   }
 
   Map publicData(String token, String host) {
