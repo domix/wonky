@@ -17,7 +17,7 @@ Wonky is a port of [slacking](https://github.com/rauchg/slackin/), to the JVM wr
 
 ## Run
 
-To run wonky you need a Slack API token. Note that the user you use to generate the token must be an admin. You may want to create a dedicated @slackin-inviter user (or similar) for this.
+To run wonky you need a `Slack API token`. Note that the user you use to generate the token must be an admin. You may want to create a dedicated @slackin-inviter user (or similar) for this.
 
 You can find your API token [here](http://api.slack.com/web)
 
