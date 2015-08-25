@@ -31,7 +31,8 @@ class RemoteServiceRestClient implements RemoteService {
   }
 
   Map post(String url, Closure content) {
-    new RESTClient(url).post(content)
+    new RESTClient(url)
+      .post(content)
       .parsedResponseContent.json
   }
 }

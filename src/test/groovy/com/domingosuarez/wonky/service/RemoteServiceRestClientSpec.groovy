@@ -18,6 +18,7 @@ package com.domingosuarez.wonky.service
 
 import static com.github.kristofa.test.http.MediaType.APPLICATION_JSON_UTF8
 import static com.github.kristofa.test.http.Method.GET
+import static com.github.kristofa.test.http.Method.POST
 import static java.util.Collections.emptyMap
 
 import com.github.kristofa.test.http.MockHttpServer
@@ -29,7 +30,7 @@ import spock.lang.Specification
  */
 class RemoteServiceRestClientSpec extends Specification {
 
-  def foo() {
+  def get() {
     when:
       RemoteServiceRestClient client = new RemoteServiceRestClient()
 
@@ -45,17 +46,28 @@ class RemoteServiceRestClientSpec extends Specification {
       server.stop()
     then:
       response == emptyMap()
-      /*when:
-        responseProvider = new SimpleHttpResponseProvider()
-        responseProvider.expect(POST, '/').respondWith(200, APPLICATION_JSON_UTF8.value, '{}')
-        server = new MockHttpServer(port, responseProvider)
-        server.start()
-        response = client.post(url) {
-          charset 'UTF-8'
-          urlenc token: 'sd'
-        }
-        server.stop()
-      then:
-        response == emptyMap()*/
+  }
+
+  def post() {
+    when:
+      RemoteServiceRestClient client = new RemoteServiceRestClient()
+
+      def responseProvider = new SimpleHttpResponseProvider()
+
+      def contentType = 'application/x-www-form-urlencoded; charset=UTF-8'
+      responseProvider.expect(POST, '/', contentType, 'foo=for').respondWith(200, APPLICATION_JSON_UTF8.value, '{}')
+
+      def port = 3321
+      def server = new MockHttpServer(port, responseProvider)
+      server.start()
+
+      def url = "http://localhost:$port/"
+      def response = client.post(url) {
+        charset 'UTF-8'
+        urlenc foo: 'for'
+      }
+      server.stop()
+    then:
+      response == emptyMap()
   }
 }
