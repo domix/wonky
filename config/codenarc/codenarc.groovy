@@ -22,7 +22,9 @@ ruleset {
     exclude 'SpaceAroundMapEntryColon'
   }
   ruleset('rulesets/generic.xml')
-  ruleset('rulesets/groovyism.xml')
+  ruleset('rulesets/groovyism.xml') {
+    exclude 'ExplicitCallToAndMethod'
+  }
   ruleset('rulesets/imports.xml') {
     exclude 'NoWildcardImports'
   }

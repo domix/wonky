@@ -30,6 +30,8 @@ import org.springframework.cache.annotation.Cacheable
 import org.springframework.context.MessageSource
 import org.springframework.stereotype.Service
 
+import java.util.function.Predicate
+
 /**
  * Created by domix on 19/07/15.
  */
@@ -69,14 +71,14 @@ class SlackService {
       .orElse(emptyMap())
   }
 
-  Map slack(String token, String host) {
-    remoteService.get("https://${host}.slack.com/api", [path: '/rtm.start', query: [token: token]])
-  }
-
   Map invite(String hostname, String email) {
     getSlackOrg(hostname)
       .map { invite(it.token, it.teamDomain, email) }
       .orElse(emptyMap())
+  }
+
+  Map slack(String token, String host) {
+    remoteService.get("https://${host}.slack.com/api", [path: '/rtm.start', query: [token: token]])
   }
 
   Map invite(String token, String host, String email) {
@@ -97,9 +99,21 @@ class SlackService {
     publicData(slack(token, host))
   }
 
+  private Predicate isSlackBot = { Map map ->
+    'USLACKBOT' == map.get('id')
+  }
+
+  private Predicate isActive = { Map map ->
+    'active' == map.get('presence')
+  }
+
+  Boolean isActiveUser(Map map) {
+    isSlackBot.negate().and(isActive).test(map)
+  }
+
   Map publicData(Map data) {
     int active = data.users.findAll {
-      it.id != 'USLACKBOT' && it.presence == 'active'
+      isActiveUser(it)
     }.size()
 
     [

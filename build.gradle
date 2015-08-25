@@ -98,6 +98,10 @@ watch {
     files files('src/main/groovy')
     tasks 'compileGroovy'
   }
+  asciidoc {
+    files files('src/docs/asciidoc')
+    tasks 'asciidoctor'
+  }
 }
 
 assets {
