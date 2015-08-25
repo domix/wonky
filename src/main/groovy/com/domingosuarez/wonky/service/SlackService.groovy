@@ -116,12 +116,16 @@ class SlackService {
       isActiveUser(it)
     }.size()
 
+    int total = data.users.findAll {
+      isSlackBot.negate().test(it)
+    }.size()
+
     [
       name : data.team.name,
       logo : data.team.icon.image_132,
       users: [
         active: active,
-        total : data.users.size() - 1
+        total : total
       ]
     ]
   }
