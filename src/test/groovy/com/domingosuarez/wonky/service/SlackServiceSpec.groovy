@@ -36,7 +36,7 @@ class SlackServiceSpec extends Specification {
   def 'should be #result when search organization for "foo" hostname, with orgs #orgs and token: "#token"'() {
     when:
       SlackService service = new SlackService(slackOrgs: orgs, slackToken: token)
-      Optional<SlackOrganization> org = service.getSlackOrg('foo')
+      Optional<SlackOrganization> org = service.findTenant('foo')
     then:
       org.isPresent() == result
     where:

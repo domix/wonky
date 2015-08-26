@@ -53,32 +53,33 @@ class SlackService {
   @Autowired
   RemoteService remoteService
 
-  Optional<SlackOrganization> getSlackOrg(String hostname) {
-    orgs.stream().filter { it.wonkyDomain == hostname }.findFirst().map { of(it) }.orElseGet {
+  Optional<SlackOrganization> findTenant(String hostname) {
+    tenants().stream().filter { it.wonkyDomain == hostname }.findFirst().map { of(it) }.orElseGet {
       ofNullable(slackToken).filter { !it.trim().isEmpty() }
         .map { new SlackOrganization(teamDomain: slackHost, token: slackToken) }
     }
   }
 
-  List<SlackOrganization> getOrgs() {
+  List<SlackOrganization> tenants() {
     ofNullable(slackOrgs).map { it.orgs }.orElse(emptyList())
   }
 
   @Cacheable('slackPublicData')
   Map slack(String hostname) {
-    getSlackOrg(hostname)
+    findTenant(hostname)
       .map { publicData(it.token, it.teamDomain) }
       .orElse(emptyMap())
   }
 
   Map invite(String hostname, String email) {
-    getSlackOrg(hostname)
+    findTenant(hostname)
       .map { invite(it.token, it.teamDomain, email) }
       .orElse(emptyMap())
   }
 
-  Map slack(String token, String host) {
-    remoteService.get("https://${host}.slack.com/api", [path: '/rtm.start', query: [token: token]])
+  Map tenantSlackInformation(String token, String host) {
+    Map request = [path: '/rtm.start', query: [token: token]]
+    remoteService.get("https://${host}.slack.com/api", request)
   }
 
   Map invite(String token, String host, String email) {
@@ -96,15 +97,17 @@ class SlackService {
 
   Map publicData(String token, String host) {
     log.info 'Searching public data in Slack for {}', host
-    publicData(slack(token, host))
+
+    Map map = tenantSlackInformation(token, host)
+    publicData(map)
   }
 
   private Predicate isSlackBot = { Map map ->
-    'USLACKBOT' == map.get('id')
+    'USLACKBOT' == map.id
   }
 
   private Predicate isActive = { Map map ->
-    'active' == map.get('presence')
+    'active' == map.presence
   }
 
   Boolean isActiveUser(Map map) {
