@@ -20,14 +20,12 @@ import static java.util.Collections.emptyList
 import static java.util.Collections.emptyMap
 import static java.util.Optional.of
 import static java.util.Optional.ofNullable
-import static org.springframework.context.i18n.LocaleContextHolder.locale
 
 import com.domingosuarez.wonky.config.SlackOrgs
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.cache.annotation.Cacheable
-import org.springframework.context.MessageSource
 import org.springframework.stereotype.Service
 
 import java.util.function.Predicate
@@ -45,7 +43,7 @@ class SlackService {
   String slackHost
 
   @Autowired
-  MessageSource messageSource
+  MessageService messageSource
 
   @Autowired
   SlackOrgs slackOrgs
@@ -89,9 +87,9 @@ class SlackService {
     }
 
     response + ofNullable(response.ok).filter { it == true }.map {
-      [message: messageSource.getMessage('invite.success', [].toArray(), 'WOOT. Check your email!', locale)]
+      [message: messageSource.get('invite.success')]
     }.orElseGet {
-      [error: messageSource.getMessage(response.error, [].toArray(), response.error, locale)]
+      [error: messageSource.get(response.error)]
     }
   }
 

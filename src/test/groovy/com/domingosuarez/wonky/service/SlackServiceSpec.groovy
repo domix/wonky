@@ -19,7 +19,6 @@ package com.domingosuarez.wonky.service
 import static java.util.Collections.emptyMap
 
 import com.domingosuarez.wonky.config.SlackOrgs
-import org.springframework.context.MessageSource
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -81,7 +80,7 @@ class SlackServiceSpec extends Specification {
   @Unroll
   def 'should invite a slacker when orgs are #orgs and token is "#token" with result #result '() {
     when:
-      def messageSource = Mock(MessageSource)
+      def messageSource = Mock(MessageService)
 
       def remoteService = new TestRemoteService(slackResponse)
 
