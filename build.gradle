@@ -18,7 +18,7 @@ buildscript {
 
 plugins {
   id "com.github.hierynomus.license" version "0.11.0"
-  id 'net.researchgate.release' version '2.2.1'
+  id 'net.researchgate.release' version '2.2.2'
 }
 
 apply plugin: 'idea'
@@ -53,7 +53,7 @@ dependencies {
   compile "org.springframework.boot:spring-boot-starter-web"
   compile "org.springframework.boot:spring-boot-starter-actuator"
   compile "org.springframework.boot:spring-boot-starter-cache"
-  compile 'com.domingosuarez.boot:spring-boot-starter-jade4j:0.3.0'
+  compile 'com.domingosuarez.boot:spring-boot-starter-jade4j:0.3.1'
   compile 'com.github.groovy-wslite:groovy-wslite:1.1.2'
 
   compile 'org.webjars:webjars-locator:0.28'
