@@ -35,7 +35,7 @@ apply plugin: 'com.bertramlabs.asset-pipeline'
 apply plugin: 'org.asciidoctor.convert'
 
 ext {
-  groovyVersion = '2.4.4'
+  groovyVersion = '2.4.5'
   javaVersion = '1.8'
   spockVersion = '1.0-groovy-2.4'
 }
