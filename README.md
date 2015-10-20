@@ -46,7 +46,9 @@ You have different options for this:
 
 ### Websites using Wonky
 
+- [JavaMexico.org](http://slack.javamexico.org)
 - [SpringHispano.org](http://slack.springhispano.org)
+- [Groovyando.org](http://slack.groovyando.org)
 
 ### Development badges
 
