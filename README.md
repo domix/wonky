@@ -49,6 +49,7 @@ You have different options for this:
 - [JavaMexico.org](http://slack.javamexico.org)
 - [SpringHispano.org](http://slack.springhispano.org)
 - [Groovyando.org](http://slack.groovyando.org)
+- [Generatron](http://slack.generatron.com)
 
 ### Development badges
 
