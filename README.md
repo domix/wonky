@@ -1,11 +1,16 @@
 # wonky
 [![Build Status](https://travis-ci.org/domix/wonky.svg)](https://travis-ci.org/domix/wonky)
-[![Coverage Status](https://coveralls.io/repos/domix/wonky/badge.svg?branch=master&service=github)](https://coveralls.io/github/domix/wonky?branch=master)
 [![codecov.io](http://codecov.io/github/domix/wonky/coverage.svg?branch=master)](http://codecov.io/github/domix/wonky?branch=master)
 
 Wonky is a port of [slacking](https://github.com/rauchg/slackin/), to the JVM written in [Groovy](http://www.groovy-lang.org) and [SpringBoot](http://projects.spring.io/spring-boot/).
 
-## features
+Requirements
+-----------
+
+[!["JDK"](https://img.shields.io/badge/JDK-8.0+-F30000.svg?style=flat)](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+[!["Spring Boot"](https://img.shields.io/badge/Spring%20Boot-1.3.0-green.svg?style=flat)](http://docs.spring.io/spring-boot/docs/1.3.0.RC1/reference/htmlsingle/)
+
+## Fgeatures
 
 - A landing page you can point users to fill in their emails and receive an invite (`http://slack.yourdomain.com`)
 
