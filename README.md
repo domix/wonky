@@ -10,7 +10,7 @@ Requirements
 [!["JDK"](https://img.shields.io/badge/JDK-8.0+-F30000.svg?style=flat)](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 [!["Spring Boot"](https://img.shields.io/badge/Spring%20Boot-1.3.0-green.svg?style=flat)](http://docs.spring.io/spring-boot/docs/1.3.0.RC1/reference/htmlsingle/)
 
-## Fgeatures
+## Features
 
 - A landing page you can point users to fill in their emails and receive an invite (`http://slack.yourdomain.com`)
 
