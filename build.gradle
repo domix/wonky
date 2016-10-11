@@ -4,21 +4,21 @@ buildscript {
     jcenter()
   }
   dependencies {
-    classpath 'com.bertramlabs.plugins:asset-pipeline-gradle:2.6.2'
-    classpath 'com.bertramlabs.plugins:coffee-asset-pipeline:2.6.2'
+    classpath 'com.bertramlabs.plugins:asset-pipeline-gradle:2.11.3'
+    classpath 'com.bertramlabs.plugins:coffee-asset-pipeline:2.11.3'
 
-    classpath 'com.github.ben-manes:gradle-versions-plugin:0.11.3'
-    classpath("org.springframework.boot:spring-boot-gradle-plugin:1.3.0.RC1")
+    classpath 'com.github.ben-manes:gradle-versions-plugin:0.13.0'
+    classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.1.RELEASE")
     classpath 'com.bluepapa32:gradle-watch-plugin:0.1.5'
-    classpath "io.spring.gradle:dependency-management-plugin:0.5.3.RELEASE"
-    classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.2'
+    classpath "io.spring.gradle:dependency-management-plugin:0.6.1.RELEASE"
+    classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
     //classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.4.0'
   }
 }
 
 plugins {
   id "com.github.hierynomus.license" version "0.11.0"
-  id 'net.researchgate.release' version '2.3.1'
+  id 'net.researchgate.release' version '2.4.1'
 }
 
 apply plugin: 'idea'
@@ -35,9 +35,9 @@ apply plugin: 'com.bertramlabs.asset-pipeline'
 apply plugin: 'org.asciidoctor.convert'
 
 ext {
-  groovyVersion = '2.4.5'
+  groovyVersion = '2.4.7'
   javaVersion = '1.8'
-  spockVersion = '1.0-groovy-2.4'
+  spockVersion = '1.1-groovy-2.4-rc-2'
 }
 
 sourceCompatibility = project.javaVersion
@@ -53,8 +53,8 @@ dependencies {
   compile "org.springframework.boot:spring-boot-starter-web"
   compile "org.springframework.boot:spring-boot-starter-actuator"
   compile "org.springframework.boot:spring-boot-starter-cache"
-  compile 'com.domingosuarez.boot:spring-boot-starter-jade4j:0.3.1'
-  compile 'com.github.groovy-wslite:groovy-wslite:1.1.2'
+  compile 'com.domingosuarez.boot:spring-boot-starter-jade4j:0.3.2'
+  compile 'com.github.groovy-wslite:groovy-wslite:1.1.3'
 
   compile 'org.webjars:webjars-locator:0.28'
   compile 'org.webjars:zeptojs:1.1.6'
@@ -65,10 +65,10 @@ dependencies {
   testCompile "org.spockframework:spock-spring:${spockVersion}"
   testCompile "org.springframework:spring-test"
   testCompile "org.springframework.boot:spring-boot-starter-test"
-  testCompile 'cglib:cglib-nodep:3.1'
+  testCompile 'cglib:cglib-nodep:3.2.4'
   testCompile 'com.github.kristofa:mock-http-server:4.1'
 
-  codenarc 'org.codenarc:CodeNarc:0.24.1'
+  codenarc 'org.codenarc:CodeNarc:0.25.2'
   codenarc "org.codehaus.groovy:groovy-all:${groovyVersion}"
 }
 
