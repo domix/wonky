@@ -17,7 +17,11 @@ ruleset {
     exclude 'DuplicateNumberLiteral'
     exclude 'DuplicateStringLiteral'
   }
-  ruleset('rulesets/enhanced.xml')
+  ruleset('rulesets/enhanced.xml') {
+    exclude 'CloneWithoutCloneable'
+    exclude 'JUnitAssertEqualsConstantActualValue'
+    exclude 'UnsafeImplementationAsMap'
+  }
   ruleset('rulesets/exceptions.xml')
   ruleset('rulesets/formatting.xml') {
     exclude 'ClassJavadoc'

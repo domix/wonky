@@ -13,7 +13,11 @@ ruleset {
   ruleset('rulesets/dry.xml') {
     exclude 'DuplicateNumberLiteral'
   }
-  ruleset('rulesets/enhanced.xml')
+  ruleset('rulesets/enhanced.xml') {
+    exclude 'CloneWithoutCloneable'
+    exclude 'JUnitAssertEqualsConstantActualValue'
+    exclude 'UnsafeImplementationAsMap'
+  }
   ruleset('rulesets/exceptions.xml') {
     exclude 'CatchException'
   }
