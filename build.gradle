@@ -144,6 +144,18 @@ asciidoctor {
   }
 }
 
+springBoot {
+  executable = true
+}
+
+bootRepackage {
+  embeddedLaunchScriptProperties = [
+    'initInfoProvides'        : "wonky",
+    'initInfoShortDescription': "Wonky",
+    'initInfoDescription'     : "Wonky"
+  ]
+}
+
 processResources.dependsOn assetCompile
 classes.dependsOn licenseFormat
 jacocoTestReport.dependsOn check
