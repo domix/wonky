@@ -8,7 +8,7 @@ Requirements
 -----------
 
 [!["JDK"](https://img.shields.io/badge/JDK-8.0+-F30000.svg?style=flat)](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
-[!["Spring Boot"](https://img.shields.io/badge/Spring%20Boot-1.3.0-green.svg?style=flat)](http://docs.spring.io/spring-boot/docs/1.3.0.RC1/reference/htmlsingle/)
+[!["Spring Boot"](https://img.shields.io/badge/Spring%20Boot-1.4.x-green.svg?style=flat)](http://docs.spring.io/spring-boot/docs/1.4.x/reference/htmlsingle/)
 
 ## Features
 
@@ -22,7 +22,7 @@ Requirements
 
 ## Run
 
-To run wonky you need a `Slack API token`. Note that the user you use to generate the token must be an admin. You may want to create a dedicated @slackin-inviter user (or similar) for this.
+To run wonky you need a `Slack API token`. Note that the user you use to generate the token must be an admin. You may want to create a dedicated @wonky-inviter user (or similar) for this.
 
 You can find your API token [here](http://api.slack.com/web)
 
@@ -51,10 +51,10 @@ You have different options for this:
 
 ### Websites using Wonky
 
+- [The Data Pub](http://slack.thedata.pub)
 - [JavaMexico.org](http://slack.javamexico.org)
 - [SpringHispano.org](http://slack.springhispano.org)
 - [Groovyando.org](http://slack.groovyando.org)
-- [Generatron](http://slack.generatron.com)
 
 ### Development badges
 
