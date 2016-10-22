@@ -17,14 +17,14 @@
 package com.domingosuarez.wonky.web
 
 import static java.util.Optional.of
-import static org.springframework.web.bind.annotation.RequestMethod.GET
-import static org.springframework.web.bind.annotation.RequestMethod.POST
 
 import com.domingosuarez.wonky.service.SlackService
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.ModelMap
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
@@ -42,7 +42,7 @@ class WonkyController {
   @Autowired
   SlackService slackService
 
-  @RequestMapping(method = GET)
+  @GetMapping
   String index(ModelMap model, HttpServletRequest request) {
     String host = getHostname(request)
     log.info 'wonky for {}', host
@@ -53,7 +53,7 @@ class WonkyController {
     }.orElse('landing')
   }
 
-  @RequestMapping(method = POST)
+  @PostMapping
   @ResponseBody
   Map invite(@RequestBody Map jsonString, HttpServletRequest request) {
     String host = getHostname(request)

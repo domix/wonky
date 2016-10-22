@@ -4,8 +4,8 @@ buildscript {
     jcenter()
   }
   dependencies {
-    classpath 'com.bertramlabs.plugins:asset-pipeline-gradle:2.11.3'
-    classpath 'com.bertramlabs.plugins:coffee-asset-pipeline:2.11.3'
+    classpath 'com.bertramlabs.plugins:asset-pipeline-gradle:2.11.4'
+    classpath 'com.bertramlabs.plugins:coffee-asset-pipeline:2.11.4'
 
     classpath 'com.github.ben-manes:gradle-versions-plugin:0.13.0'
     classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.1.RELEASE")
