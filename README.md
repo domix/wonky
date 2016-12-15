@@ -57,6 +57,7 @@ You have different options for this:
 - [Groovyando.org](http://slack.groovyando.org)
 - [ComunidadDePHP.org](http://slack.comunidaddephp.org/)
 - [AgilesMX](https://agilesmx.herokuapp.com/)
+- [PeruJUG](http://slack.perujug.org/)
 
 ### Development badges
 
