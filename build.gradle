@@ -8,7 +8,7 @@ buildscript {
     classpath 'com.bertramlabs.plugins:coffee-asset-pipeline:2.11.3'
 
     classpath 'com.github.ben-manes:gradle-versions-plugin:0.13.0'
-    classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.1.RELEASE")
+    classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.2.RELEASE")
     classpath 'com.bluepapa32:gradle-watch-plugin:0.1.5'
     classpath "io.spring.gradle:dependency-management-plugin:0.6.1.RELEASE"
     classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
@@ -23,7 +23,7 @@ plugins {
 
 apply plugin: 'idea'
 apply plugin: 'groovy'
-apply plugin: 'spring-boot'
+apply plugin: 'org.springframework.boot'
 apply plugin: 'com.github.ben-manes.versions'
 apply plugin: 'codenarc'
 apply plugin: 'findbugs'
@@ -37,7 +37,7 @@ apply plugin: 'org.asciidoctor.convert'
 ext {
   groovyVersion = '2.4.7'
   javaVersion = '1.8'
-  spockVersion = '1.1-groovy-2.4-rc-2'
+  spockVersion = '1.1-groovy-2.4-rc-3'
 }
 
 sourceCompatibility = project.javaVersion
@@ -68,7 +68,7 @@ dependencies {
   testCompile 'cglib:cglib-nodep:3.2.4'
   testCompile 'com.github.kristofa:mock-http-server:4.1'
 
-  codenarc 'org.codenarc:CodeNarc:0.25.2'
+  codenarc 'org.codenarc:CodeNarc:0.26.0'
   codenarc "org.codehaus.groovy:groovy-all:${groovyVersion}"
 }
 
