@@ -12,6 +12,7 @@ buildscript {
     classpath 'com.bluepapa32:gradle-watch-plugin:0.1.5'
     classpath "io.spring.gradle:dependency-management-plugin:0.6.1.RELEASE"
     classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
+    //TODO: remove?
     //classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.4.0'
   }
 }
@@ -28,6 +29,7 @@ apply plugin: 'com.github.ben-manes.versions'
 apply plugin: 'codenarc'
 apply plugin: 'findbugs'
 apply plugin: 'jacoco'
+//TODO: remove?
 //apply plugin: 'com.github.kt3k.coveralls'
 apply plugin: 'com.bluepapa32.watch'
 apply plugin: "io.spring.dependency-management"
