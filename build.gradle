@@ -8,7 +8,7 @@ buildscript {
     classpath 'com.bertramlabs.plugins:coffee-asset-pipeline:2.11.3'
 
     classpath 'com.github.ben-manes:gradle-versions-plugin:0.13.0'
-    classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.2.RELEASE")
+    classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.3.RELEASE")
     classpath 'com.bluepapa32:gradle-watch-plugin:0.1.5'
     classpath "io.spring.gradle:dependency-management-plugin:0.6.1.RELEASE"
     classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
@@ -19,7 +19,7 @@ buildscript {
 
 plugins {
   id "com.github.hierynomus.license" version "0.11.0"
-  id 'net.researchgate.release' version '2.4.1'
+  id 'net.researchgate.release' version '2.5.0'
 }
 
 apply plugin: 'idea'
