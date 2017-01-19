@@ -49,7 +49,7 @@ You have different options for this:
   ```
 
 
-### Websites using Wonky
+### Communities using Wonky
 
 - [The Data Pub](http://slack.thedata.pub)
 - [JavaMexico.org](http://slack.javamexico.org)
