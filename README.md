@@ -58,6 +58,7 @@ You have different options for this:
 - [ComunidadDePHP.org](http://slack.comunidaddephp.org/)
 - [AgilesMX](https://agilesmx.herokuapp.com/)
 - [PeruJUG](http://slack.perujug.org/)
+- [Functional Programming Club](http://functionalprogramming.club/)
 
 ### Development badges
 
