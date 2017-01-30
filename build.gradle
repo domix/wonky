@@ -4,11 +4,11 @@ buildscript {
     jcenter()
   }
   dependencies {
-    classpath 'com.bertramlabs.plugins:asset-pipeline-gradle:2.13.1'
-    classpath 'com.bertramlabs.plugins:coffee-asset-pipeline:2.13.1'
+    classpath 'com.bertramlabs.plugins:asset-pipeline-gradle:2.11.3'
+    classpath 'com.bertramlabs.plugins:coffee-asset-pipeline:2.11.3'
 
     classpath 'com.github.ben-manes:gradle-versions-plugin:0.13.0'
-    classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.0.RELEASE")
+    classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.3.RELEASE")
     classpath 'com.bluepapa32:gradle-watch-plugin:0.1.5'
     classpath "io.spring.gradle:dependency-management-plugin:0.6.1.RELEASE"
     classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
@@ -37,7 +37,7 @@ apply plugin: 'com.bertramlabs.asset-pipeline'
 apply plugin: 'org.asciidoctor.convert'
 
 ext {
-  groovyVersion = '2.4.8'
+  groovyVersion = '2.4.7'
   javaVersion = '1.8'
   spockVersion = '1.1-groovy-2.4-rc-3'
 }
@@ -75,7 +75,7 @@ dependencies {
 }
 
 jacoco {
-  toolVersion = "0.7.8"
+  toolVersion = "0.7.6.201602180812"
 }
 
 jacocoTestReport {
