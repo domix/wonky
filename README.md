@@ -59,6 +59,7 @@ You have different options for this:
 - [AgilesMX](https://agilesmx.herokuapp.com/)
 - [PeruJUG](http://slack.perujug.org/)
 - [Functional Programming Club](http://functionalprogramming.club/)
+- [La ruta del desarrollador-Azure](http://chat-azure.larutadeldesarrollador.mx/)
 
 ### Development badges
 
