@@ -60,7 +60,7 @@ You have different options for this:
 - [PeruJUG](http://slack.perujug.org/)
 - [Functional Programming Club](http://functionalprogramming.club/)
 - [La ruta del desarrollador-Azure](http://chat-azure.larutadeldesarrollador.mx/)
-- [La Nube MS](slack.lanube.ms)
+- [La Nube MS](http://slack.lanube.ms)
 
 ### Development badges
 
