@@ -61,6 +61,7 @@ You have different options for this:
 - [Functional Programming Club](http://functionalprogramming.club/)
 - [La ruta del desarrollador-Azure](http://chat-azure.larutadeldesarrollador.mx/)
 - [La Nube MS](http://slack.lanube.ms)
+- [Software Perú](http://slack.peru-software.ovh)
 
 ### Development badges
 
