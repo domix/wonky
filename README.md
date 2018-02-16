@@ -62,6 +62,7 @@ You have different options for this:
 - [La ruta del desarrollador-Azure](http://chat-azure.larutadeldesarrollador.mx/)
 - [La Nube MS](http://slack.lanube.ms)
 - [Software Perú](http://slack.peru-software.ovh)
+- [JavaHispano.org](http://slack.javahispano.org)
 
 ### Development badges
 
