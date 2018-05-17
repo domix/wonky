@@ -1,0 +1,5 @@
+micronaut:
+  application:
+    name: wonky
+  server:
+    port: 8080
