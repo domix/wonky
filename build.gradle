@@ -19,7 +19,7 @@ apply plugin:"application"
 apply plugin:"java"
 apply plugin:"net.ltgt.apt-eclipse"
 apply plugin:"net.ltgt.apt-idea"
-
+apply plugin: 'jacoco'
 
 repositories {
     mavenLocal()
@@ -52,3 +52,5 @@ shadowJar {
 mainClassName = "wonky.Application"
 compileJava.options.compilerArgs += '-parameters'
 compileTestJava.options.compilerArgs += '-parameters'
+
+jacocoTestReport.dependsOn check
