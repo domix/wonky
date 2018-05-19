@@ -40,6 +40,9 @@ dependencies {
     compile "io.micronaut:inject"
     compile "io.micronaut:runtime"
     compileOnly "io.micronaut:inject-java"
+    compileOnly "org.projectlombok:lombok:1.16.22"
+
+
     runtime "ch.qos.logback:logback-classic:1.2.3"
     testCompile "junit:junit:4.12"
     testCompile "io.micronaut:inject-java"
