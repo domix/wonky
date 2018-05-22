@@ -1,55 +1,55 @@
 buildscript {
-    repositories {
-        mavenCentral()
-        maven { url "https://plugins.gradle.org/m2/" }
-    }
-    dependencies {
-        classpath "com.github.jengelman.gradle.plugins:shadow:2.0.4"
-        classpath "io.spring.gradle:dependency-management-plugin:1.0.5.RELEASE"
-        classpath "net.ltgt.gradle:gradle-apt-plugin:0.15"
-    }
+  repositories {
+    mavenCentral()
+    maven { url "https://plugins.gradle.org/m2/" }
+  }
+  dependencies {
+    classpath "com.github.jengelman.gradle.plugins:shadow:2.0.4"
+    classpath "io.spring.gradle:dependency-management-plugin:1.0.5.RELEASE"
+    classpath "net.ltgt.gradle:gradle-apt-plugin:0.15"
+  }
 }
 
 version "0.1"
 group "wonky"
 
-apply plugin:"io.spring.dependency-management"
-apply plugin:"com.github.johnrengelman.shadow"
-apply plugin:"application"
-apply plugin:"java"
-apply plugin:"net.ltgt.apt-eclipse"
-apply plugin:"net.ltgt.apt-idea"
+apply plugin: "io.spring.dependency-management"
+apply plugin: "com.github.johnrengelman.shadow"
+apply plugin: "application"
+apply plugin: "java"
+apply plugin: "net.ltgt.apt-eclipse"
+apply plugin: "net.ltgt.apt-idea"
 apply plugin: 'jacoco'
 
 repositories {
-    mavenLocal()
-    mavenCentral()
-    maven { url "https://jcenter.bintray.com" }
+  mavenLocal()
+  mavenCentral()
+  maven { url "https://jcenter.bintray.com" }
 }
 
 dependencyManagement {
-    imports {
-        mavenBom 'io.micronaut:bom:1.0.0.M1'
-    }
+  imports {
+    mavenBom 'io.micronaut:bom:1.0.0.M1'
+  }
 }
 
 dependencies {
-    annotationProcessor "io.micronaut:inject-java"
-    compile "io.micronaut:http-client"
-    compile "io.micronaut:http-server-netty"
-    compile "io.micronaut:inject"
-    compile "io.micronaut:runtime"
-    compileOnly "io.micronaut:inject-java"
-    compileOnly "org.projectlombok:lombok:1.16.22"
+  annotationProcessor "io.micronaut:inject-java"
+  compile "io.micronaut:http-client"
+  compile "io.micronaut:http-server-netty"
+  compile "io.micronaut:inject"
+  compile "io.micronaut:runtime"
+  compile 'org.yaml:snakeyaml:1.21'
+  compileOnly "io.micronaut:inject-java"
+  compileOnly "org.projectlombok:lombok:1.16.22"
 
-
-    runtime "ch.qos.logback:logback-classic:1.2.3"
-    testCompile "junit:junit:4.12"
-    testCompile "io.micronaut:inject-java"
+  runtime "ch.qos.logback:logback-classic:1.2.3"
+  testCompile "junit:junit:4.12"
+  testCompile "io.micronaut:inject-java"
 }
 
 shadowJar {
-    mergeServiceFiles()
+  mergeServiceFiles()
 }
 
 mainClassName = "wonky.Application"
