@@ -1,5 +1,5 @@
 profile: service
 defaultPackage: wonky
 ---
-testFramework: junit
+testFramework: spock
 sourceLanguage: java

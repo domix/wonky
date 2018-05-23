@@ -16,7 +16,7 @@ group "wonky"
 apply plugin: "io.spring.dependency-management"
 apply plugin: "com.github.johnrengelman.shadow"
 apply plugin: "application"
-apply plugin: "java"
+apply plugin: 'groovy'
 apply plugin: "net.ltgt.apt-eclipse"
 apply plugin: "net.ltgt.apt-idea"
 apply plugin: 'jacoco'
@@ -46,6 +46,8 @@ dependencies {
   runtime "ch.qos.logback:logback-classic:1.2.3"
   testCompile "junit:junit:4.12"
   testCompile "io.micronaut:inject-java"
+  testCompile "org.codehaus.groovy:groovy-all:2.4.15"
+  testCompile "org.spockframework:spock-core:1.1-groovy-2.4"
 }
 
 shadowJar {
