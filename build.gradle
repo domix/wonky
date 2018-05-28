@@ -40,6 +40,7 @@ dependencies {
   compile "io.micronaut:inject"
   compile "io.micronaut:runtime"
   compile 'org.yaml:snakeyaml:1.21'
+  compile 'commons-io:commons-io:2.5'
   compileOnly "io.micronaut:inject-java"
   compileOnly "org.projectlombok:lombok:1.16.22"
   compileOnly "org.codehaus.groovy:groovy-all:2.4.15"
