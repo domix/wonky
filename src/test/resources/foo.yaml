@@ -1,6 +1,6 @@
-- teamDomain: ff
-  token: ss
-  wonkyDomain: ss
-- teamDomain: 02
-  token: 02
-  wonkyDomain: 02
+- teamDomain: "01"
+  token: "01"
+  wonkyDomain: "01"
+- teamDomain: "02"
+  token: "02"
+  wonkyDomain: "02"
