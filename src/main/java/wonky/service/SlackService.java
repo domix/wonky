@@ -1,7 +1,10 @@
 package wonky.service;
 
 import io.micronaut.context.annotation.Value;
+import io.micronaut.http.HttpRequest;
+import io.micronaut.http.client.Client;
 import io.micronaut.http.client.HttpClient;
+import io.micronaut.http.client.RxHttpClient;
 import io.micronaut.http.client.exceptions.HttpClientResponseException;
 import org.apache.commons.io.monitor.FileAlterationListener;
 import org.apache.commons.io.monitor.FileAlterationListenerAdaptor;
@@ -10,6 +13,7 @@ import org.apache.commons.io.monitor.FileAlterationObserver;
 import org.yaml.snakeyaml.Yaml;
 
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.*;
 import java.net.MalformedURLException;
@@ -32,6 +36,10 @@ public class SlackService {
   private int POLL_INTERVAL = 100;
 
   private List<SlackOrganization> orgs;
+
+  @Client("https://slack.com/api/")
+  @Inject
+  private RxHttpClient httpClient;
 
   @PostConstruct
   public void init() {
@@ -94,28 +102,10 @@ public class SlackService {
   }
 
   public Map tenantSlackInformation(String token, String host) {
-    String url = "https://slack.com";
-    HttpClient client;
-    try {
-      client = HttpClient.create(new URL(url));
-    } catch (MalformedURLException e) {
-      throw new IllegalArgumentException(e.getMessage(), e);
-    }
 
-    String retrieve = null;
+    System.out.println(httpClient.retrieve(HttpRequest.GET("team.info?token="+token)).blockingFirst());
+    //  retrieve = client.toBlocking().retrieve("/api/team.info?token=" + token);
 
-    try {
-      retrieve = client.toBlocking().retrieve("/api/team.info?token=" + token);
-    } catch (HttpClientResponseException t) {
-      System.out.println(t.getResponse().getBody());
-    }
-    System.out.println(retrieve);
-
-    //client.retrieve("").subscribe();
-    //.toBlocking().retrieve("/rtm.start")
-
-    //Map request = [path: '/rtm.start', query: [token: token]]
-    //remoteService.get("https://${host}.slack.com/api", request)
 
     return null;
   }
