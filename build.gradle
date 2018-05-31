@@ -42,7 +42,7 @@ dependencies {
   compile 'org.yaml:snakeyaml:1.21'
   compile 'commons-io:commons-io:2.5'
   compileOnly "io.micronaut:inject-java"
-  compileOnly "org.projectlombok:lombok:1.16.22"
+  //compileOnly "org.projectlombok:lombok:1.16.22"
   compileOnly "org.codehaus.groovy:groovy-all:2.4.15"
 
   runtime "ch.qos.logback:logback-classic:1.2.3"

@@ -14,4 +14,12 @@ class SlackServiceSpec extends Specification {
     expect:
       service.orgs.size() == 2
   }
+  def foo2() {
+    given:
+      def service = new SlackService(tenantsFile: './src/test/resources/foo.yaml')
+      service.tenantSlackInformation("", "")
+    expect:
+      true
+  }
+
 }
