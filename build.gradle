@@ -41,6 +41,7 @@ dependencies {
   compile "io.micronaut:runtime"
   compile 'org.yaml:snakeyaml:1.21'
   compile 'commons-io:commons-io:2.5'
+  compile 'io.reactivex:rxnetty-http:0.5.3-rc.1'
   compileOnly "io.micronaut:inject-java"
   //compileOnly "org.projectlombok:lombok:1.16.22"
   compileOnly "org.codehaus.groovy:groovy-all:2.4.15"
