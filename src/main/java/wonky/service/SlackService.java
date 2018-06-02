@@ -1,11 +1,8 @@
 package wonky.service;
 
 import io.micronaut.context.annotation.Value;
-import io.micronaut.http.HttpRequest;
-import io.micronaut.http.client.Client;
-import io.micronaut.http.client.HttpClient;
-import io.micronaut.http.client.RxHttpClient;
-import io.micronaut.http.client.exceptions.HttpClientResponseException;
+import io.netty.handler.logging.LogLevel;
+import io.reactivex.netty.protocol.http.client.HttpClient;
 import org.apache.commons.io.monitor.FileAlterationListener;
 import org.apache.commons.io.monitor.FileAlterationListenerAdaptor;
 import org.apache.commons.io.monitor.FileAlterationMonitor;
@@ -13,11 +10,9 @@ import org.apache.commons.io.monitor.FileAlterationObserver;
 import org.yaml.snakeyaml.Yaml;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 
@@ -37,9 +32,6 @@ public class SlackService {
 
   private List<SlackOrganization> orgs;
 
-  @Client("https://slack.com/api/")
-  @Inject
-  private RxHttpClient httpClient;
 
   @PostConstruct
   public void init() {
@@ -103,8 +95,22 @@ public class SlackService {
 
   public Map tenantSlackInformation(String token, String host) {
 
-    System.out.println(httpClient.retrieve(HttpRequest.GET("team.info?token="+token)).blockingFirst());
+    HttpClient.newClient("slack.com", 443)
+      .enableWireLogging("hello-client", LogLevel.TRACE)
+      .createGet("/api/team.info?token=" + token)
+      .doOnNext(resp -> log.info(resp.toString()))
+      .flatMap(resp -> resp.getContent()
+        .map(bb -> bb.toString(Charset.defaultCharset())))
+      .toBlocking()
+      .forEach(log::info);
+
+    //System.out.println(httpClient.retrieve(HttpRequest.GET("team.info?token="+token)).blockingFirst());
     //  retrieve = client.toBlocking().retrieve("/api/team.info?token=" + token);
+    /*
+    @Client("https://slack.com/api/")
+  @Inject
+  private RxHttpClient httpClient;
+     */
 
 
     return null;
