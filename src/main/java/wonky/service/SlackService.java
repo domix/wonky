@@ -1,7 +1,8 @@
 package wonky.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micronaut.context.annotation.Value;
-import io.netty.handler.logging.LogLevel;
+import io.netty.buffer.ByteBuf;
 import io.reactivex.netty.protocol.http.client.HttpClient;
 import org.apache.commons.io.monitor.FileAlterationListener;
 import org.apache.commons.io.monitor.FileAlterationListenerAdaptor;
@@ -11,8 +12,12 @@ import org.yaml.snakeyaml.Yaml;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Singleton;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLEngine;
 import java.io.*;
 import java.nio.charset.Charset;
+import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -93,27 +98,40 @@ public class SlackService {
       .findFirst().orElseThrow(() -> new IllegalArgumentException(""));
   }
 
+  private static SSLEngine defaultSSLEngineForClient(String host, Integer port) {
+    SSLContext sslCtx = null;
+    try {
+      sslCtx = SSLContext.getDefault();
+    } catch (NoSuchAlgorithmException e) {
+      throw new IllegalStateException(e.getMessage(), e);
+    }
+    SSLEngine sslEngine = sslCtx.createSSLEngine(host, port);
+    sslEngine.setUseClientMode(true);
+    return sslEngine;
+  }
+
+  public <T> T readValue(String content, Class<T> valueType) {
+    ObjectMapper objectMapper = new ObjectMapper();
+    try {
+      return objectMapper.readValue(content, valueType);
+    } catch (IOException e) {
+      throw new RuntimeException(e.getMessage(), e);
+    }
+  }
+
   public Map tenantSlackInformation(String token, String host) {
+    String slack = "slack.com";
+    int port = 443;
 
-    HttpClient.newClient("slack.com", 443)
-      .enableWireLogging("hello-client", LogLevel.TRACE)
-      .createGet("/api/team.info?token=" + token)
-      .doOnNext(resp -> log.info(resp.toString()))
-      .flatMap(resp -> resp.getContent()
-        .map(bb -> bb.toString(Charset.defaultCharset())))
-      .toBlocking()
-      .forEach(log::info);
-
-    //System.out.println(httpClient.retrieve(HttpRequest.GET("team.info?token="+token)).blockingFirst());
-    //  retrieve = client.toBlocking().retrieve("/api/team.info?token=" + token);
-    /*
-    @Client("https://slack.com/api/")
-  @Inject
-  private RxHttpClient httpClient;
-     */
-
-
-    return null;
+    String uri = format("/api/team.info?token=%s", token);
+    HttpClient<ByteBuf, ByteBuf> secureHttpClient = HttpClient.newClient(slack, port)
+      .secure(defaultSSLEngineForClient(slack, port));
+    return secureHttpClient
+      .createGet(uri)
+      .flatMap(resp ->
+        resp.getContent()
+          .map(bb -> readValue(bb.toString(Charset.defaultCharset()), HashMap.class)))
+      .toBlocking().firstOrDefault(null);
   }
 
   public void setTenantsFile(String tenantsFile) {
