@@ -17,8 +17,9 @@ class SlackServiceSpec extends Specification {
 
   def foo2() {
     given:
+      def token = System.getenv("TOKEN")
       def service = new SlackService(tenantsFile: './src/test/resources/foo.yaml')
-      def information = service.tenantSlackInformation("", "")
+      def information = service.tenantSlackInformation(token, "")
     expect:
       information
       println information
