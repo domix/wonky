@@ -15,13 +15,13 @@ import javax.inject.Singleton;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
 import java.io.*;
-import java.nio.charset.Charset;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static java.lang.String.format;
+import static java.nio.charset.Charset.defaultCharset;
 
 /**
  * Created by domix on 01/06/18.
@@ -130,7 +130,7 @@ public class SlackService {
       .createGet(uri)
       .flatMap(resp ->
         resp.getContent()
-          .map(bb -> readValue(bb.toString(Charset.defaultCharset()), HashMap.class)))
+          .map(bb -> readValue(bb.toString(defaultCharset()), HashMap.class)))
       .toBlocking().firstOrDefault(null);
   }
 
