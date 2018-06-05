@@ -1,4 +1,4 @@
-package wonky;
+package wonky.slack;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
