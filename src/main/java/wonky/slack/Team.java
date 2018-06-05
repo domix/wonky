@@ -1,6 +1,7 @@
-package wonky;
+package wonky.slack;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import wonky.slack.Icon;
 
 /**
  * Created by domix on 05/06/18.
