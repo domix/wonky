@@ -2,6 +2,9 @@ package wonky;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * Created by domix on 05/06/18.
+ */
 public class Icon {
   @JsonProperty("image_102")
   private String image102;
