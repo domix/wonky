@@ -1,7 +1,9 @@
 package wonky.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micronaut.context.annotation.Value;
+import io.micronaut.core.util.StringUtils;
 import io.netty.buffer.ByteBuf;
 import io.reactivex.netty.protocol.http.client.HttpClient;
 import org.apache.commons.io.monitor.FileAlterationListener;
@@ -9,6 +11,7 @@ import org.apache.commons.io.monitor.FileAlterationListenerAdaptor;
 import org.apache.commons.io.monitor.FileAlterationMonitor;
 import org.apache.commons.io.monitor.FileAlterationObserver;
 import org.yaml.snakeyaml.Yaml;
+import wonky.Team;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Singleton;
@@ -16,9 +19,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
 import java.io.*;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static java.lang.String.format;
 import static java.nio.charset.Charset.defaultCharset;
@@ -36,6 +37,12 @@ public class SlackService {
   private int POLL_INTERVAL = 100;
 
   private List<SlackOrganization> orgs;
+
+  public void setObjectMapper(ObjectMapper objectMapper) {
+    this.objectMapper = objectMapper;
+  }
+
+  private ObjectMapper objectMapper;
 
 
   @PostConstruct
@@ -99,10 +106,11 @@ public class SlackService {
   }
 
   private static SSLEngine defaultSSLEngineForClient(String host, Integer port) {
-    SSLContext sslCtx = null;
+    SSLContext sslCtx;
     try {
       sslCtx = SSLContext.getDefault();
     } catch (NoSuchAlgorithmException e) {
+      //TODO: improve exception handling
       throw new IllegalStateException(e.getMessage(), e);
     }
     SSLEngine sslEngine = sslCtx.createSSLEngine(host, port);
@@ -110,34 +118,55 @@ public class SlackService {
     return sslEngine;
   }
 
+
+  public <T> T readValue(String content, String node, Class<T> valueType) {
+    if (StringUtils.isNotEmpty(node)) {
+      try {
+        JsonNode jsonNode = objectMapper.readTree(content).get(node);
+        return objectMapper.treeToValue(jsonNode, valueType);
+      } catch (IOException e) {
+        //TODO: improve exception handling
+        throw new RuntimeException(e.getMessage(), e);
+      }
+    } else {
+      return readValue(content, valueType);
+    }
+  }
+
   public <T> T readValue(String content, Class<T> valueType) {
-    ObjectMapper objectMapper = new ObjectMapper();
     try {
       return objectMapper.readValue(content, valueType);
     } catch (IOException e) {
+      //TODO: improve exception handling
       throw new RuntimeException(e.getMessage(), e);
     }
   }
 
-  public Map tenantSlackInformation(String token, String host) {
+  public Team tenantSlackInformation(String token, String host) {
     String slack = "slack.com";
-    int port = 443;
-
     String uri = format("/api/team.info?token=%s", token);
-    HttpClient<ByteBuf, ByteBuf> secureHttpClient = HttpClient.newClient(slack, port)
-      .secure(defaultSSLEngineForClient(slack, port));
-    return secureHttpClient
+
+    return secureClient(slack)
       .createGet(uri)
       .flatMap(resp ->
         resp.getContent()
-          .map(bb -> readValue(bb.toString(defaultCharset()), HashMap.class)))
+          .map(bb -> {
+            String content = bb.toString(defaultCharset());
+            log.info(content);
+            return readValue(content, "team", Team.class);
+          }))
       .toBlocking().firstOrDefault(null);
+  }
+
+  public HttpClient<ByteBuf, ByteBuf> secureClient(String host) {
+    int port = 443;
+    return HttpClient.newClient(host, port)
+      .secure(defaultSSLEngineForClient(host, port));
   }
 
   public void setTenantsFile(String tenantsFile) {
     this.tenantsFile = tenantsFile;
   }
-
 
   /*
 
