@@ -3,6 +3,7 @@ package wonky.json;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.IOException;
 
@@ -13,6 +14,7 @@ import static io.micronaut.core.util.StringUtils.isNotEmpty;
  */
 @Singleton
 public class JacksonUtil {
+  @Inject
   private ObjectMapper objectMapper;
 
   public void setObjectMapper(ObjectMapper objectMapper) {

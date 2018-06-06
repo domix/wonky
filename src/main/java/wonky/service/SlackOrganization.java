@@ -31,4 +31,13 @@ public class SlackOrganization {
   public void setWonkyDomain(String wonkyDomain) {
     this.wonkyDomain = wonkyDomain;
   }
+
+  @Override
+  public String toString() {
+    return "SlackOrganization{" +
+      "teamDomain='" + teamDomain + '\'' +
+      ", token='" + token + '\'' +
+      ", wonkyDomain='" + wonkyDomain + '\'' +
+      '}';
+  }
 }
