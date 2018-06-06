@@ -22,7 +22,7 @@ class SlackServiceSpec extends Specification {
       def token = System.getenv("TOKEN")
       def jacksonUtil = new JacksonUtil(objectMapper: new ObjectMapper())
       def service = new SlackService(tenantsFile: './src/test/resources/foo.yaml', jacksonUtil: jacksonUtil)
-      def information = service.tenantSlackInformation(token, "")
+      def information = service.tenantSlackInformation(token)
     expect:
       information
       println information
