@@ -25,7 +25,5 @@ class SlackServiceSpec extends Specification {
       def information = service.tenantSlackInformation(token)
     expect:
       information
-      println information
   }
-
 }
