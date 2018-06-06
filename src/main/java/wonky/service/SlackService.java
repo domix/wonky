@@ -6,14 +6,19 @@ import org.apache.commons.io.monitor.FileAlterationListenerAdaptor;
 import org.apache.commons.io.monitor.FileAlterationMonitor;
 import org.apache.commons.io.monitor.FileAlterationObserver;
 import org.yaml.snakeyaml.Yaml;
-import wonky.slack.Team;
+import rx.Observable;
 import wonky.http.Client;
 import wonky.json.JacksonUtil;
+import wonky.model.Organization;
+import wonky.slack.Team;
 
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.*;
+import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 
 import static java.lang.String.format;
 import static java.nio.charset.Charset.defaultCharset;
@@ -24,6 +29,7 @@ import static java.nio.charset.Charset.defaultCharset;
 @Singleton
 public class SlackService {
   private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(SlackService.class);
+  private static final String slack = "slack.com";
   @Value("${wonky.tenants.file:/etc/wonky/tenants.yaml}")
   private String tenantsFile;
 
@@ -32,6 +38,7 @@ public class SlackService {
 
   private List<SlackOrganization> orgs;
 
+  @Inject
   private JacksonUtil jacksonUtil;
 
   public void setJacksonUtil(JacksonUtil jacksonUtil) {
@@ -54,6 +61,7 @@ public class SlackService {
       public void onFileChange(File file) {
         log.debug("onFileChange");
         log.info("Reloading file [{}]", file.getAbsoluteFile().getName());
+        //TODO: verify that the file chaged is the configured file
         load();
       }
     };
@@ -88,29 +96,36 @@ public class SlackService {
     return orgs;
   }
 
+  //TODO: make this data cacheable
+  public Organization get(String hostname) {
+    return findTenant(hostname).map(slackOrganization -> {
+      Team team = tenantSlackInformation(slackOrganization.getToken());
+      Organization organization = new Organization();
+      organization.setTeam(team);
+      return organization;
+    }).orElse(null);
+  }
+
   public void setOrgs(List<SlackOrganization> orgs) {
     this.orgs = orgs;
   }
 
-  public SlackOrganization findTenant(String hostname) {
+  public Optional<SlackOrganization> findTenant(String hostname) {
     return orgs.stream()
       .filter(slackOrganization -> slackOrganization.getWonkyDomain().equals(hostname))
-      .findFirst().orElseThrow(() -> new IllegalArgumentException(""));
+      .findFirst();
   }
 
-  public Team tenantSlackInformation(String token, String host) {
-    String slack = "slack.com";
+  public Team tenantSlackInformation(String token) {
+
     String uri = format("/api/team.info?token=%s", token);
 
     return Client.secure(slack)
       .createGet(uri)
       .flatMap(resp ->
         resp.getContent()
-          .map(bb -> {
-            String content = bb.toString(defaultCharset());
-            log.info(content);
-            return jacksonUtil.readValue(content, "team", Team.class);
-          }))
+          .map(bb ->
+            jacksonUtil.readValue(bb.toString(defaultCharset()), "team", Team.class)))
       .toBlocking().firstOrDefault(null);
   }
 
@@ -119,21 +134,23 @@ public class SlackService {
     this.tenantsFile = tenantsFile;
   }
 
-  /*
-  @Cacheable('slackPublicData')
-  Map slack(String hostname) {
-    findTenant(hostname)
-      .map { publicData(it.token, it.teamDomain) }
-      .orElse(emptyMap())
-  }
+  public void invite(String hostname, String email) {
+    SlackOrganization tenant = findTenant(hostname).orElse(null);
+    String uri = format("/api/users.admin.invite?token=%s", tenant.getToken());
+    String encodedEmail = new String(Base64.getEncoder().encode(email.getBytes()));
 
+    String payload = String.format("email=%s", encodedEmail);
+
+    Client.secure(slack).createPost(uri)
+      .setHeader("Content-Type", "application/x-www-form-urlencoded")
+      .writeStringContent(Observable.just(payload));
+  }
+  /*
   Map invite(String hostname, String email) {
     findTenant(hostname)
       .map { invite(it.token, it.teamDomain, email) }
       .orElse(emptyMap())
   }
-
-
 
   Map invite(String token, String host, String email) {
     Map response = remoteService.post("https://${host}.slack.com/api/users.admin.invite") {
@@ -146,44 +163,6 @@ public class SlackService {
     }.orElseGet {
       [error: messageSource.get(response.error)]
     }
-  }
-
-  Map publicData(String token, String host) {
-    log.info 'Searching public data in Slack for {}', host
-
-    Map map = tenantSlackInformation(token, host)
-    publicData(map)
-  }
-
-  private Predicate isSlackBot = { Map map ->
-    'USLACKBOT' == map.id
-  }
-
-  private Predicate isActive = { Map map ->
-    'active' == map.presence
-  }
-
-  Boolean isActiveUser(Map map) {
-    isSlackBot.negate().and(isActive).test(map)
-  }
-
-  Map publicData(Map data) {
-    int active = data.users.findAll {
-      isActiveUser(it)
-    }.size()
-
-    int total = data.users.findAll {
-      isSlackBot.negate().test(it)
-    }.size()
-
-    [
-      name : data.team.name,
-      logo : data.team.icon.image_132,
-      users: [
-        active: active,
-        total : total
-      ]
-    ]
   }
    */
 }

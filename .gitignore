@@ -11,3 +11,4 @@ README.html
 .project
 .settings
 *.hprof
+src/test/resources/orgs_ignored.yaml
