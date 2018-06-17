@@ -1,43 +1,17 @@
 package wonky.service;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 /**
  * Created by domix on 01/06/18.
  */
+@Setter
+@Getter
+@ToString
 public class SlackOrganization {
   private String teamDomain;
   private String token;
   private String wonkyDomain;
-
-  public String getTeamDomain() {
-    return teamDomain;
-  }
-
-  public void setTeamDomain(String teamDomain) {
-    this.teamDomain = teamDomain;
-  }
-
-  public String getToken() {
-    return token;
-  }
-
-  public void setToken(String token) {
-    this.token = token;
-  }
-
-  public String getWonkyDomain() {
-    return wonkyDomain;
-  }
-
-  public void setWonkyDomain(String wonkyDomain) {
-    this.wonkyDomain = wonkyDomain;
-  }
-
-  @Override
-  public String toString() {
-    return "SlackOrganization{" +
-      "teamDomain='" + teamDomain + '\'' +
-      ", token='" + token + '\'' +
-      ", wonkyDomain='" + wonkyDomain + '\'' +
-      '}';
-  }
 }
