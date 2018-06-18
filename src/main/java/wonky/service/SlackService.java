@@ -1,6 +1,7 @@
 package wonky.service;
 
 import io.micronaut.context.annotation.Value;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.monitor.FileAlterationListener;
 import org.apache.commons.io.monitor.FileAlterationListenerAdaptor;
 import org.apache.commons.io.monitor.FileAlterationMonitor;
@@ -27,8 +28,9 @@ import static java.nio.charset.Charset.defaultCharset;
  * Created by domix on 01/06/18.
  */
 @Singleton
+@Slf4j
 public class SlackService {
-  private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(SlackService.class);
+
   private static final String slack = "slack.com";
   @Value("${wonky.tenants.file:/etc/wonky/tenants.yaml}")
   private String tenantsFile;
