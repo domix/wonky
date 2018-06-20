@@ -1,6 +1,7 @@
 package wonky.service;
 
 import io.micronaut.context.annotation.Value;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.monitor.FileAlterationListener;
 import org.apache.commons.io.monitor.FileAlterationListenerAdaptor;
@@ -41,11 +42,8 @@ public class SlackService {
   private List<SlackOrganization> orgs;
 
   @Inject
+  @Setter
   private JacksonUtil jacksonUtil;
-
-  public void setJacksonUtil(JacksonUtil jacksonUtil) {
-    this.jacksonUtil = jacksonUtil;
-  }
 
   @PostConstruct
   public void init() {
@@ -106,10 +104,6 @@ public class SlackService {
       organization.setTeam(team);
       return organization;
     }).orElse(null);
-  }
-
-  public void setOrgs(List<SlackOrganization> orgs) {
-    this.orgs = orgs;
   }
 
   public Optional<SlackOrganization> findTenant(String hostname) {
