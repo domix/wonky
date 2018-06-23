@@ -2,6 +2,7 @@ package wonky.json;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Setter;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -15,11 +16,8 @@ import static io.micronaut.core.util.StringUtils.isNotEmpty;
 @Singleton
 public class JacksonUtil {
   @Inject
+  @Setter
   private ObjectMapper objectMapper;
-
-  public void setObjectMapper(ObjectMapper objectMapper) {
-    this.objectMapper = objectMapper;
-  }
 
   public <T> T readValue(String content, String node, Class<T> valueType) {
     if (isNotEmpty(node)) {
