@@ -36,7 +36,7 @@ dependencyManagement {
 dependencies {
   //WARN: It's very important to preserve this order (https://github.com/micronaut-projects/micronaut-core/issues/218#issuecomment-392549294)
   compileOnly 'org.projectlombok:lombok:1.18.0'
-  annotationProcessor "org.projectlombok:lombok:1.16.20"
+  annotationProcessor "org.projectlombok:lombok:1.18.0"
   annotationProcessor "io.micronaut:inject-java"
   compile "io.micronaut:http-client"
   compile "io.micronaut:http-server-netty"
