@@ -49,12 +49,12 @@ dependencies {
   compile 'io.jaegertracing:jaeger-core:0.29.0'
   compileOnly "io.micronaut:inject-java"
   //compileOnly "org.projectlombok:lombok:1.16.22"
-  compileOnly "org.codehaus.groovy:groovy-all:2.4.15"
+  compileOnly "org.codehaus.groovy:groovy-all:2.5.0"
 
   runtime "ch.qos.logback:logback-classic:1.2.3"
   testCompile "junit:junit:4.12"
   testCompile "io.micronaut:inject-java"
-  testCompile "org.codehaus.groovy:groovy-all:2.4.15"
+  testCompile "org.codehaus.groovy:groovy-all:2.5.0"
   testCompile "org.spockframework:spock-core:1.1-groovy-2.4"
 }
 
