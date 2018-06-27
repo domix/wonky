@@ -31,7 +31,6 @@ import static java.nio.charset.Charset.defaultCharset;
 @Singleton
 @Slf4j
 public class SlackService {
-
   private static final String slack = "slack.com";
   @Value("${wonky.tenants.file:/etc/wonky/tenants.yaml}")
   private String tenantsFile;
