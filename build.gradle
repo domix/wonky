@@ -48,7 +48,6 @@ dependencies {
   compile "io.micronaut:tracing"
   compile 'io.jaegertracing:jaeger-core:0.29.0'
   compileOnly "io.micronaut:inject-java"
-  //compileOnly "org.projectlombok:lombok:1.16.22"
   compileOnly "org.codehaus.groovy:groovy-all:2.5.0"
 
   runtime "ch.qos.logback:logback-classic:1.2.3"
