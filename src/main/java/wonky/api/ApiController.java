@@ -3,13 +3,12 @@ package wonky.api;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Header;
-import io.opentracing.Span;
-import io.opentracing.Tracer;
 import lombok.extern.slf4j.Slf4j;
 import wonky.model.Organization;
 import wonky.service.SlackService;
+import wonky.tracing.TraceUtil;
 
-import javax.inject.Inject;
+import static java.lang.String.format;
 
 /**
  * Created by domix on 01/06/18.
@@ -17,19 +16,21 @@ import javax.inject.Inject;
 @Slf4j
 @Controller("/v1/organizations")
 public class ApiController {
-  @Inject
   private SlackService slackService;
-  @Inject
-  private Tracer tracer;
+  private TraceUtil traceUtil;
+
+  public ApiController(SlackService slackService, TraceUtil traceUtil) {
+    this.slackService = slackService;
+    this.traceUtil = traceUtil;
+  }
 
   @Get("/_self")
   public Organization index(@Header("Host") String hostname) {
-    Tracer.SpanBuilder dd = tracer.buildSpan("dd");
-    Span start = dd.withTag("host.name", hostname).start();
     log.info("Looking for [{}]", hostname);
-    Organization organization = slackService.get(hostname);
-    start.log("Lalamada termninada");
-    start.finish();
-    return organization;
+
+    return traceUtil.trace(span -> {
+      span.log(format("Looking for [%s]", hostname));
+      return slackService.get(hostname);
+    });
   }
 }

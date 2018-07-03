@@ -13,6 +13,7 @@ import wonky.http.Client;
 import wonky.json.JacksonUtil;
 import wonky.model.Organization;
 import wonky.slack.Team;
+import wonky.tracing.TraceUtil;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -43,6 +44,9 @@ public class SlackService {
   @Inject
   @Setter
   private JacksonUtil jacksonUtil;
+
+  @Inject
+  private TraceUtil traceUtil;
 
   @PostConstruct
   public void init() {
@@ -97,31 +101,31 @@ public class SlackService {
 
   //TODO: make this data cacheable
   public Organization get(String hostname) {
-    return findTenant(hostname).map(slackOrganization -> {
-      Team team = tenantSlackInformation(slackOrganization.getToken());
-      Organization organization = new Organization();
-      organization.setTeam(team);
-      return organization;
-    }).orElse(null);
+    return traceUtil.trace(span ->
+      findTenant(hostname)
+        .map(slackOrganization -> {
+          Team team = tenantSlackInformation(slackOrganization.getToken());
+          Organization organization = new Organization();
+          organization.setTeam(team);
+          return organization;
+        }).orElse(null));
   }
 
   public Optional<SlackOrganization> findTenant(String hostname) {
-    return orgs.stream()
+    return traceUtil.trace(span -> orgs.stream()
       .filter(slackOrganization -> slackOrganization.getWonkyDomain().equals(hostname))
-      .findFirst();
+      .findFirst());
   }
 
   public Team tenantSlackInformation(String token) {
-
     String uri = format("/api/team.info?token=%s", token);
-
-    return Client.secure(slack)
+    return traceUtil.trace(span -> Client.secure(slack)
       .createGet(uri)
       .flatMap(resp ->
         resp.getContent()
           .map(bb ->
             jacksonUtil.readValue(bb.toString(defaultCharset()), "team", Team.class)))
-      .toBlocking().firstOrDefault(null);
+      .toBlocking().firstOrDefault(null));
   }
 
 
