@@ -4,6 +4,7 @@ import io.opentracing.Span;
 import io.opentracing.Tracer;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
@@ -11,6 +12,7 @@ import javax.inject.Singleton;
 public class TraceUtil {
   private final Tracer tracer;
 
+  @Inject
   public TraceUtil(Tracer tracer) {
     this.tracer = tracer;
   }
