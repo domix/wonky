@@ -54,7 +54,9 @@ dependencies {
   testCompile "junit:junit:4.12"
   testCompile "io.micronaut:inject-java"
   testCompile "org.codehaus.groovy:groovy-all:2.5.0"
-  testCompile "org.spockframework:spock-core:1.1-groovy-2.4"
+  testCompile "org.spockframework:spock-core:1.1-groovy-2.4", {
+    exclude module: 'groovy-all'
+  }
 }
 
 shadowJar {
@@ -68,8 +70,9 @@ compileTestJava.options.compilerArgs += '-parameters'
 jacocoTestReport.dependsOn check
 
 jacocoTestReport {
+  def ci = System.getenv('CI') == true
   reports {
-    xml.enabled true
-    html.enabled false
+    xml.enabled ci
+    html.enabled !ci
   }
 }
