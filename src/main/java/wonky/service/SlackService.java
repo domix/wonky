@@ -1,7 +1,6 @@
 package wonky.service;
 
 import io.micronaut.context.annotation.Value;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.monitor.FileAlterationListener;
 import org.apache.commons.io.monitor.FileAlterationListenerAdaptor;
@@ -42,7 +41,6 @@ public class SlackService {
   private List<SlackOrganization> orgs;
 
   @Inject
-  @Setter
   private JacksonUtil jacksonUtil;
 
   @Inject
@@ -50,7 +48,7 @@ public class SlackService {
 
   @PostConstruct
   public void init() {
-    log.error("Tenant file {}", tenantsFile);
+    log.info("Tenant file {}", tenantsFile);
     File file = new File(tenantsFile);
     String tenantsFileDirectory = file.getParentFile().getAbsolutePath();
     log.info("Watching changes in [{}]", tenantsFileDirectory);

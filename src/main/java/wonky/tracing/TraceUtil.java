@@ -51,7 +51,6 @@ public class TraceUtil {
       Span span = scope.span();
       span.setTag("className", className);
       span.setTag("methodName", methodName);
-      //span.setTag("lineNumber", lineNumber);
       span.log(format("%s:%s", operationName, lineNumber));
 
       try {
