@@ -7,7 +7,6 @@ import io.micronaut.http.HttpResponse
 import io.micronaut.http.client.RxStreamingHttpClient
 import io.micronaut.runtime.server.EmbeddedServer
 import spock.lang.AutoCleanup
-import spock.lang.Ignore
 import spock.lang.Shared
 import spock.lang.Specification
 import wonky.model.Organization
@@ -24,7 +23,6 @@ class ApiControllerSpec extends Specification {
   @AutoCleanup
   RxStreamingHttpClient client = embeddedServer.applicationContext.createBean(RxStreamingHttpClient, embeddedServer.getURL())
 
-  @Ignore
   def "Getting the organization info"() {
     when:
       HttpRequest request = GET('/v1/organizations/_self').header("Host", "localhost")
