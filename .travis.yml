@@ -12,11 +12,13 @@ jdk:
 env:
   matrix:
   - TERM=dumb
+  - WONKY_TENANTS_FILE=orgs_ignored.yaml
   global:
     secure: ourz+Q4daqnDJ6QvA2bUd4KxAqR+MTW7BUPRKpH8x89sfoZU8g0D3Or1U4RhzdmmCGVCuvAq+GOz8vbvmqQ7fy17kE5GfON2w4NtRXovBluZNK9YAqxJUYKQQ0KTjrMpDixIsIBoP7SzI2v/l5NUnoRzhOYoyaQue9gqnxGdpd+Ymxfz5aA9WpBxWCU4qynes2jEoW3+sliuO356UZegUcef8BMPBKS/YvHnykilBGwVmq+hQmNmxi5+m5vPdBOX0eMPBb3FsaeXHXuNJo4dUHlz5rmvdkJ0rtZ+XBoUJkLq/eGfXV6iy7ziOZIIOAEYijgCuDl0SKgjo4jRh2k7N8lMObPdwqIBhFjykye93aLAFh5LtVI/yPJeDS5CaTbz6vkKM0efVl/vdXewXcNT5qUBMhoCAJfHoa9fXn9Vj98tcKKFOY2uhhZ2/hvoszCL3WOokb7a9CIjMp2PsdhhYwSb35hVqtxTlxCP+yKGmmr6Ygm9J2crbDorXpuhWcRFtRYNwefgqRa6O7dH0JREod46VdB5jLayo/o12SaiAf/g26aEVa5xzQd8SsFfarpwTipDQpT0hal3XUbKdJUkfLtZvlAuVfBGwtewWpOn1dTKVeMDSm5CPRmz9WFEVMQWZBiKa6MAt2flor4z49kOqjPoayqAC3moQKfknV20M6M=
 install: true
 before_script:
 - "./gradlew --version"
+- "openssl aes-256-cbc -K $encrypted_0a6446eb3ae3_key -iv $encrypted_0a6446eb3ae3_iv -in orgs_ignored.yaml.enc -out orgs_ignored.yaml -d"
 script:
 - "./gradlew jacocoTestReport"
 after_success:
