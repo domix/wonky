@@ -70,7 +70,7 @@ compileTestJava.options.compilerArgs += '-parameters'
 jacocoTestReport.dependsOn check
 
 jacocoTestReport {
-  def ci = System.getenv('CI') == true
+  def ci = System.getenv('CI') == "true"
   reports {
     xml.enabled ci
     html.enabled !ci
