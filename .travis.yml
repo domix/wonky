@@ -10,14 +10,8 @@ language: java
 jdk:
 - oraclejdk8
 env:
-  matrix:
   - TERM=dumb
   - WONKY_TENANTS_FILE=orgs_ignored.yaml
-  global:
-    secure: H/gr3sRrCyw9bS1lLCmBrthYWDqmRfyKnulnR01a0ZnTq5B7rp7MT2zk2dBll9JOVAmrYgfvO43eHxfNVXym/I1orOIZE9x992Gl3M8b+DA01h/2VTGQd73w6U3Xz887zTvVJL3TwT390Q+OajPtNSDVYAIiwG7RlWyTxzgee8Xt9JzCysWCgQLYiuvJr1yiwpPj0cYEDGkgPaIMdp2prezDI0wqyAz6godq2SqLo6UkX9KsDAapp7HYLAre2DmTbPS8j6zak6EuMq8IKDhBwfxKvvbp+tesTPPnmbv4BgS4xqGq8+TuD8sq/XBU17unld50atACW2F+gC1RKfLGVEcHEkZB5zvI9KsHFG7RX1+IQpeohj6DCDdQrZSR3Wo88amvBYH1Jf5zc0cQGy5F9KNrys/E9g81Dm60WPu+rwZ9hiAcyrN5eaHcsAY228DGtDZnJHH0IC4mVhPreQWgUG9x4QCIclSy/7OlWaFXonJ7YxWMujGJdYLr4xiK+QqFUA3HfoCYh0gFQHesVo7FW/cqEGeV1alyCcU9Kv4W5XanMFlg2oOWjUIU2sfA9AAZT8PVbfAXWWw+UJ+kVbyPWdPObjQAU533Tl1GFItS82g9AdtN0uquD/jWe9++BqrC/uwAHhDBeo7aALbblasCsfZ6kk7ziF4mbLKYUqXhaFU=
-before_install:
-- openssl aes-256-cbc -K $encrypted_0a6446eb3ae3_key -iv $encrypted_0a6446eb3ae3_iv
-  -in orgs_ignored.yaml.enc -out orgs_ignored.yaml -d
 install: true
 before_script:
 - "./gradlew --version"
