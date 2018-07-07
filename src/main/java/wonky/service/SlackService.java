@@ -50,6 +50,7 @@ public class SlackService {
 
   @PostConstruct
   public void init() {
+    log.error("Tenant file {}", tenantsFile);
     File file = new File(tenantsFile);
     String tenantsFileDirectory = file.getParentFile().getAbsolutePath();
     log.info("Watching changes in [{}]", tenantsFileDirectory);
