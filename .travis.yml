@@ -10,7 +10,7 @@ language: java
 jdk:
 - oraclejdk8
 env:
-  - TERM=dumb WONKY_TENANTS_FILE=orgs_ignored.yaml
+- TERM=dumb WONKY_TENANTS_FILE=orgs_ignored.yaml
 install: true
 before_script:
 - "./gradlew --version"
@@ -18,3 +18,6 @@ script:
 - "./gradlew jacocoTestReport"
 after_success:
 - bash <(curl -s https://codecov.io/bash)
+before_install:
+- openssl aes-256-cbc -K $encrypted_55795232bcfe_key -iv $encrypted_55795232bcfe_iv
+  -in orgs_ignored.yaml.enc -out orgs_ignored.yaml -d
