@@ -1,8 +1,6 @@
 - !!wonky.service.SlackOrganization
-  teamDomain: "01"
   token: "01"
   wonkyDomain: "01"
 - !!wonky.service.SlackOrganization
-  teamDomain: "02"
   token: "02"
   wonkyDomain: "02"
