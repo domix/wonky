@@ -133,7 +133,7 @@ public class SlackService {
   }
 
   public void invite(String hostname, String email) {
-    SlackOrganization tenant = findTenant(hostname).orElse(null);
+    /*SlackOrganization tenant = findTenant(hostname).orElse(null);
     String uri = format("/api/users.admin.invite?token=%s", tenant.getToken());
     String encodedEmail = new String(Base64.getEncoder().encode(email.getBytes()));
 
@@ -141,7 +141,7 @@ public class SlackService {
 
     Client.secure(slack).createPost(uri)
       .setHeader("Content-Type", "application/x-www-form-urlencoded")
-      .writeStringContent(Observable.just(payload));
+      .writeStringContent(Observable.just(payload));*/
   }
   /*
   Map invite(String hostname, String email) {
