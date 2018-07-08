@@ -1,10 +1,9 @@
 package wonky.json;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.Setter;
 
-import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.IOException;
 
@@ -15,9 +14,20 @@ import static io.micronaut.core.util.StringUtils.isNotEmpty;
  */
 @Singleton
 public class JacksonUtil {
-  @Inject
-  @Setter
-  private ObjectMapper objectMapper;
+  private final ObjectMapper objectMapper;
+
+  public JacksonUtil(ObjectMapper objectMapper) {
+    this.objectMapper = objectMapper;
+  }
+
+  public String toJson(Object d) {
+    try {
+      return objectMapper.writeValueAsString(d);
+    } catch (JsonProcessingException e) {
+      //TODO: improve exception handling
+      throw new RuntimeException(e.getMessage(), e);
+    }
+  }
 
   public <T> T readValue(String content, String node, Class<T> valueType) {
     if (isNotEmpty(node)) {
