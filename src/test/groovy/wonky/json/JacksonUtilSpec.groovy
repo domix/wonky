@@ -24,5 +24,9 @@ class JacksonUtilSpec extends Specification {
       json = util.readValue("ssffs", "ss", Team)
     then:
       thrown RuntimeException
+    when:
+      util.toJson(new Object())
+    then:
+      thrown RuntimeException
   }
 }
