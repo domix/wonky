@@ -13,4 +13,12 @@ class JacksonUtilSpec extends Specification {
     expect:
       util.readValue(json, Team)
   }
+
+  def bar() {
+    when:
+      def util = new JacksonUtil(new ObjectMapper())
+      def json = util.readValue("ssffs", Team)
+    then:
+      thrown RuntimeException
+  }
 }
