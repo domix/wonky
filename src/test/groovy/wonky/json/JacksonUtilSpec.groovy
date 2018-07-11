@@ -17,7 +17,11 @@ class JacksonUtilSpec extends Specification {
   def bar() {
     when:
       def util = new JacksonUtil(new ObjectMapper())
-      def json = util.readValue("ssffs", Team)
+      def json = util.readValue("ssffs", null, Team)
+    then:
+      thrown RuntimeException
+    when:
+      json = util.readValue("ssffs", "ss", Team)
     then:
       thrown RuntimeException
   }
