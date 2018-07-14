@@ -1,12 +1,14 @@
 buildscript {
   repositories {
     mavenCentral()
+    mavenLocal()
     maven { url "https://plugins.gradle.org/m2/" }
   }
   dependencies {
     classpath "com.github.jengelman.gradle.plugins:shadow:2.0.4"
     classpath "io.spring.gradle:dependency-management-plugin:1.0.5.RELEASE"
     classpath "net.ltgt.gradle:gradle-apt-plugin:0.15"
+    classpath 'com.bmuschko:gradle-docker-plugin:3.2.0'
   }
 }
 
@@ -20,6 +22,7 @@ apply plugin: 'groovy'
 apply plugin: "net.ltgt.apt-eclipse"
 apply plugin: "net.ltgt.apt-idea"
 apply plugin: 'jacoco'
+apply plugin: com.bmuschko.gradle.docker.DockerRemoteApiPlugin
 
 repositories {
   mavenLocal()
@@ -76,3 +79,26 @@ jacocoTestReport {
     html.enabled !ci
   }
 }
+
+task createDockerfile(type: com.bmuschko.gradle.docker.tasks.image.Dockerfile) {
+  destFile = project.file('build/libs/Dockerfile')
+  from 'openjdk:8u171-jre-alpine3.8'
+  maintainer 'Domingo Suarez "domingo.suarez@gmail.com"'
+  copyFile "wonky-${project.version}-all.jar", '/opt/service.jar'
+
+  exposePort 8080
+  entryPoint 'java', "-Djava.awt.headless=true", "-Xms128m", "-Xmx128m", '-jar', '/opt/service.jar'
+}
+
+task buildImage(type: com.bmuschko.gradle.docker.tasks.image.DockerBuildImage) {
+  dependsOn createDockerfile
+  inputDir = createDockerfile.destFile.parentFile
+  tag = 'domix/wonky:' + project.version.toLowerCase()
+}
+
+task pushImage(type: com.bmuschko.gradle.docker.tasks.image.DockerPushImage) {
+  dependsOn buildImage
+  imageName = buildImage.tag
+}
+
+createDockerfile.dependsOn assemble
