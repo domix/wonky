@@ -49,9 +49,10 @@ public class TraceUtil {
 
     try (Scope scope = builder.startActive(true)) {
       Span span = scope.span();
-      span.setTag("className", className);
-      span.setTag("methodName", methodName);
-      span.log(format("%s:%s", operationName, lineNumber));
+      span.
+        setTag("className", className).
+        setTag("methodName", methodName).
+        log(format("%s:%s", operationName, lineNumber));
 
       try {
         return function.apply(span);
