@@ -88,7 +88,7 @@ task createDockerfile(type: com.bmuschko.gradle.docker.tasks.image.Dockerfile) {
   copyFile "wonky-${project.version}-all.jar", '/opt/service.jar'
 
   exposePort 8080
-  entryPoint 'java', "-Djava.awt.headless=true", "-Xms128m", "-Xmx128m", '-jar', '/opt/service.jar'
+  entryPoint 'java', "-Djava.awt.headless=true", "-Xms64m", "-Xmx64m", '-jar', '/opt/service.jar'
 }
 
 task buildImage(type: com.bmuschko.gradle.docker.tasks.image.DockerBuildImage) {
