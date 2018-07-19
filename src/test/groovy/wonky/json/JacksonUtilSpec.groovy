@@ -11,17 +11,17 @@ class JacksonUtilSpec extends Specification {
       Team team = new Team(domain: 'dd.com')
       def json = util.toJson(team)
     expect:
-      util.readValue(json, Team)
+      util.readValue(json, null, Team)
   }
 
   def bar() {
     when:
       def util = new JacksonUtil(new ObjectMapper())
-      def json = util.readValue("ssffs", null, Team)
+      util.readValue("ssffs", null, Team)
     then:
       thrown RuntimeException
     when:
-      json = util.readValue("ssffs", "ss", Team)
+      util.readValue("ssffs", "ss", Team)
     then:
       thrown RuntimeException
     when:
