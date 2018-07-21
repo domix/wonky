@@ -2,6 +2,10 @@
 [![Build Status](https://travis-ci.org/domix/wonky.svg)](https://travis-ci.org/domix/wonky)
 [![codecov.io](http://codecov.io/github/domix/wonky/coverage.svg?branch=master)](http://codecov.io/github/domix/wonky?branch=master)
 
+
+# Wonky is on a heavy rewrite
+<!--
+
 Wonky is a port of [slacking](https://github.com/rauchg/slackin/), to the JVM written in [Groovy](http://www.groovy-lang.org) and [SpringBoot](http://projects.spring.io/spring-boot/).
 
 Requirements
@@ -47,7 +51,7 @@ You have different options for this:
   export SLACK_HOST={your_slack_host_here}
   java -jar build/libs/wonky-x.x.x.jar
   ```
-
+-->
 
 ### Communities using Wonky
 
