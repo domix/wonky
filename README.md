@@ -59,7 +59,6 @@ You have different options for this:
 - [JavaMexico.org](http://slack.javamexico.org)
 - [SpringHispano.org](http://slack.springhispano.org)
 - [Groovyando.org](http://slack.groovyando.org)
-- [ComunidadDePHP.org](http://slack.comunidaddephp.org/)
 - [AgilesMX](https://agilesmx.herokuapp.com/)
 - [PeruJUG](http://slack.perujug.org/)
 - [Functional Programming Club](http://functionalprogramming.club/)
