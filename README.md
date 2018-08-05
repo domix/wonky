@@ -60,7 +60,7 @@ You have different options for this:
 - [SpringHispano.org](http://slack.springhispano.org)
 - [Groovyando.org](http://slack.groovyando.org)
 - [AgilesMX](https://agilesmx.herokuapp.com/)
-<!-- - [PeruJUG](http://slack.perujug.org/) -->
+- [PeruJUG](http://slack.perujug.org/)
 - [Functional Programming Club](http://functionalprogramming.club/)
 - [La ruta del desarrollador-Azure](http://chat-azure.larutadeldesarrollador.mx/)
 - [La Nube MS](http://slack.lanube.ms)
