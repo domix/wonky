@@ -12,7 +12,7 @@ buildscript {
   }
 }
 
-version "0.1"
+version "0.1-SNAPSHOT"
 group "wonky"
 
 apply plugin: "io.spring.dependency-management"
@@ -94,7 +94,7 @@ task createDockerfile(type: com.bmuschko.gradle.docker.tasks.image.Dockerfile) {
   if(ci) {
     extra = ' (CI builded)'
   }
-  maintainer 'Domingo Suarez Torres${extra}"${email}"'
+  maintainer "Domingo Suarez Torres${ extra } \"${ email }\""
   copyFile "wonky-${project.version}-all.jar", '/opt/service.jar'
 
   exposePort 8080
@@ -104,7 +104,7 @@ task createDockerfile(type: com.bmuschko.gradle.docker.tasks.image.Dockerfile) {
 task buildImage(type: com.bmuschko.gradle.docker.tasks.image.DockerBuildImage) {
   dependsOn createDockerfile
   inputDir = createDockerfile.destFile.parentFile
-  tag = 'domix/wonky:' + project.version.toLowerCase()
+  tag = "domix/wonky:${project.version}".toLowerCase()
 }
 
 task pushImage(type: com.bmuschko.gradle.docker.tasks.image.DockerPushImage) {
