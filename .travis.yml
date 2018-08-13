@@ -1,4 +1,6 @@
 sudo: false
+services:
+- docker
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
 - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
@@ -15,7 +17,7 @@ install: true
 before_script:
 - "./gradlew --version"
 script:
-- "./gradlew jacocoTestReport  --warning-mode=all"
+- "./gradlew jacocoTestReport buildImage --warning-mode=all"
 after_success:
 - bash <(curl -s https://codecov.io/bash)
 before_install:
