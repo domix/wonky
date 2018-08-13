@@ -24,6 +24,10 @@ apply plugin: "net.ltgt.apt-idea"
 apply plugin: 'jacoco'
 apply plugin: com.bmuschko.gradle.docker.DockerRemoteApiPlugin
 
+ext {
+  email = 'domingo.suarez@gmail.com'
+}
+
 repositories {
   mavenLocal()
   mavenCentral()
@@ -45,6 +49,7 @@ dependencies {
   compile "io.micronaut:http-server-netty"
   compile "io.micronaut:inject"
   compile "io.micronaut:runtime"
+  compile "io.micronaut:security"
   compile 'commons-io:commons-io:2.5'
   compile 'io.reactivex:rxnetty-http:0.5.3-rc.1'
   compile "io.micronaut:management"
@@ -52,6 +57,8 @@ dependencies {
   compile 'io.jaegertracing:jaeger-core:0.29.0'
   compileOnly "io.micronaut:inject-java"
   compileOnly "org.codehaus.groovy:groovy-all:2.5.0"
+
+  compile gradleApi()
 
   runtime "ch.qos.logback:logback-classic:1.2.3"
   testCompile "junit:junit:4.12"
@@ -84,7 +91,12 @@ jacocoTestReport {
 task createDockerfile(type: com.bmuschko.gradle.docker.tasks.image.Dockerfile) {
   destFile = project.file('build/libs/Dockerfile')
   from 'openjdk:8u171-jre-alpine3.8'
-  maintainer 'Domingo Suarez "domingo.suarez@gmail.com"'
+  def ci = System.getenv('CI') == "true"
+  def extra = ''
+  if(ci) {
+    extra = ' (CI builded)'
+  }
+  maintainer 'Domingo Suarez Torres${extra}"${email}"'
   copyFile "wonky-${project.version}-all.jar", '/opt/service.jar'
 
   exposePort 8080
@@ -100,6 +112,20 @@ task buildImage(type: com.bmuschko.gradle.docker.tasks.image.DockerBuildImage) {
 task pushImage(type: com.bmuschko.gradle.docker.tasks.image.DockerPushImage) {
   dependsOn buildImage
   imageName = buildImage.tag
+  def ci = System.getenv('CI') == "true"
+  def enabledPush = true
+  if(ci && project.version.toString().toLowerCase().endsWith("snapshot")) {
+    enabledPush = false
+  }
+  enabled = enabledPush
+  println "Push enabled: ${enabled}"
 }
 
 createDockerfile.dependsOn assemble
+
+docker {
+  registryCredentials {
+    username = (System.getenv('DOCKER_BUILDER_USERNAME') ?: (project.hasProperty('dockerRegistryUsername') ? dockerRegistryUsername : '')) ?: ''
+    password = (System.getenv('DOCKER_BUILDER_PASSWORD') ?: (project.hasProperty('dockerRegistryPassword') ? dockerRegistryPassword : '')) ?: ''
+  }
+}
