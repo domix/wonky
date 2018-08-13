@@ -58,8 +58,6 @@ dependencies {
   compileOnly "io.micronaut:inject-java"
   compileOnly "org.codehaus.groovy:groovy-all:2.5.0"
 
-  compile gradleApi()
-
   runtime "ch.qos.logback:logback-classic:1.2.3"
   testCompile "junit:junit:4.12"
   testCompile "io.micronaut:inject-java"
