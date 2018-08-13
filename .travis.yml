@@ -17,7 +17,7 @@ install: true
 before_script:
 - "./gradlew --version"
 script:
-- "./gradlew jacocoTestReport buildImage --warning-mode=all"
+- "./gradlew jacocoTestReport pushImage --warning-mode=all"
 after_success:
 - bash <(curl -s https://codecov.io/bash)
 before_install:
