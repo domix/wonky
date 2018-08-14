@@ -13,3 +13,4 @@ README.html
 *.hprof
 src/test/resources/orgs_ignored.yaml
 orgs_ignored.yaml
+security.yaml
