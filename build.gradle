@@ -12,7 +12,7 @@ buildscript {
   }
 }
 
-version "0.2"
+version "0.2.1"
 group "wonky"
 
 apply plugin: "io.spring.dependency-management"
@@ -88,7 +88,7 @@ jacocoTestReport {
 
 task createDockerfile(type: com.bmuschko.gradle.docker.tasks.image.Dockerfile) {
   destFile = project.file('build/libs/Dockerfile')
-  from 'openjdk:8u171-jre-alpine3.8'
+  from 'openjdk:8u181-jre-slim-stretch'
   def ci = System.getenv('CI') == "true"
   def extra = ''
   if(ci) {
