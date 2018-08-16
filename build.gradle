@@ -12,7 +12,7 @@ buildscript {
   }
 }
 
-version "0.1-SNAPSHOT"
+version "0.2"
 group "wonky"
 
 apply plugin: "io.spring.dependency-management"
@@ -98,7 +98,7 @@ task createDockerfile(type: com.bmuschko.gradle.docker.tasks.image.Dockerfile) {
   copyFile "wonky-${project.version}-all.jar", '/opt/service.jar'
 
   exposePort 8080
-  entryPoint 'java', "-Djava.awt.headless=true", "-Xms64m", "-Xmx64m", '-jar', '/opt/service.jar'
+  entryPoint 'java', "-Djava.awt.headless=true", "-Xms128m", "-Xmx128m", '-jar', '/opt/service.jar'
 }
 
 task buildImage(type: com.bmuschko.gradle.docker.tasks.image.DockerBuildImage) {
