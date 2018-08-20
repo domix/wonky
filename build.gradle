@@ -7,9 +7,9 @@ buildscript {
   }
   dependencies {
     classpath "com.github.jengelman.gradle.plugins:shadow:2.0.4"
-    classpath "io.spring.gradle:dependency-management-plugin:1.0.5.RELEASE"
-    classpath "net.ltgt.gradle:gradle-apt-plugin:0.17"
-    classpath 'com.bmuschko:gradle-docker-plugin:3.6.0'
+    classpath "io.spring.gradle:dependency-management-plugin:1.0.6.RELEASE"
+    classpath "net.ltgt.gradle:gradle-apt-plugin:0.18"
+    classpath 'com.bmuschko:gradle-docker-plugin:3.6.1'
     classpath "com.github.ben-manes:gradle-versions-plugin:0.20.0"
   }
 }
@@ -46,26 +46,26 @@ dependencyManagement {
 dependencies {
   //WARN: It's very important to preserve this order (https://github.com/micronaut-projects/micronaut-core/issues/218#issuecomment-392549294)
   compileOnly 'org.projectlombok:lombok:1.18.2'
-  annotationProcessor "org.projectlombok:lombok:1.18.0"
+  annotationProcessor "org.projectlombok:lombok:1.18.2"
   annotationProcessor "io.micronaut:inject-java"
   compile "io.micronaut:http-client"
   compile "io.micronaut:http-server-netty"
   compile "io.micronaut:inject"
   compile "io.micronaut:runtime"
   compile "io.micronaut:security"
-  compile 'commons-io:commons-io:2.5'
+  compile 'commons-io:commons-io:2.6'
   compile 'io.reactivex:rxnetty-http:0.5.3-rc.1'
   compile "io.micronaut:management"
   compile "io.micronaut:tracing"
   compile 'io.jaegertracing:jaeger-core:0.29.0'
   compileOnly "io.micronaut:inject-java"
-  compileOnly "org.codehaus.groovy:groovy-all:2.5.1"
+  compileOnly "org.codehaus.groovy:groovy-all:2.5.2"
 
   runtime "ch.qos.logback:logback-classic:1.2.3"
   testCompile "junit:junit:4.12"
   testCompile "io.micronaut:inject-java"
-  testCompile "org.codehaus.groovy:groovy-all:2.5.1"
-  testCompile "org.spockframework:spock-core:1.1-groovy-2.4", {
+  testCompile "org.codehaus.groovy:groovy-all:2.5.2"
+  testCompile "org.spockframework:spock-core:1.2-RC1-groovy-2.5", {
     exclude module: 'groovy-all'
   }
 }
