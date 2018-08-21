@@ -1,0 +1,32 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: wonky
+  labels:
+    app: wonky
+spec:
+  selector:
+    matchLabels:
+      app: wonky
+  template:
+    metadata:
+      labels:
+        app: wonky
+    spec:
+      containers:
+        - name: wonky
+          image: domix/wonky:0.2
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "400m"
+          volumeMounts:
+            - name: wonky-tenants-volume
+              mountPath: /etc/wonky
+      volumes:
+        - name: wonky-tenants-volume
+          configMap:
+            name: wonky-tenants
