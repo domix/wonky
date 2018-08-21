@@ -31,6 +31,10 @@ ext {
   email = 'domingo.suarez@gmail.com'
 }
 
+ext {
+  email = 'domingo.suarez@gmail.com'
+}
+
 repositories {
   mavenLocal()
   mavenCentral()
