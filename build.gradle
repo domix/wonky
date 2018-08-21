@@ -61,7 +61,7 @@ dependencies {
   compile 'io.reactivex:rxnetty-http:0.5.3-rc.1'
   compile "io.micronaut:management"
   compile "io.micronaut:tracing"
-  compile 'io.jaegertracing:jaeger-core:0.29.0'
+  compile 'io.jaegertracing:jaeger-core:0.27.0'
   compileOnly "io.micronaut:inject-java"
   compileOnly "org.codehaus.groovy:groovy-all:2.5.2"
 
