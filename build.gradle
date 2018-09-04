@@ -35,10 +35,8 @@ apply plugin: "com.github.ben-manes.versions"
 
 ext {
   email = 'domingo.suarez@gmail.com'
-}
-
-ext {
-  email = 'domingo.suarez@gmail.com'
+  lombokVersion = '1.18.2'
+  groovyVersion = '2.5.2'
 }
 
 repositories {
@@ -55,8 +53,8 @@ dependencyManagement {
 
 dependencies {
   //WARN: It's very important to preserve this order (https://github.com/micronaut-projects/micronaut-core/issues/218#issuecomment-392549294)
-  compileOnly 'org.projectlombok:lombok:1.18.2'
-  annotationProcessor "org.projectlombok:lombok:1.18.2"
+  compileOnly "org.projectlombok:lombok:${lombokVersion}"
+  annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
   annotationProcessor "io.micronaut:inject-java"
   compile "io.micronaut:http-client"
   compile "io.micronaut:http-server-netty"
@@ -69,12 +67,12 @@ dependencies {
   compile "io.micronaut:tracing"
   compile 'io.jaegertracing:jaeger-core:0.27.0'
   compileOnly "io.micronaut:inject-java"
-  compileOnly "org.codehaus.groovy:groovy-all:2.5.2"
+  compileOnly "org.codehaus.groovy:groovy-all:${groovyVersion}"
 
   runtime "ch.qos.logback:logback-classic:1.2.3"
   testCompile "junit:junit:4.12"
   testCompile "io.micronaut:inject-java"
-  testCompile "org.codehaus.groovy:groovy-all:2.5.2"
+  testCompile "org.codehaus.groovy:groovy-all:${groovyVersion}"
   testCompile "org.spockframework:spock-core:1.2-RC1-groovy-2.5", {
     exclude module: 'groovy-all'
   }
