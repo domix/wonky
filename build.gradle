@@ -39,6 +39,10 @@ ext {
   groovyVersion = '2.5.2'
 }
 
+ext {
+  email = 'domingo.suarez@gmail.com'
+}
+
 repositories {
   mavenLocal()
   mavenCentral()
