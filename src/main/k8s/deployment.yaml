@@ -22,7 +22,7 @@ spec:
           resources:
             limits:
               memory: "256Mi"
-              cpu: "400m"
+              cpu: "500m"
           volumeMounts:
             - name: wonky-tenants-volume
               mountPath: /etc/wonky
