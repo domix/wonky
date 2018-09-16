@@ -1,14 +1,10 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: helloapp
+  name: wonky
 spec:
-  type: LoadBalancer
   selector:
-    # Esta etiqueta la usa k8s para buscar el pod
-    # al que le enviara el trafico. Un error aqui 
-    # hara que no funcione el ruteo.
-    app: helloapp
+    app: wonky
   ports:
   - protocol: TCP
     port: 8080
