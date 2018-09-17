@@ -1,6 +1,12 @@
 micronaut:
   application:
     name: wonky
+  router:
+    static:
+      resources:
+        enabled: true
+        mapping: /**
+        paths: classpath:html
   server:
     port: 8080
 tracing:
