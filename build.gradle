@@ -9,7 +9,7 @@ buildscript {
     classpath "com.github.jengelman.gradle.plugins:shadow:2.0.4"
     classpath "io.spring.gradle:dependency-management-plugin:1.0.6.RELEASE"
     classpath "net.ltgt.gradle:gradle-apt-plugin:0.18"
-    classpath 'com.bmuschko:gradle-docker-plugin:3.6.2'
+    classpath 'com.bmuschko:gradle-docker-plugin:4.0.0'
     classpath "com.github.ben-manes:gradle-versions-plugin:0.20.0"
   }
 }
@@ -109,7 +109,7 @@ task createDockerfile(type: com.bmuschko.gradle.docker.tasks.image.Dockerfile) {
   if(ci) {
     extra = ' (CI builded)'
   }
-  maintainer "Domingo Suarez Torres${ extra } \"${ email }\""
+  label(['maintainer': "Domingo Suarez Torres${ extra } <${ email }>"])
   copyFile "wonky-${project.version}-all.jar", '/opt/service.jar'
 
   exposePort 8080
@@ -118,7 +118,7 @@ task createDockerfile(type: com.bmuschko.gradle.docker.tasks.image.Dockerfile) {
 
 task buildImage(type: com.bmuschko.gradle.docker.tasks.image.DockerBuildImage) {
   dependsOn createDockerfile
-  inputDir = createDockerfile.destFile.parentFile
+  inputDir = createDockerfile.destFile.get().asFile.parentFile
   tag = "domix/wonky:${project.version}".toLowerCase()
 }
 
