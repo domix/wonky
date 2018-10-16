@@ -46,12 +46,12 @@ ext {
 repositories {
   mavenLocal()
   mavenCentral()
-  maven { url "https://jcenter.bintray.com" }
+  jcenter()
 }
 
 dependencyManagement {
   imports {
-    mavenBom 'io.micronaut:bom:1.0.0.RC2'
+    mavenBom 'io.micronaut:micronaut-bom:1.0.0.RC3'
   }
 }
 
@@ -59,23 +59,23 @@ dependencies {
   //WARN: It's very important to preserve this order (https://github.com/micronaut-projects/micronaut-core/issues/218#issuecomment-392549294)
   compileOnly "org.projectlombok:lombok:${lombokVersion}"
   annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-  annotationProcessor "io.micronaut:inject-java"
-  compile "io.micronaut:http-client"
-  compile "io.micronaut:http-server-netty"
-  compile "io.micronaut:inject"
-  compile "io.micronaut:runtime"
-  compile "io.micronaut:security"
+  annotationProcessor "io.micronaut:micronaut-inject-java"
+  compile "io.micronaut:micronaut-http-client"
+  compile "io.micronaut:micronaut-http-server-netty"
+  compile "io.micronaut:micronaut-inject"
+  compile "io.micronaut:micronaut-runtime"
+  compile "io.micronaut:micronaut-security"
   compile 'commons-io:commons-io:2.6'
   compile 'io.reactivex:rxnetty-http:0.5.3-rc.1'
-  compile "io.micronaut:management"
-  compile "io.micronaut:tracing"
+  compile "io.micronaut:micronaut-management"
+  compile "io.micronaut:micronaut-tracing"
   compile 'io.jaegertracing:jaeger-core:0.31.0'
-  compileOnly "io.micronaut:inject-java"
+  compileOnly "io.micronaut:micronaut-inject-java"
   compileOnly "org.codehaus.groovy:groovy-all:${groovyVersion}"
 
   runtime "ch.qos.logback:logback-classic:1.2.3"
   testCompile "junit:junit:4.12"
-  testCompile "io.micronaut:inject-java"
+  testCompile "io.micronaut:micronaut-inject-java"
   testCompile "org.codehaus.groovy:groovy-all:${groovyVersion}"
   testCompile "org.spockframework:spock-core:1.2-RC3-groovy-2.5", {
     exclude module: 'groovy-all'
