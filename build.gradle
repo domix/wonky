@@ -8,7 +8,7 @@ buildscript {
   dependencies {
     classpath "com.github.jengelman.gradle.plugins:shadow:2.0.4"
     classpath "io.spring.gradle:dependency-management-plugin:1.0.6.RELEASE"
-    classpath "net.ltgt.gradle:gradle-apt-plugin:0.18"
+    classpath "net.ltgt.gradle:gradle-apt-plugin:0.19"
     classpath 'com.bmuschko:gradle-docker-plugin:4.0.0'
     classpath "com.github.ben-manes:gradle-versions-plugin:0.20.0"
   }
@@ -35,8 +35,8 @@ apply plugin: "com.github.ben-manes.versions"
 
 ext {
   email = 'domingo.suarez@gmail.com'
-  lombokVersion = '1.18.2'
-  groovyVersion = '2.5.2'
+  lombokVersion = '1.18.4'
+  groovyVersion = '2.5.4'
 }
 
 ext {
@@ -51,7 +51,7 @@ repositories {
 
 dependencyManagement {
   imports {
-    mavenBom 'io.micronaut:micronaut-bom:1.0.0.RC3'
+    mavenBom 'io.micronaut:micronaut-bom:1.0.1'
   }
 }
 
