@@ -36,7 +36,7 @@ apply plugin: "com.github.ben-manes.versions"
 ext {
   email = 'domingo.suarez@gmail.com'
   lombokVersion = '1.18.4'
-  groovyVersion = '2.5.4'
+  groovyVersion = '2.5.5'
 }
 
 ext {
