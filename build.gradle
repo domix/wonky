@@ -124,7 +124,8 @@ task buildImage(type: com.bmuschko.gradle.docker.tasks.image.DockerBuildImage) {
 
 task pushImage(type: com.bmuschko.gradle.docker.tasks.image.DockerPushImage) {
   dependsOn buildImage
-  imageName = buildImage.tags
+  def im = buildImage.tags.get().first()
+  imageName = im
   def ci = System.getenv('CI') == "true"
   def enabledPush = true
   if(ci && project.version.toString().toLowerCase().endsWith("snapshot")) {
