@@ -7,7 +7,6 @@ import org.apache.commons.io.monitor.FileAlterationListenerAdaptor;
 import org.apache.commons.io.monitor.FileAlterationMonitor;
 import org.apache.commons.io.monitor.FileAlterationObserver;
 import org.yaml.snakeyaml.Yaml;
-import rx.Observable;
 import wonky.http.Client;
 import wonky.json.JacksonUtil;
 import wonky.model.Organization;
@@ -18,7 +17,6 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.*;
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -135,7 +133,7 @@ public class SlackService {
   public void invite(String hostname, String email) {
     /*SlackOrganization tenant = findTenant(hostname).orElse(null);
     String uri = format("/api/users.admin.invite?token=%s", tenant.getToken());
-    String encodedEmail = new String(Base64.getEncoder().encode(email.getBytes()));
+    String encodedEmail = new String(java.util.Base64.getEncoder().encode(email.getBytes()));
 
     String payload = String.format("email=%s", encodedEmail);
 
