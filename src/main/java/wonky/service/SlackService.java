@@ -7,7 +7,7 @@ import org.apache.commons.io.monitor.FileAlterationListenerAdaptor;
 import org.apache.commons.io.monitor.FileAlterationMonitor;
 import org.apache.commons.io.monitor.FileAlterationObserver;
 import org.yaml.snakeyaml.Yaml;
-import wonky.http.Client;
+import wonky.http.SlackClient;
 import wonky.json.JacksonUtil;
 import wonky.model.Organization;
 import wonky.slack.Team;
@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.lang.String.format;
-import static java.nio.charset.Charset.defaultCharset;
 
 /**
  * Created by domix on 01/06/18.
@@ -43,6 +42,9 @@ public class SlackService {
 
   @Inject
   private TraceUtil traceUtil;
+
+  @Inject
+  private SlackClient slackClient;
 
   @PostConstruct
   public void init() {
@@ -98,6 +100,7 @@ public class SlackService {
 
   //TODO: make this data cacheable
   public Organization get(String hostname) {
+    log.warn("Getting {}", hostname);
     return traceUtil.trace(span ->
       findTenant(hostname)
         .map(slackOrganization -> {
@@ -115,14 +118,7 @@ public class SlackService {
   }
 
   public Team tenantSlackInformation(String token) {
-    String uri = format("/api/team.info?token=%s", token);
-    return traceUtil.trace(span -> Client.secure(slack)
-      .createGet(uri)
-      .flatMap(resp ->
-        resp.getContent()
-          .map(bb ->
-            jacksonUtil.readValue(bb.toString(defaultCharset()), "team", Team.class)))
-      .toBlocking().firstOrDefault(null));
+    return slackClient.fetchTeamInfo(token).blockingFirst();
   }
 
 
