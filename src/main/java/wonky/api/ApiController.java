@@ -3,6 +3,7 @@ package wonky.api;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Header;
+import io.reactivex.Maybe;
 import lombok.extern.slf4j.Slf4j;
 import wonky.model.Organization;
 import wonky.service.SlackService;
@@ -25,7 +26,7 @@ public class ApiController {
   }
 
   @Get("/_self")
-  public Organization index(@Header("Host") String hostname) {
+  public Maybe<Organization> index(@Header("Host") String hostname) {
     log.info("Looking for [{}]", hostname);
 
     return traceUtil.trace(span -> {

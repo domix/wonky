@@ -1,6 +1,7 @@
 package wonky.service;
 
 import io.micronaut.context.annotation.Value;
+import io.reactivex.Maybe;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.monitor.FileAlterationListener;
 import org.apache.commons.io.monitor.FileAlterationListenerAdaptor;
@@ -99,16 +100,16 @@ public class SlackService {
   }
 
   //TODO: make this data cacheable
-  public Organization get(String hostname) {
+  public Maybe<Organization> get(String hostname) {
     log.warn("Getting {}", hostname);
     return traceUtil.trace(span ->
       findTenant(hostname)
-        .map(slackOrganization -> {
-          Team team = tenantSlackInformation(slackOrganization.getToken());
-          Organization organization = new Organization();
-          organization.setTeam(team);
-          return organization;
-        }).orElse(null));
+        .map(slackOrganization -> tenantSlackInformation(slackOrganization.getToken())
+          .map(team -> {
+            Organization organization = new Organization();
+            organization.setTeam(team);
+            return organization;
+          })).orElse(null));
   }
 
   public Optional<SlackOrganization> findTenant(String hostname) {
@@ -117,8 +118,8 @@ public class SlackService {
       .findFirst());
   }
 
-  public Team tenantSlackInformation(String token) {
-    return slackClient.fetchTeamInfo(token).blockingFirst();
+  public Maybe<Team> tenantSlackInformation(String token) {
+    return slackClient.fetchTeamInfo(token).firstElement();
   }
 
 
