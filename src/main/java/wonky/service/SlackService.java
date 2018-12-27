@@ -64,7 +64,7 @@ public class SlackService {
       public void onFileChange(File file) {
         log.debug("onFileChange");
         log.info("Reloading file [{}]", file.getAbsoluteFile().getName());
-        //TODO: verify that the file chaged is the configured file
+        //TODO: verify that the file changed is the configured file
         load();
       }
     };
@@ -109,7 +109,7 @@ public class SlackService {
             Organization organization = new Organization();
             organization.setTeam(team);
             return organization;
-          })).orElse(null));
+          })).orElseThrow(() -> new EntityNotFoundException("Slack Organization", hostname)));
   }
 
   public Optional<SlackOrganization> findTenant(String hostname) {

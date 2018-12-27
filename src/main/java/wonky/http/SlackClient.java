@@ -1,6 +1,8 @@
 package wonky.http;
 
+import io.micronaut.core.io.buffer.ByteBuffer;
 import io.micronaut.http.HttpRequest;
+import io.micronaut.http.HttpResponse;
 import io.micronaut.http.client.RxHttpClient;
 import io.micronaut.http.client.annotation.Client;
 import io.reactivex.Flowable;
@@ -8,6 +10,7 @@ import wonky.json.JacksonUtil;
 import wonky.slack.Team;
 
 import javax.inject.Singleton;
+import java.util.Map;
 
 import static java.lang.String.format;
 
@@ -26,7 +29,26 @@ public class SlackClient {
     String uri = format("/api/team.info?token=%s", token);
     HttpRequest<?> req = HttpRequest.GET(uri);
 
-    return httpClient.retrieve(req)
-      .map(o -> jacksonUtil.readValue(o, "team", Team.class));
+    return httpClient.exchange(req)
+      .filter(response -> validateSlackError(response))
+      .map(response -> getTeamFromSlackResponse(response));
+  }
+
+  private Team getTeamFromSlackResponse(HttpResponse<ByteBuffer> response) {
+    String body = new String(response.getBody().get().toByteArray());
+    return jacksonUtil.readValue(body, "team", Team.class);
+  }
+
+  private boolean validateSlackError(HttpResponse<ByteBuffer> response) {
+    String body = new String(response.getBody().get().toByteArray());
+    Map map = jacksonUtil.readValue(body, Map.class);
+    Object ok = map.get("ok");
+
+    boolean result = Boolean.valueOf(ok.toString());
+    if (!result) {
+      String error = map.getOrDefault("error", "Unknow").toString();
+      throw new SlackResponseException(error, body);
+    }
+    return result;
   }
 }
