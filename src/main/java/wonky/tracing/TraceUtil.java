@@ -22,9 +22,10 @@ public class TraceUtil {
     this.tracer = tracer;
   }
 
-  public <T> T trace(Supplier<T> supplier) {
+  //TODO: implement this
+  /*public <T> T trace(Supplier<T> supplier) {
     return null;
-  }
+  }*/
 
   public <T> T trace(Function<Span, T> function) {
     StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
