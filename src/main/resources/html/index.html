@@ -1,70 +1,119 @@
-<!doctype html>
-<html data-framework="vue">
-  <head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="utf-8">
-    <title>Wonky</title>
-    <link rel="stylesheet" href="/index.css">
-    <script src="/director.js"></script>
-    <style>[v-cloak] { display: none; }</style>
-  </head>
-  <body>
-    <section class="todoapp">
-      <header class="header">
-        <h1>wonky</h1>
-        <input class="new-todo"
-          autofocus autocomplete="off"
-          placeholder="Introduce tu email"
-          v-model="newTodo"
-          @keyup.enter="addTodo">
-      </header>
-      <section class="main" v-show="todos.length" v-cloak>
-        <input class="toggle-all" type="checkbox" v-model="allDone">
-        <ul class="todo-list">
-          <li v-for="todo in filteredTodos"
-            class="todo"
-            :key="todo.id"
-            :class="{ completed: todo.completed, editing: todo == editedTodo }">
-            <div class="view">
-              <input class="toggle" type="checkbox" v-model="todo.completed">
-              <label @dblclick="editTodo(todo)">{{ todo.title }}</label>
-              <button class="destroy" @click="removeTodo(todo)"></button>
-            </div>
-            <input class="edit" type="text"
-              v-model="todo.title"
-              v-todo-focus="todo == editedTodo"
-              @blur="doneEdit(todo)"
-              @keyup.enter="doneEdit(todo)"
-              @keyup.esc="cancelEdit(todo)">
-          </li>
-        </ul>
-      </section>
-      <footer class="footer" v-show="todos.length" v-cloak>
-        <span class="todo-count">
-          <strong>{{ remaining }}</strong> {{ remaining | pluralize }} left
-        </span>
-        <ul class="filters">
-          <li><a href="#/all" :class="{ selected: visibility == 'all' }">All</a></li>
-          <li><a href="#/active" :class="{ selected: visibility == 'active' }">Active</a></li>
-          <li><a href="#/completed" :class="{ selected: visibility == 'completed' }">Completed</a></li>
-        </ul>
-        <button class="clear-completed" @click="removeCompleted" v-show="todos.length > remaining">
-          Clear completed
-        </button>
-      </footer>
-    </section>
-    <footer class="info">
-      <p>Written by <a href="http://domingosuarez.com">Domingo Suarez Torres</a></p>
-      <p>Part of <a href="https://github.com/domix/wonky">Wonky</a></p>
-    </footer>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="/favicon.ico">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Wonky - Slack made easy for organizations!</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
     <script>
-    // for testing
-    if (navigator.userAgent.indexOf('PhantomJS') > -1) localStorage.clear()
+        // some data we'll use
+        var action = ["Go", "Stay"];
+        var result = ["It will be double", "There will be trouble"];
+        // when life is settled, load up the fun stuff
+        document.addEventListener('DOMContentLoaded', function () {
+            new Vue({
+                el: '#app',
+                // define data - initial display text and set the text on the button
+                data: {
+                    m1: "You got to let me know",
+                    btext: action[0],
+                    email: null,
+                    info: null,
+                    logoOrg: null
+                },
+                mounted() {
+                    axios.get('/v1/organizations/_self')
+                        .then(response => {
+                          this.logoOrg = response.data.team.icon.image_132;
+                          console.log(response.data.team);
+                         })},
+                // define the methods - alternate between the two values
+                methods: {
+                    staygo: function () {
+                        var sel = (this.btext == action[0]) ? sel = 1 : sel = 0;
+                        this.m1 = result[sel];
+                        this.btext = action[sel];
+                    },
+                    submitInvite: function () {
+                        console.log("Intentando enviar invite a " + this.email);
+
+                        var invite = {
+                            "email" : this.email
+                        };
+                        axios.post('/v1/invites', invite)
+                            .then((response) => {
+                                console.log(response.data);
+                            })
+                            .catch((err) => {
+                              console.log(response.data);
+                            });
+                    }
+                }
+            })
+        })
     </script>
-    <!-- Delete ".min" for console warnings in development -->
+<body>
+<noscript>
+    <strong>We're sorry but todo-list-app doesn't work properly without JavaScript enabled. Please enable it to
+        continue.</strong>
+</noscript>
+<div id="app">
+    <p>{{ info }}</p>
     <!--
-    < script src="../../dist/vue.min.js">< /script >
-    < script src="app.js" >< /script >
+    <p>{{ m1 }}</p>
+
+    <p><button v-on:click="staygo">{{ btext }}</button></p>
     -->
-  </body>
+    <div class="container">
+        <div class="row header">
+            <h1 class="col s6 offset-s3 center-align teal-text">Wonky!</h1>
+        </div>
+        <div class="row">
+            <div class="col s6">
+                <img class="z-depth-5 right responsive-img" style="width: 96px; height: 96px" src="/static/slack.png">
+            </div>
+            <div class="col s6">
+                <img class="z-depth-5 left responsive-img" style="width: 96px; height: 96px" :src="logoOrg">
+            </div>
+        </div>
+        <div class="row">
+            <form @submit.prevent="submitInvite" class="col s12 center-align">
+                <div class="input-field">
+                    <i class="material-icons prefix">email</i>
+                    <input v-model="email" id="icon_prefix2" type="email" class="materialize-textarea validate">
+                    <label for="icon_prefix2">Email here!</label>
+                    <span class="helper-text" data-error="wrong"></span>
+                </div>
+                <button class="btn waves-effect col s12">Request a free invitation to Slack!</button>
+            </form>
+        </div>
+        <!--
+        <div class="row">
+          <ul class="collection col s6 offset-s3">
+            <li class="collection-item" v-for="todo in todos" :key="todo.id">
+              <p>
+                <label>
+                  <input type="checkbox" :checked=todo.done @change="todo.done = !todo.done" />
+                  <span>{{todo.title}}</span>
+                  <span>
+                        <a @click.prevent="deleteTodo(todo)">
+                          <i class="material-icons right teal-text">delete</i>
+                        </a>
+                      </span>
+                </label>
+              </p>
+            </li>
+          </ul>
+        </div>
+        -->
+    </div>
+</div>
+</body>
 </html>
