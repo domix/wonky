@@ -8,6 +8,7 @@ import org.apache.commons.io.monitor.FileAlterationListenerAdaptor;
 import org.apache.commons.io.monitor.FileAlterationMonitor;
 import org.apache.commons.io.monitor.FileAlterationObserver;
 import org.yaml.snakeyaml.Yaml;
+import wonky.api.Invite;
 import wonky.http.SlackClient;
 import wonky.json.JacksonUtil;
 import wonky.model.Organization;
@@ -109,15 +110,12 @@ public class SlackService {
             Organization organization = new Organization();
             organization.setTeam(team);
             return organization;
-          })).orElseThrow(() -> new EntityNotFoundException("Slack Organization", hostname)));
+          })).orElseThrow(() -> throwSlackOrganizationNotFoundException(hostname)));
   }
 
   public Optional<SlackOrganization> findTenant(String hostname) {
     return traceUtil.trace(span -> orgs.stream()
       .filter(slackOrganization -> slackOrganization.getWonkyDomain().equals(hostname))
-      .peek(slackOrganization -> {
-        System.out.println("Domain: " + slackOrganization.getWonkyDomain());
-      })
       .findFirst());
   }
 
@@ -130,16 +128,16 @@ public class SlackService {
     this.tenantsFile = tenantsFile;
   }
 
-  public void invite(String hostname, String email) {
-    /*SlackOrganization tenant = findTenant(hostname).orElse(null);
-    String uri = format("/api/users.admin.invite?token=%s", tenant.getToken());
-    String encodedEmail = new String(java.util.Base64.getEncoder().encode(email.getBytes()));
+  public Maybe<String> invite(String hostname, Invite invite) {
+    SlackOrganization tenant = findTenant(hostname)
+      .orElseThrow(() -> throwSlackOrganizationNotFoundException(hostname));
 
-    String payload = String.format("email=%s", encodedEmail);
+    return slackClient.invite(tenant, invite.getEmail())
+      .firstElement();
+  }
 
-    Client.secure(slack).createPost(uri)
-      .setHeader("Content-Type", "application/x-www-form-urlencoded")
-      .writeStringContent(Observable.just(payload));*/
+  private EntityNotFoundException throwSlackOrganizationNotFoundException(String hostname) {
+    return new EntityNotFoundException("Slack Organization", hostname);
   }
   /*
   Map invite(String hostname, String email) {

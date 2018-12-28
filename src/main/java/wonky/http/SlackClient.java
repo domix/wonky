@@ -7,11 +7,16 @@ import io.micronaut.http.client.RxHttpClient;
 import io.micronaut.http.client.annotation.Client;
 import io.reactivex.Flowable;
 import wonky.json.JacksonUtil;
+import wonky.service.SlackOrganization;
 import wonky.slack.Team;
 
 import javax.inject.Singleton;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Map;
 
+import static io.micronaut.http.HttpRequest.GET;
+import static io.micronaut.http.HttpRequest.POST;
 import static java.lang.String.format;
 
 @Singleton
@@ -27,10 +32,30 @@ public class SlackClient {
 
   public Flowable<Team> fetchTeamInfo(String token) {
     String uri = format("/api/team.info?token=%s", token);
-    HttpRequest<?> req = HttpRequest.GET(uri);
+    HttpRequest<?> req = GET(uri);
 
     return httpClient.exchange(req)
       .map(this::getTeamFromSlackResponse);
+  }
+
+  public Flowable<String> invite(SlackOrganization tenant, String email) {
+
+    String uri = format("/api/users.admin.invite?token=%s", tenant.getToken());
+    String encodedEmail;
+
+    try {
+      encodedEmail = URLEncoder.encode(email, "UTF-8");
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException("chaz");
+    }
+
+    String payload = String.format("email=%s", encodedEmail);
+
+    HttpRequest<?> req = POST(uri, payload)
+      .header("Content-Type", "application/x-www-form-urlencoded");
+
+    return httpClient.exchange(req)
+      .map(response -> new String(response.getBody().get().toByteArray()));
   }
 
   private Team getTeamFromSlackResponse(HttpResponse<ByteBuffer> response) {

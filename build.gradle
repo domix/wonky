@@ -72,6 +72,7 @@ dependencies {
 
   runtime "ch.qos.logback:logback-classic:1.2.3"
   testCompile "junit:junit:4.12"
+  testCompile 'org.apache.commons:commons-lang3:3.8.1'
   testCompile "io.micronaut:micronaut-inject-java"
   testCompile "org.codehaus.groovy:groovy-all:${groovyVersion}"
   testCompile "org.spockframework:spock-core:1.2-RC3-groovy-2.5", {
