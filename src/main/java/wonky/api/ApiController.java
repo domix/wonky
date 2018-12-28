@@ -3,6 +3,7 @@ package wonky.api;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Header;
+import io.micronaut.http.annotation.QueryValue;
 import io.reactivex.Maybe;
 import lombok.extern.slf4j.Slf4j;
 import wonky.model.Organization;
@@ -27,6 +28,15 @@ public class ApiController {
 
   @Get("/_self")
   public Maybe<Organization> index(@Header("Host") String hostname) {
+    return getOrganizationByDomain(hostname);
+  }
+
+  @Get("/{hostname}")
+  public Maybe<Organization> forDomain(@QueryValue("hostname") String hostname) {
+    return getOrganizationByDomain(hostname);
+  }
+
+  private Maybe<Organization> getOrganizationByDomain(String hostname) {
     log.info("Looking for [{}]", hostname);
 
     return traceUtil.trace(span -> {

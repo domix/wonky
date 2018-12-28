@@ -115,6 +115,9 @@ public class SlackService {
   public Optional<SlackOrganization> findTenant(String hostname) {
     return traceUtil.trace(span -> orgs.stream()
       .filter(slackOrganization -> slackOrganization.getWonkyDomain().equals(hostname))
+      .peek(slackOrganization -> {
+        System.out.println("Domain: " + slackOrganization.getWonkyDomain());
+      })
       .findFirst());
   }
 
