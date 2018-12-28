@@ -28,7 +28,7 @@ class SlackServiceSpec extends Specification {
       def information = service.tenantSlackInformation(token)
     expect:
       information
-      information.getIcon().getImageOriginal()
+      information.icon.imageOriginal
       println information.getIcon().getImageOriginal()
   }
 

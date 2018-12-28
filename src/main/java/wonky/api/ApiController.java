@@ -1,9 +1,6 @@
 package wonky.api;
 
-import io.micronaut.http.annotation.Controller;
-import io.micronaut.http.annotation.Get;
-import io.micronaut.http.annotation.Header;
-import io.micronaut.http.annotation.QueryValue;
+import io.micronaut.http.annotation.*;
 import io.reactivex.Maybe;
 import lombok.extern.slf4j.Slf4j;
 import wonky.model.Organization;
@@ -16,7 +13,7 @@ import static java.lang.String.format;
  * Created by domix on 01/06/18.
  */
 @Slf4j
-@Controller("/v1/organizations")
+@Controller("/v1")
 public class ApiController {
   private SlackService slackService;
   private TraceUtil traceUtil;
@@ -26,14 +23,19 @@ public class ApiController {
     this.traceUtil = traceUtil;
   }
 
-  @Get("/_self")
+  @Get("/organizations/_self")
   public Maybe<Organization> index(@Header("Host") String hostname) {
     return getOrganizationByDomain(hostname);
   }
 
-  @Get("/{hostname}")
+  @Get("/organizations/{hostname}")
   public Maybe<Organization> forDomain(@QueryValue("hostname") String hostname) {
     return getOrganizationByDomain(hostname);
+  }
+
+  @Post("/invites")
+  public Maybe<String> invite(@Header("Host") String hostname, @Body Invite invite) {
+    return slackService.invite(hostname, invite);
   }
 
   private Maybe<Organization> getOrganizationByDomain(String hostname) {
