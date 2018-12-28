@@ -8,6 +8,6 @@ import wonky.slack.Team;
 @Getter
 public class Organization {
   private Team team;
-  //TODO: User info
+  //TODO: Users info
   //TODO: channels info
 }
