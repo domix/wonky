@@ -139,24 +139,4 @@ public class SlackService {
   private EntityNotFoundException throwSlackOrganizationNotFoundException(String hostname) {
     return new EntityNotFoundException("Slack Organization", hostname);
   }
-  /*
-  Map invite(String hostname, String email) {
-    findTenant(hostname)
-      .map { invite(it.token, it.teamDomain, email) }
-      .orElse(emptyMap())
-  }
-
-  Map invite(String token, String host, String email) {
-    Map response = remoteService.post("https://${host}.slack.com/api/users.admin.invite") {
-      charset 'UTF-8'
-      urlenc token: token, email: email
-    }
-
-    response + ofNullable(response.ok).filter { it == true }.map {
-      [message: messageSource.get('invite.success')]
-    }.orElseGet {
-      [error: messageSource.get(response.error)]
-    }
-  }
-   */
 }
