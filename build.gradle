@@ -63,10 +63,10 @@ dependencies {
   compile "io.micronaut:micronaut-inject"
   compile "io.micronaut:micronaut-runtime"
   compile "io.micronaut:micronaut-security"
-  compile 'commons-io:commons-io:2.6'
   compile "io.micronaut:micronaut-management"
   compile "io.micronaut:micronaut-tracing"
   compile 'io.jaegertracing:jaeger-core:0.32.0'
+  compile 'commons-io:commons-io:2.6'
   compileOnly "io.micronaut:micronaut-inject-java"
   compileOnly "org.codehaus.groovy:groovy-all:${groovyVersion}"
 
