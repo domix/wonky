@@ -30,16 +30,16 @@ public class SlackClient {
     HttpRequest<?> req = HttpRequest.GET(uri);
 
     return httpClient.exchange(req)
-      .filter(response -> validateSlackError(response))
-      .map(response -> getTeamFromSlackResponse(response));
+      .map(this::getTeamFromSlackResponse);
   }
 
   private Team getTeamFromSlackResponse(HttpResponse<ByteBuffer> response) {
+    validateSlackError(response);
     String body = new String(response.getBody().get().toByteArray());
     return jacksonUtil.readValue(body, "team", Team.class);
   }
 
-  private boolean validateSlackError(HttpResponse<ByteBuffer> response) {
+  private void validateSlackError(HttpResponse<ByteBuffer> response) {
     String body = new String(response.getBody().get().toByteArray());
     Map map = jacksonUtil.readValue(body, Map.class);
     Object ok = map.get("ok");
@@ -49,6 +49,5 @@ public class SlackClient {
       String error = map.getOrDefault("error", "Unknow").toString();
       throw new SlackResponseException(error, body);
     }
-    return result;
   }
 }
