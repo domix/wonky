@@ -1,5 +1,8 @@
 package wonky.service;
 
+import io.micronaut.caffeine.cache.Cache;
+import io.micronaut.caffeine.cache.Caffeine;
+import io.micronaut.context.annotation.Context;
 import io.micronaut.context.annotation.Value;
 import io.reactivex.Maybe;
 import lombok.extern.slf4j.Slf4j;
@@ -21,13 +24,14 @@ import javax.inject.Singleton;
 import java.io.*;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 import static java.lang.String.format;
 
 /**
  * Created by domix on 01/06/18.
  */
-@Singleton
+@Context
 @Slf4j
 public class SlackService {
   private static final String slack = "slack.com";
@@ -47,6 +51,8 @@ public class SlackService {
 
   @Inject
   private SlackClient slackClient;
+
+  private Cache<String, Organization> cache;
 
   @PostConstruct
   public void init() {
@@ -76,6 +82,14 @@ public class SlackService {
     } catch (Exception e) {
       throw new IllegalStateException(e.getMessage(), e);
     }
+
+    cache = Caffeine.newBuilder()
+      .expireAfterWrite(10, TimeUnit.MINUTES)
+      .maximumSize(100)
+      .build();
+
+    orgs.stream()
+      .forEach(slackOrganization -> this.get(slackOrganization.getWonkyDomain()));
   }
 
   public void load() {
@@ -100,17 +114,25 @@ public class SlackService {
     return orgs;
   }
 
-  //TODO: make this data cacheable
   public Maybe<Organization> get(String hostname) {
     log.warn("Getting {}", hostname);
-    return traceUtil.trace(span ->
-      findTenant(hostname)
-        .map(slackOrganization -> tenantSlackInformation(slackOrganization.getToken())
-          .map(team -> {
-            Organization organization = new Organization();
-            organization.setTeam(team);
-            return organization;
-          })).orElseThrow(() -> throwSlackOrganizationNotFoundException(hostname)));
+
+    return Optional.ofNullable(cache.getIfPresent(hostname))
+      .map(organization -> {
+        log.info("Cached Data");
+        return Maybe.just(organization);
+      })
+      .orElseGet(() -> traceUtil.trace(span ->
+        findTenant(hostname)
+          .map(slackOrganization -> tenantSlackInformation(slackOrganization.getToken())
+            .map(team -> {
+              Organization organization = new Organization();
+              organization.setTeam(team);
+              log.info("Saving in cache...");
+              cache.put(hostname, organization);
+              return organization;
+            }))
+          .orElseThrow(() -> throwSlackOrganizationNotFoundException(hostname))));
   }
 
   public Optional<SlackOrganization> findTenant(String hostname) {

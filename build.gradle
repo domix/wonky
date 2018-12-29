@@ -67,6 +67,7 @@ dependencies {
   compile "io.micronaut:micronaut-tracing"
   compile 'io.jaegertracing:jaeger-core:0.32.0'
   compile 'commons-io:commons-io:2.6'
+  compile 'com.github.ben-manes.caffeine:caffeine:2.6.2'
   compileOnly "io.micronaut:micronaut-inject-java"
   compileOnly "org.codehaus.groovy:groovy-all:${groovyVersion}"
   runtime "ch.qos.logback:logback-classic:1.2.3"
