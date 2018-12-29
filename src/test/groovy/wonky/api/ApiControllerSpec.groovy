@@ -31,6 +31,7 @@ class ApiControllerSpec extends Specification {
   def "Getting the organization info"() {
     when:
       HttpRequest request = GET('/v1/organizations/_self').header("Host", "localhost")
+      GET('/v1/organizations/_self').header("Host", "localhost")
 
       HttpResponse<Organization> rsp = client.toBlocking().exchange(request, Argument.of(Organization))
 
