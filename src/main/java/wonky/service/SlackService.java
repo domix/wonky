@@ -13,14 +13,12 @@ import org.apache.commons.io.monitor.FileAlterationObserver;
 import org.yaml.snakeyaml.Yaml;
 import wonky.api.Invite;
 import wonky.http.SlackClient;
-import wonky.json.JacksonUtil;
 import wonky.model.Organization;
 import wonky.slack.Team;
 import wonky.tracing.TraceUtil;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.io.*;
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +32,6 @@ import static java.lang.String.format;
 @Context
 @Slf4j
 public class SlackService {
-  private static final String slack = "slack.com";
   @Value("${wonky.tenants.file:/etc/wonky/tenants.yaml}")
   private String tenantsFile;
 
@@ -42,9 +39,6 @@ public class SlackService {
   private int POLL_INTERVAL = 100;
 
   private List<SlackOrganization> orgs;
-
-  @Inject
-  private JacksonUtil jacksonUtil;
 
   @Inject
   private TraceUtil traceUtil;
@@ -88,8 +82,7 @@ public class SlackService {
       .maximumSize(100)
       .build();
 
-    orgs.stream()
-      .forEach(slackOrganization -> this.get(slackOrganization.getWonkyDomain()));
+    orgs.forEach(slackOrganization -> this.get(slackOrganization.getWonkyDomain()));
   }
 
   public void load() {
@@ -144,7 +137,6 @@ public class SlackService {
   public Maybe<Team> tenantSlackInformation(String token) {
     return slackClient.fetchTeamInfo(token).firstElement();
   }
-
 
   public void setTenantsFile(String tenantsFile) {
     this.tenantsFile = tenantsFile;

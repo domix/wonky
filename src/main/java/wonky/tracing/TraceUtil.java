@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import javax.inject.Singleton;
 import java.util.Objects;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 import static java.lang.String.format;
 
