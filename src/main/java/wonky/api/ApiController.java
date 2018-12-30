@@ -7,6 +7,8 @@ import wonky.model.Organization;
 import wonky.service.SlackService;
 import wonky.tracing.TraceUtil;
 
+import java.util.Optional;
+
 import static java.lang.String.format;
 
 /**
@@ -24,17 +26,22 @@ public class ApiController {
   }
 
   @Get("/organizations/_self")
-  public Maybe<Organization> index(@Header("Host") String hostname) {
+  public Maybe<Organization> index(@Header("Host") String hostname, @Header(value = "Accept-Language", defaultValue = "en") String language) {
+    String locale = locale(language);
     return getOrganizationByDomain(hostname);
   }
 
+  private String locale(@Header(value = "Accept-Language", defaultValue = "en") String language) {
+    return Optional.ofNullable(language).orElse("en");
+  }
+
   @Get("/organizations/{hostname}")
-  public Maybe<Organization> forDomain(@QueryValue("hostname") String hostname) {
+  public Maybe<Organization> forDomain(@QueryValue("hostname") String hostname, @Header(value = "Accept-Language", defaultValue = "en") String language) {
     return getOrganizationByDomain(hostname);
   }
 
   @Post("/invites")
-  public Maybe<String> invite(@Header("Host") String hostname, @Body Invite invite) {
+  public Maybe<String> invite(@Header("Host") String hostname, @Body Invite invite, @Header(value = "Accept-Language", defaultValue = "en") String language) {
     return slackService.invite(hostname, invite);
   }
 
