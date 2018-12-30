@@ -20,6 +20,7 @@ plugins {
   id "com.github.johnrengelman.shadow" version "4.0.3"
   id "net.ltgt.apt-eclipse" version "0.19"
   id "net.ltgt.apt-idea" version "0.19"
+  id "com.github.hierynomus.license" version "0.15.0"
 }
 
 group "wonky"
@@ -162,3 +163,18 @@ dependencyUpdates.resolutionStrategy {
     }
   }
 }
+
+license {
+  excludes(["**/*.html", "**/*.factories", "**/*.yaml", "**/*.yml", "**/*.xml"])
+  ext.year = Calendar.getInstance().get(Calendar.YEAR)
+  ext.name = 'Domingo Suarez Torres'
+  ext.email = 'domingo.suarez@gmail.com'
+
+  header rootProject.file('HEADER_LICENSE')
+  strictCheck true
+}
+
+classes.dependsOn licenseFormat
+jacocoTestReport.dependsOn check
+pushImage.dependsOn jacocoTestReport
+createReleaseTag.dependsOn pushImage
