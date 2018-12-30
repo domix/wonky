@@ -11,6 +11,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.2/gh-fork-ribbon.min.css" />
 
     <script>
         // some data we'll use
@@ -26,12 +27,17 @@
                     btext: action[0],
                     email: null,
                     info: null,
-                    logoOrg: null
+                    logoOrg: null,
+                    organizationName: null
                 },
                 mounted() {
                     axios.get('/v1/organizations/_self')
                         .then(response => {
                           this.logoOrg = response.data.team.icon.image_132;
+                          //¡Unete a JVM MX en Slack!
+                          this.organizationName = "¡Unete a " +
+                              response.data.team.name +
+                              " en Slack!";
                           console.log(response.data.team);
                          })},
                 // define the methods - alternate between the two values
@@ -66,6 +72,8 @@
 </noscript>
 <div id="app">
     <p>{{ info }}</p>
+    <a class="github-fork-ribbon" href="https://github.com/domix/wonky" data-ribbon="Fork me on GitHub" title="Fork me on GitHub">Fork me on GitHub</a>
+
     <!--
     <p>{{ m1 }}</p>
 
@@ -73,7 +81,7 @@
     -->
     <div class="container">
         <div class="row header">
-            <h1 class="col s6 offset-s3 center-align teal-text">Wonky!</h1>
+            <h1 class="col s12 center-align teal-text">{{organizationName}}</h1>
         </div>
         <div class="row">
             <div class="col s6">
