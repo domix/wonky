@@ -88,7 +88,7 @@ Alternatively, you can run Wonky with Docker as a container:
 
 
 ```bash
-$ docker run --rm -p 8080:8080 -v `pwd`/orgs_ignored.yaml:/etc/wonky/tenants.yaml  domix/wonky:0.2.4  
+$ docker run --rm -p 8080:8080 -v `pwd`/orgs_ignored.yaml:/etc/wonky/tenants.yaml  domix/wonky:0.3.0  
 ```
 
 ### Communities using Wonky
