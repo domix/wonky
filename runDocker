@@ -1,3 +1,3 @@
 #!/usr/bin/env sh
 
-docker run --rm -p 8080:8080 -v `pwd`/orgs_ignored.yaml:/etc/wonky/tenants.yaml  domix/wonky:0.2.2-snapshot
+docker run --rm -p 8080:8080 -v `pwd`/orgs_ignored.yaml:/etc/wonky/tenants.yaml  domix/wonky:0.2.4
