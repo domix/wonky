@@ -3,7 +3,15 @@
 [![codecov.io](http://codecov.io/github/domix/wonky/coverage.svg?branch=master)](http://codecov.io/github/domix/wonky?branch=master)
 
 
-# Wonky is on a heavy rewrite
+# Building Wonky
+
+You can build `Wonky` running:
+
+---
+./gradlew clean build
+---
+
+
 <!--
 
 Wonky is a port of [slacking](https://github.com/rauchg/slackin/), to the JVM written in [Groovy](http://www.groovy-lang.org) and [SpringBoot](http://projects.spring.io/spring-boot/).
