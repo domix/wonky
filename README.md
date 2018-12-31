@@ -17,11 +17,17 @@ Wonky is a port of [slacking](https://github.com/rauchg/slackin/), to the JVM wr
 
 ### Slack token
 
-You need a Slack valid token from you organization. Once you have the token, you need to write the `configuration file`.
+To build & run wonky you need a `Slack API token`. Note that the user you use to generate the token must be an admin. You may want to create a dedicated @wonky-inviter user (or similar) for this.
 
-### Configuration file
+You can find your API token [here](http://api.slack.com/web)
+
+Once you have the token, you need to write the `configuration file`.
+
+#### Configuration file
 
 The configuration file is very simple to write, it's a `YAML`.
+
+##### Single Slack organization
 
 ```YAML
 - !!wonky.service.SlackOrganization
@@ -29,103 +35,61 @@ The configuration file is very simple to write, it's a `YAML`.
   wonkyDomain: "localhost:8080"
 ```
 
+*NOTE:* Wonky supports multiple organizations (aka multitenancy), Wonky will use the domain (HOST http header) to select the right token. Consider this.
+
+##### Multiple Slack organizations
+
+```YAML
+- !!wonky.service.SlackOrganization
+  token: "xoxp-..."
+  wonkyDomain: "localhost:8080"
+- !!wonky.service.SlackOrganization
+  token: "xoxp-..."
+  wonkyDomain: "slack.myorganization.com"
+``` 
+
+##### Recomendation
+
+We strongly recommend you write and name the config file as `orgs_ignored.yaml` and save it to the root source of wonky, in git is marked as ignored.  
+
+#### Environment variables
+
+In order to run properly the test, you have to provide the following `Environment Variables`;
+
+* WONKY_TENANTS_FILE
+* WONKY_TEST_EMAIL_PREFIX
+
+You can configued as follows in the shell:
+
+````bash
+$ export WONKY_TENANTS_FILE=./orgs_ignored.yaml
+$ export WONKY_TEST_EMAIL_PREFIX=something
+
+````
+
+Now you can build wonky from source :)
+
+## Building from source
+
 ```bash
-./gradlew clean build
+$ ./gradlew clean build
 ```
 
 ## Run
-
-To run wonky you need a `Slack API token`. Note that the user you use to generate the token must be an admin. You may want to create a dedicated @wonky-inviter user (or similar) for this.
-
-You can find your API token [here](http://api.slack.com/web)
-
-In order to run `wonky` you need to provide the following settings:
-
-- `slack.token`
-- `slack.host`
 
 By default wonky runs on port `8080`, as any `Micronaut` application you can chance the port as you wish.
 
-### Setting configuration values
-
-You have different options for this:
 
 ```bash
-  java -Dslack.token={your_token} -Dslack.host={your_slack_host} -jar wonky-x.x.x.jar
+$ ./gradlew run  
 ```
 
+Alternatively, you can run Wonky with Docker as a container:
+
 
 ```bash
-  export SLACK_TOKEN={your_token_here}
-  export SLACK_HOST={your_slack_host_here}
-  java -jar build/libs/wonky-x.x.x.jar
-  ```
-
-# Building Wonky
-
-Building from source it quite easy, but you have to consider the following requirements:
-
-## Requirements
-
-
-
-You can build `Wonky` running:
-
-```bash
-./gradlew clean build
+$ docker run --rm -p 8080:8080 -v `pwd`/orgs_ignored.yaml:/etc/wonky/tenants.yaml  domix/wonky:0.2.4  
 ```
-
-
-
-
-<!--
-
-Wonky is a port of [slacking](https://github.com/rauchg/slackin/), to the JVM written in [Groovy](http://www.groovy-lang.org) and [SpringBoot](http://projects.spring.io/spring-boot/).
-
-Requirements
------------
-
-[!["JDK"](https://img.shields.io/badge/JDK-8.0+-F30000.svg?style=flat)](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
-[!["Spring Boot"](https://img.shields.io/badge/Spring%20Boot-1.4.x-green.svg?style=flat)](http://docs.spring.io/spring-boot/docs/1.4.x/reference/htmlsingle/)
-
-## Features
-
-- A landing page you can point users to fill in their emails and receive an invite (`http://slack.yourdomain.com`)
-
-## Build
-
-```bash
-./gradlew clean bootRepackage
-```
-
-## Run
-
-To run wonky you need a `Slack API token`. Note that the user you use to generate the token must be an admin. You may want to create a dedicated @wonky-inviter user (or similar) for this.
-
-You can find your API token [here](http://api.slack.com/web)
-
-In order to run `wonky` you need to provide the following settings:
-
-- `slack.token`
-- `slack.host`
-
-By default wonky runs on port `3030`, as any `Spring Boot` application you can chance the port as you wish.
-
-### Setting configuration values
-
-You have different options for this:
-
-```bash
-  java -Dslack.token={your_token} -Dslack.host={your_slack_host} -jar wonky-x.x.x.jar
-```
-
-
-```bash
-  export SLACK_TOKEN={your_token_here}
-  export SLACK_HOST={your_slack_host_here}
-  java -jar build/libs/wonky-x.x.x.jar
-  ```
--->
 
 ### Communities using Wonky
 
