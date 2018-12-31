@@ -165,7 +165,7 @@ dependencyUpdates.resolutionStrategy {
 }
 
 license {
-  excludes(["**/*.html", "**/*.factories", "**/*.yaml", "**/*.yml", "**/*.xml"])
+  excludes(["**/*.html", "**/*.factories", "**/*.yaml", "**/*.yml", "**/*.xml", "**/*.css"])
   ext.year = Calendar.getInstance().get(Calendar.YEAR)
   ext.name = 'Domingo Suarez Torres'
   ext.email = 'domingo.suarez@gmail.com'
