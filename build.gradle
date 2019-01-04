@@ -175,6 +175,7 @@ license {
 }
 
 classes.dependsOn licenseFormat
+check.dependsOn licenseFormatTest
 jacocoTestReport.dependsOn check
 pushImage.dependsOn jacocoTestReport
 createReleaseTag.dependsOn pushImage
