@@ -25,6 +25,8 @@ import wonky.tracing.TraceUtil;
 
 import java.util.Optional;
 
+import static io.micronaut.http.HttpHeaders.ACCEPT_LANGUAGE;
+import static io.micronaut.http.HttpHeaders.HOST;
 import static java.lang.String.format;
 
 /**
@@ -42,22 +44,22 @@ public class ApiController {
   }
 
   @Get("/organizations/_self")
-  public Maybe<Organization> index(@Header("Host") String hostname, @Header(value = "Accept-Language", defaultValue = "en") String language) {
+  public Maybe<Organization> index(@Header(HOST) String hostname, @Header(value = ACCEPT_LANGUAGE, defaultValue = "en") String language) {
     String locale = locale(language);
     return getOrganizationByDomain(hostname);
   }
 
-  private String locale(@Header(value = "Accept-Language", defaultValue = "en") String language) {
+  private String locale(@Header(value = ACCEPT_LANGUAGE, defaultValue = "en") String language) {
     return Optional.ofNullable(language).orElse("en");
   }
 
   @Get("/organizations/{hostname}")
-  public Maybe<Organization> forDomain(@QueryValue("hostname") String hostname, @Header(value = "Accept-Language", defaultValue = "en") String language) {
+  public Maybe<Organization> forDomain(@QueryValue("hostname") String hostname, @Header(value = ACCEPT_LANGUAGE, defaultValue = "en") String language) {
     return getOrganizationByDomain(hostname);
   }
 
   @Post("/invites")
-  public Maybe<String> invite(@Header("Host") String hostname, @Body Invite invite, @Header(value = "Accept-Language", defaultValue = "en") String language) {
+  public Maybe<String> invite(@Header(HOST) String hostname, @Body Invite invite, @Header(value = ACCEPT_LANGUAGE, defaultValue = "en") String language) {
     return slackService.invite(hostname, invite);
   }
 

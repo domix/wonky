@@ -31,8 +31,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Map;
 
+import static io.micronaut.http.HttpHeaders.CONTENT_TYPE;
 import static io.micronaut.http.HttpRequest.GET;
 import static io.micronaut.http.HttpRequest.POST;
+import static io.micronaut.http.MediaType.APPLICATION_FORM_URLENCODED;
 import static java.lang.String.format;
 
 @Singleton
@@ -68,7 +70,7 @@ public class SlackClient {
     String payload = String.format("email=%s", encodedEmail);
 
     HttpRequest<?> req = POST(uri, payload)
-      .header("Content-Type", "application/x-www-form-urlencoded");
+      .header(CONTENT_TYPE, APPLICATION_FORM_URLENCODED);
 
     return httpClient.exchange(req)
       .map(response -> new String(response.getBody().get().toByteArray()));
