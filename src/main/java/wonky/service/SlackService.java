@@ -29,6 +29,7 @@ import org.apache.commons.io.monitor.FileAlterationObserver;
 import org.yaml.snakeyaml.Yaml;
 import wonky.api.Invite;
 import wonky.http.SlackClient;
+import wonky.http.SlackResponseException;
 import wonky.model.Organization;
 import wonky.slack.Team;
 import wonky.tracing.TraceUtil;
@@ -98,7 +99,16 @@ public class SlackService {
       .maximumSize(100)
       .build();
 
-    orgs.forEach(slackOrganization -> this.get(slackOrganization.getWonkyDomain()));
+    orgs.parallelStream()
+      .forEach(this::handleErrorFromSlack);
+  }
+
+  private void handleErrorFromSlack(SlackOrganization slackOrganization) {
+    try {
+      this.get(slackOrganization.getWonkyDomain()).blockingGet();
+    } catch (SlackResponseException ex) {
+      log.warn(ex.getMessage(), ex);
+    }
   }
 
   public void load() {
