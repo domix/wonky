@@ -65,7 +65,7 @@ dependencies {
   compile "io.micronaut:micronaut-security"
   compile "io.micronaut:micronaut-management"
   compile "io.micronaut:micronaut-tracing"
-  compile 'io.jaegertracing:jaeger-core:0.32.0'
+  compile 'io.jaegertracing:jaeger-core:0.33.1'
   compile 'commons-io:commons-io:2.6'
   compile 'com.github.ben-manes.caffeine:caffeine:2.6.2'
   compileOnly "io.micronaut:micronaut-inject-java"
