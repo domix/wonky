@@ -18,8 +18,8 @@ plugins {
 
   id "io.spring.dependency-management" version "1.0.6.RELEASE"
   id "com.github.johnrengelman.shadow" version "4.0.3"
-  id "net.ltgt.apt-eclipse" version "0.19"
-  id "net.ltgt.apt-idea" version "0.19"
+  id "net.ltgt.apt-eclipse" version "0.20"
+  id "net.ltgt.apt-idea" version "0.20"
   id "com.github.hierynomus.license" version "0.15.0"
 }
 
