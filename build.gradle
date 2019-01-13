@@ -6,7 +6,7 @@ buildscript {
     maven { url "https://plugins.gradle.org/m2/" }
   }
   dependencies {
-    classpath 'com.bmuschko:gradle-docker-plugin:4.2.0'
+    classpath 'com.bmuschko:gradle-docker-plugin:4.3.0'
     classpath "com.github.ben-manes:gradle-versions-plugin:0.20.0"
   }
 }
@@ -165,7 +165,7 @@ dependencyUpdates.resolutionStrategy {
 }
 
 license {
-  excludes(["**/*.html", "**/*.factories", "**/*.yaml", "**/*.yml", "**/*.xml", "**/*.css"])
+  excludes(["**/*.html", "**/*.factories", "**/*.yaml", "**/*.yml", "**/*.xml", "**/*.css", '**/*.png'])
   ext.year = Calendar.getInstance().get(Calendar.YEAR)
   ext.name = 'Domingo Suarez Torres'
   ext.email = 'domingo.suarez@gmail.com'
