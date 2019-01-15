@@ -110,7 +110,7 @@ tasks.withType(JavaCompile){
 
 task createDockerfile(type: com.bmuschko.gradle.docker.tasks.image.Dockerfile) {
   destFile = project.file('build/libs/Dockerfile')
-  from 'openjdk:8u181-jre-slim-stretch'
+  from 'openjdk:11.0.1-jre-stretch'
   def ci = System.getenv('CI') == "true"
   def extra = ''
   if(ci) {
