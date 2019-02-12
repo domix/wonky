@@ -95,7 +95,7 @@ public class SlackService {
     }
 
     cache = Caffeine.newBuilder()
-      .expireAfterWrite(10, TimeUnit.MINUTES)
+      .expireAfterWrite(24, TimeUnit.HOURS)
       .maximumSize(100)
       .build();
 
