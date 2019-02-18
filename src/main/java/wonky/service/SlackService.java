@@ -98,7 +98,9 @@ public class SlackService {
       .expireAfterWrite(24, TimeUnit.HOURS)
       .maximumSize(100)
       .build();
+  }
 
+  public void loadAllOrgs() {
     orgs.parallelStream()
       .forEach(this::handleErrorFromSlack);
   }
@@ -147,7 +149,7 @@ public class SlackService {
             .map(team -> {
               Organization organization = new Organization();
               organization.setTeam(team);
-              log.info("Saving in cache...");
+              log.info("Saving in cache: {}...", organization.getTeam().getName());
               cache.put(hostname, organization);
               return organization;
             }))
