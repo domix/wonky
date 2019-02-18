@@ -3,5 +3,9 @@
 TAG=$(grep "version" gradle.properties|cut -d'=' -f2)
 TAG=$(echo "$TAG" | tr '[:upper:]' '[:lower:]')
 
+if [[ "$(docker images -q domix/wonky:$TAG 2> /dev/null)" == "" ]]; then
+  ./gradlew buildImage
+fi
+
 #run container
 docker run --rm -p 8080:8080 -v `pwd`/orgs_ignored.yaml:/etc/wonky/tenants.yaml  domix/wonky:$TAG
