@@ -7,7 +7,7 @@ buildscript {
   }
   dependencies {
     classpath 'com.bmuschko:gradle-docker-plugin:4.5.0'
-    classpath "com.github.ben-manes:gradle-versions-plugin:0.20.0"
+    classpath "com.github.ben-manes:gradle-versions-plugin:0.21.0"
   }
 }
 
