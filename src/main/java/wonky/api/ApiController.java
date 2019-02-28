@@ -21,13 +21,11 @@ import io.reactivex.Maybe;
 import lombok.extern.slf4j.Slf4j;
 import wonky.model.Organization;
 import wonky.service.SlackService;
-import wonky.tracing.TraceUtil;
 
 import java.util.Optional;
 
 import static io.micronaut.http.HttpHeaders.ACCEPT_LANGUAGE;
 import static io.micronaut.http.HttpHeaders.HOST;
-import static java.lang.String.format;
 
 /**
  * Created by domix on 01/06/18.
@@ -36,11 +34,9 @@ import static java.lang.String.format;
 @Controller("/v1")
 public class ApiController {
   private SlackService slackService;
-  private TraceUtil traceUtil;
 
-  public ApiController(SlackService slackService, TraceUtil traceUtil) {
+  public ApiController(SlackService slackService) {
     this.slackService = slackService;
-    this.traceUtil = traceUtil;
   }
 
   @Get("/organizations/_self")
@@ -66,9 +62,6 @@ public class ApiController {
   private Maybe<Organization> getOrganizationByDomain(String hostname) {
     log.info("Looking for [{}]", hostname);
 
-    return traceUtil.trace(span -> {
-      span.log(format("Looking for [%s]", hostname));
-      return slackService.get(hostname);
-    });
+    return slackService.get(hostname);
   }
 }
