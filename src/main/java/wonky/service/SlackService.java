@@ -32,7 +32,6 @@ import wonky.http.SlackClient;
 import wonky.http.SlackResponseException;
 import wonky.model.Organization;
 import wonky.slack.Team;
-import wonky.tracing.TraceUtil;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -56,9 +55,6 @@ public class SlackService {
   private int POLL_INTERVAL = 100;
 
   private List<SlackOrganization> orgs;
-
-  @Inject
-  private TraceUtil traceUtil;
 
   @Inject
   private SlackClient slackClient;
@@ -143,7 +139,7 @@ public class SlackService {
         log.info("Cached Data");
         return Maybe.just(organization);
       })
-      .orElseGet(() -> traceUtil.trace(span ->
+      .orElseGet(() ->
         findTenant(hostname)
           .map(slackOrganization -> tenantSlackInformation(slackOrganization.getToken())
             .map(team -> {
@@ -153,13 +149,14 @@ public class SlackService {
               cache.put(hostname, organization);
               return organization;
             }))
-          .orElseThrow(() -> throwSlackOrganizationNotFoundException(hostname))));
+          .orElseThrow(() -> throwSlackOrganizationNotFoundException(hostname)));
   }
 
   public Optional<SlackOrganization> findTenant(String hostname) {
-    return traceUtil.trace(span -> orgs.stream()
-      .filter(slackOrganization -> slackOrganization.getWonkyDomain().equals(hostname))
-      .findFirst());
+    return
+      orgs.stream()
+        .filter(slackOrganization -> slackOrganization.getWonkyDomain().equals(hostname))
+        .findFirst();
   }
 
   public Maybe<Team> tenantSlackInformation(String token) {
