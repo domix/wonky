@@ -80,7 +80,7 @@ dependencies {
   compileOnly "com.oracle.substratevm:svm"
   runtime "ch.qos.logback:logback-classic:1.2.3"
   runtime "io.micronaut:micronaut-graal"
-  runtime "io.jaegertracing:jaeger-thrift"
+  //runtime "io.jaegertracing:jaeger-thrift"
   testAnnotationProcessor "io.micronaut:micronaut-inject-java"
   testCompile "org.junit.jupiter:junit-jupiter-api"
   testCompile "io.micronaut.test:micronaut-test-junit5"
