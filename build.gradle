@@ -17,7 +17,7 @@ plugins {
   //id 'com.github.kt3k.coveralls' version '2.8.2'
 
   id "io.spring.dependency-management" version "1.0.7.RELEASE"
-  id "com.github.johnrengelman.shadow" version "4.0.4"
+  id "com.github.johnrengelman.shadow" version "5.0.0"
   id "net.ltgt.apt-eclipse" version "0.21"
   id "net.ltgt.apt-idea" version "0.21"
   id "com.github.hierynomus.license" version "0.15.0"
@@ -134,7 +134,7 @@ task createDockerfile(type: com.bmuschko.gradle.docker.tasks.image.Dockerfile) {
     extra = ' (CI builded)'
   }
   label(['maintainer': "Domingo Suarez Torres${ extra } <${ email }>"])
-  copyFile "wonky-${project.version}.jar", '/opt/service.jar'
+  copyFile "wonky-${project.version}-all.jar", '/opt/service.jar'
 
   exposePort 8080
   entryPoint 'java', "-Djava.awt.headless=true", "-Xms128m", "-Xmx128m", '-jar', '/opt/service.jar'
