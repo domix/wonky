@@ -6,7 +6,7 @@ buildscript {
     maven { url "https://plugins.gradle.org/m2/" }
   }
   dependencies {
-    classpath 'com.bmuschko:gradle-docker-plugin:4.6.1'
+    classpath 'com.bmuschko:gradle-docker-plugin:4.6.2'
     classpath "com.github.ben-manes:gradle-versions-plugin:0.21.0"
   }
 }
