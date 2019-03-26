@@ -55,4 +55,10 @@ class SlackServiceSpec extends Specification {
     then:
       thrown IllegalStateException
   }
+  def bar2() {
+    when:
+      assert false
+    then:
+      thrown IllegalStateException
+  }
 }
