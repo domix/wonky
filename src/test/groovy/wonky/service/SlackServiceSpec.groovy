@@ -48,4 +48,11 @@ class SlackServiceSpec extends Specification {
       println information.getIcon().getImageOriginal()
   }
 
+  def bar() {
+    when:
+      def service = new SlackService(tenantsFile: './src/test/resources/notfile.yaml')
+      service.load()
+    then:
+      thrown IllegalStateException
+  }
 }
