@@ -72,6 +72,7 @@ dependencies {
   compile "io.micronaut:micronaut-runtime"
   compile "io.micronaut:micronaut-security"
   compile "io.micronaut:micronaut-management"
+  compile "org.telegram:telegrambots:4.1.2"
   //compile "io.micronaut:micronaut-tracing"
   //compile 'io.jaegertracing:jaeger-core:0.33.1'
   compile 'commons-io:commons-io:2.6'
