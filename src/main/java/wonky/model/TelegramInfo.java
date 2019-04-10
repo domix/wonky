@@ -17,4 +17,5 @@
 package wonky.model;
 
 public class TelegramInfo {
+  private boolean activated;
 }
