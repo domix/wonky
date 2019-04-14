@@ -23,4 +23,5 @@ import lombok.Setter;
 public class TelegramInfo {
   private boolean activated;
   private boolean showChannels;
+  private String name;
 }
