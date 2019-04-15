@@ -11,9 +11,10 @@ cache:
 language: java
 jdk:
 - oraclejdk8
-- oraclejdk11
-- openjdk11
 - openjdk8
+#- oraclejdk11
+#- openjdk11
+
 env:
   matrix:
   - TERM=dumb WONKY_TENANTS_FILE=./orgs_ignored.yaml
