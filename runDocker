@@ -7,6 +7,6 @@ if [[ "$(docker images -q domix/wonky:$TAG 2> /dev/null)" == "" ]]; then
   ./gradlew buildImage
 fi
 
-echo "running domix/wonky:$TAG"
+echo "running domix/wonky:$TAG-jre"
 #run container
 docker run --rm -p 8080:8080 -v `pwd`/orgs_ignored.yaml:/etc/wonky/tenants.yaml  domix/wonky:$TAG

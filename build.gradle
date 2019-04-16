@@ -128,8 +128,47 @@ tasks.withType(JavaCompile){
   options.compilerArgs.add('-parameters')
 }
 
+task createDockerfileNative(type: com.bmuschko.gradle.docker.tasks.image.Dockerfile) {
+  destFile = project.file('build/libs/DockerfileNative')
+  from 'oracle/graalvm-ce:1.0.0-rc15', 'graalvm'
+  def ci = System.getenv('CI') == "true"
+  def extra = ''
+  if(ci) {
+    extra = ' (CI builded)'
+  }
+  copyFile "wonky-${project.version}-all.jar", '/opt/wonky/wonky.jar'
+  workingDir '/opt/wonky'
+  runCommand 'native-image --no-server -cp wonky.jar'
+
+  from 'frolvlad/alpine-glibc:alpine-3.9_glibc-2.29'
+  label(['maintainer': "Domingo Suarez Torres${ extra } <${ email }>"])
+  exposePort 8080
+  copyFile '/opt/wonky/wonky', '/opt/wonky/wonky', 'graalvm'
+  entryPoint '/opt/wonky/wonky'
+}
+
+task buildImageNative(type: com.bmuschko.gradle.docker.tasks.image.DockerBuildImage) {
+  dependsOn createDockerfileNative
+  inputDir = createDockerfileNative.destFile.get().asFile.parentFile
+  dockerFile = createDockerfileNative.destFile.get().asFile
+  tags = ["domix/wonky:${project.version}-native".toLowerCase()]
+}
+
+task pushImageNative(type: com.bmuschko.gradle.docker.tasks.image.DockerPushImage) {
+  dependsOn buildImageNative
+  def im = buildImageNative.tags.get().first()
+  imageName = im
+  def ci = System.getenv('CI') == "true"
+  def enabledPush = true
+  if(ci && project.version.toString().toLowerCase().endsWith("snapshot")) {
+    enabledPush = false
+  }
+  enabled = enabledPush
+  println "Push enabled: ${enabled}"
+}
+
 task createDockerfile(type: com.bmuschko.gradle.docker.tasks.image.Dockerfile) {
-  destFile = project.file('build/libs/Dockerfile')
+  destFile = project.file('build/libs/DockerfileJre')
   from 'openjdk:11.0.1-jre-slim'
   def ci = System.getenv('CI') == "true"
   def extra = ''
@@ -146,7 +185,8 @@ task createDockerfile(type: com.bmuschko.gradle.docker.tasks.image.Dockerfile) {
 task buildImage(type: com.bmuschko.gradle.docker.tasks.image.DockerBuildImage) {
   dependsOn createDockerfile
   inputDir = createDockerfile.destFile.get().asFile.parentFile
-  tags = ["domix/wonky:${project.version}".toLowerCase()]
+  dockerFile = createDockerfile.destFile.get().asFile
+  tags = ["domix/wonky:${project.version}-jre".toLowerCase()]
 }
 
 task pushImage(type: com.bmuschko.gradle.docker.tasks.image.DockerPushImage) {
@@ -163,6 +203,7 @@ task pushImage(type: com.bmuschko.gradle.docker.tasks.image.DockerPushImage) {
 }
 
 createDockerfile.dependsOn assemble
+createDockerfileNative.dependsOn assemble
 
 docker {
   registryCredentials {
@@ -185,7 +226,7 @@ dependencyUpdates.resolutionStrategy {
 }
 
 license {
-  excludes(["**/*.html", "**/*.factories", "**/*.yaml", "**/*.yml", "**/*.xml", "**/*.css", '**/*.png'])
+  excludes(["**/*.html", "**/*.factories", "**/*.yaml", "**/*.yml", "**/*.xml", "**/*.css", '**/*.png', '**/*.properties'])
   ext.year = Calendar.getInstance().get(Calendar.YEAR)
   ext.name = 'Domingo Suarez Torres'
   ext.email = 'domingo.suarez@gmail.com'
