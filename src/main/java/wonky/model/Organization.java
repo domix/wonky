@@ -16,12 +16,14 @@
  */
 package wonky.model;
 
+import io.micronaut.core.annotation.Introspected;
 import lombok.Getter;
 import lombok.Setter;
 import wonky.slack.Team;
 
 @Setter
 @Getter
+@Introspected
 public class Organization {
   private Team team;
   //TODO: Users info

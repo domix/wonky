@@ -16,9 +16,11 @@
  */
 package wonky.service;
 
+import io.micronaut.core.annotation.Introspected;
 import lombok.Getter;
 
 @Getter
+@Introspected
 public class EntityNotFoundException extends RuntimeException {
   private final String entity;
   private final String id;

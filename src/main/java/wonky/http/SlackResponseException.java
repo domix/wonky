@@ -16,9 +16,11 @@
  */
 package wonky.http;
 
+import io.micronaut.core.annotation.Introspected;
 import lombok.Getter;
 
 @Getter
+@Introspected
 public class SlackResponseException extends RuntimeException {
   private final String error;
   private final String slackResponse;

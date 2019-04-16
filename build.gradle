@@ -82,6 +82,7 @@ dependencies {
   compileOnly "com.oracle.substratevm:svm"
   runtime "ch.qos.logback:logback-classic:1.2.3"
   runtime "io.micronaut:micronaut-graal"
+  compile 'javax.xml.bind:jaxb-api:2.3.0'
   //runtime "io.jaegertracing:jaeger-thrift"
   testAnnotationProcessor "io.micronaut:micronaut-inject-java"
   testCompile "org.junit.jupiter:junit-jupiter-api"
@@ -94,6 +95,8 @@ dependencies {
   testCompile "org.spockframework:spock-core:1.3-RC1-groovy-2.5", {
     exclude module: 'groovy-all'
   }
+  testCompile 'net.bytebuddy:byte-buddy:1.9.12'
+  testCompile 'org.objenesis:objenesis:3.0.1'
 }
 
 shadowJar {
@@ -140,7 +143,7 @@ task createDockerfileNative(type: com.bmuschko.gradle.docker.tasks.image.Dockerf
   workingDir '/opt/wonky'
   runCommand 'native-image --no-server -cp wonky.jar'
 
-  from 'frolvlad/alpine-glibc:alpine-3.9_glibc-2.29'
+  from 'frolvlad/alpine-glibc'
   label(['maintainer': "Domingo Suarez Torres${ extra } <${ email }>"])
   exposePort 8080
   copyFile '/opt/wonky/wonky', '/opt/wonky/wonky', 'graalvm'
