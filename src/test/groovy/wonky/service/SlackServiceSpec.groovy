@@ -19,6 +19,7 @@ package wonky.service
 import com.fasterxml.jackson.databind.ObjectMapper
 import spock.lang.Ignore
 import spock.lang.Specification
+import wonky.http.SlackClient
 import wonky.json.JacksonUtil
 
 /**
@@ -28,7 +29,7 @@ class SlackServiceSpec extends Specification {
 
   def foo() {
     given:
-      def service = new SlackService(tenantsFile: './src/test/resources/foo.yaml')
+      def service = new SlackService(Mock(SlackClient), './src/test/resources/foo.yaml', 100)
       service.load()
     expect:
       service.orgs.size() == 2
@@ -50,7 +51,7 @@ class SlackServiceSpec extends Specification {
 
   def bar() {
     when:
-      def service = new SlackService(tenantsFile: './src/test/resources/notfile.yaml')
+      def service = new SlackService(Mock(SlackClient), './src/test/resources/notfile.yaml', 100)
       service.load()
     then:
       thrown IllegalStateException

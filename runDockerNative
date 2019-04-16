@@ -2,7 +2,7 @@
 
 TAG=$(grep "version" gradle.properties|cut -d'=' -f2)
 TAG=$(echo "$TAG" | tr '[:upper:]' '[:lower:]')
-TAG="$TAG-jre"
+TAG="$TAG-native"
 
 if [[ "$(docker images -q domix/wonky:$TAG 2> /dev/null)" == "" ]]; then
   ./gradlew buildImage

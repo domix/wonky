@@ -16,11 +16,13 @@
  */
 package wonky.model;
 
+import io.micronaut.core.annotation.Introspected;
 import lombok.Getter;
 import lombok.Setter;
 
 @Setter
 @Getter
+@Introspected
 public class TelegramInfo {
   private boolean activated;
   private boolean showChannels;

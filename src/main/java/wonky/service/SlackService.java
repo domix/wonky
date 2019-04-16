@@ -34,7 +34,6 @@ import wonky.model.Organization;
 import wonky.slack.Team;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 import java.io.*;
 import java.util.List;
 import java.util.Optional;
@@ -48,18 +47,21 @@ import static java.lang.String.format;
 @Context
 @Slf4j
 public class SlackService {
-  @Value("${wonky.tenants.file:/etc/wonky/tenants.yaml}")
-  private String tenantsFile;
-
-  @Value("${wonky.tenants.file.pollinterval:100}")
-  private int POLL_INTERVAL = 100;
-
+  private final SlackClient slackClient;
+  private final String tenantsFile;
+  private final int pollInterval;
   private List<SlackOrganization> orgs;
-
-  @Inject
-  private SlackClient slackClient;
-
   private Cache<String, Organization> cache;
+
+  public SlackService(SlackClient slackClient,
+                      @Value("${wonky.tenants.file:/etc/wonky/tenants.yaml}")
+                        String tenantsFile,
+                      @Value("${wonky.tenants.file.pollinterval:100}")
+                        int pollInterval) {
+    this.slackClient = slackClient;
+    this.tenantsFile = tenantsFile;
+    this.pollInterval = pollInterval;
+  }
 
   @PostConstruct
   public void init() {
@@ -67,9 +69,9 @@ public class SlackService {
     File file = new File(tenantsFile);
     String tenantsFileDirectory = file.getParentFile().getAbsolutePath();
     log.info("Watching changes in [{}]", tenantsFileDirectory);
-    log.info("Poll interval [{}]", POLL_INTERVAL);
+    log.info("Poll interval [{}]", pollInterval);
     FileAlterationObserver observer = new FileAlterationObserver(tenantsFileDirectory);
-    FileAlterationMonitor monitor = new FileAlterationMonitor(POLL_INTERVAL);
+    FileAlterationMonitor monitor = new FileAlterationMonitor(pollInterval);
 
     load();
 
@@ -160,11 +162,7 @@ public class SlackService {
   }
 
   public Maybe<Team> tenantSlackInformation(String token) {
-    return slackClient.fetchTeamInfo(token).firstElement();
-  }
-
-  public void setTenantsFile(String tenantsFile) {
-    this.tenantsFile = tenantsFile;
+    return this.slackClient.fetchTeamInfo(token).firstElement();
   }
 
   public Maybe<String> invite(String hostname, Invite invite) {
