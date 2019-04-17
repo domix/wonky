@@ -179,17 +179,17 @@ task createDockerfile(type: com.bmuschko.gradle.docker.tasks.image.Dockerfile) {
     extra = ' (CI builded)'
   }
   label(['maintainer': "Domingo Suarez Torres${ extra } <${ email }>"])
-  copyFile "wonky-${project.version}-all.jar", '/opt/service.jar'
+  copyFile "wonky-${project.version}-all.jar", '/opt/wonky.jar'
 
   exposePort 8080
-  entryPoint 'java', "-Djava.awt.headless=true", "-Xms128m", "-Xmx128m", '-jar', '/opt/service.jar'
+  entryPoint 'java', "-Djava.awt.headless=true", "-Xms128m", "-Xmx128m", '-jar', '/opt/wonky.jar'
 }
 
 task buildImage(type: com.bmuschko.gradle.docker.tasks.image.DockerBuildImage) {
   dependsOn createDockerfile
   inputDir = createDockerfile.destFile.get().asFile.parentFile
   dockerFile = createDockerfile.destFile.get().asFile
-  tags = ["domix/wonky:${project.version}-jre".toLowerCase()]
+  tags = ["domix/wonky:${project.version}-openjdk-11.0.1-jre-slim".toLowerCase()]
 }
 
 task pushImage(type: com.bmuschko.gradle.docker.tasks.image.DockerPushImage) {
