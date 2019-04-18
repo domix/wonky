@@ -72,7 +72,7 @@ dependencies {
   compile "io.micronaut:micronaut-runtime"
   compile "io.micronaut:micronaut-security"
   compile "io.micronaut:micronaut-management"
-  compile "org.telegram:telegrambots:4.1.2"
+  //compile "org.telegram:telegrambots:4.1.2"
   //compile "io.micronaut:micronaut-tracing"
   //compile 'io.jaegertracing:jaeger-core:0.33.1'
   compile 'commons-io:commons-io:2.6'
@@ -82,7 +82,7 @@ dependencies {
   compileOnly "com.oracle.substratevm:svm"
   runtime "ch.qos.logback:logback-classic:1.2.3"
   runtime "io.micronaut:micronaut-graal"
-  compile 'javax.xml.bind:jaxb-api:2.3.0'
+  //compile 'javax.xml.bind:jaxb-api:2.3.0'
   //runtime "io.jaegertracing:jaeger-thrift"
   testAnnotationProcessor "io.micronaut:micronaut-inject-java"
   testCompile "org.junit.jupiter:junit-jupiter-api"
@@ -189,7 +189,7 @@ task buildImage(type: com.bmuschko.gradle.docker.tasks.image.DockerBuildImage) {
   dependsOn createDockerfile
   inputDir = createDockerfile.destFile.get().asFile.parentFile
   dockerFile = createDockerfile.destFile.get().asFile
-  tags = ["domix/wonky:${project.version}-openjdk-11.0.1-jre-slim".toLowerCase()]
+  tags = ["domix/wonky:${project.version}-11.0.1-jre".toLowerCase()]
 }
 
 task pushImage(type: com.bmuschko.gradle.docker.tasks.image.DockerPushImage) {
