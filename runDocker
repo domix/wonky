@@ -1,8 +1,10 @@
 #!/usr/bin/env sh
 
 TAG=$(grep "version" gradle.properties|cut -d'=' -f2)
+
+JRE=$(grep "jreVersion" gradle.properties|cut -d'=' -f2)
 TAG=$(echo "$TAG" | tr '[:upper:]' '[:lower:]')
-TAG="$TAG-11.0.1-jre"
+TAG="$TAG-$JRE-jre"
 
 if [[ "$(docker images -q domix/wonky:$TAG 2> /dev/null)" == "" ]]; then
   ./gradlew buildImage

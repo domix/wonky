@@ -37,10 +37,6 @@ ext {
   groovyVersion = '2.5.6'
 }
 
-ext {
-  email = 'domingo.suarez@gmail.com'
-}
-
 repositories {
   mavenLocal()
   mavenCentral()
@@ -172,7 +168,7 @@ task pushImageNative(type: com.bmuschko.gradle.docker.tasks.image.DockerPushImag
 
 task createDockerfile(type: com.bmuschko.gradle.docker.tasks.image.Dockerfile) {
   destFile = project.file('build/libs/DockerfileJre')
-  from 'openjdk:11.0.1-jre-slim'
+  from "openjdk:${jreVersion}-jre-slim"
   def ci = System.getenv('CI') == "true"
   def extra = ''
   if(ci) {
@@ -189,7 +185,7 @@ task buildImage(type: com.bmuschko.gradle.docker.tasks.image.DockerBuildImage) {
   dependsOn createDockerfile
   inputDir = createDockerfile.destFile.get().asFile.parentFile
   dockerFile = createDockerfile.destFile.get().asFile
-  tags = ["domix/wonky:${project.version}-11.0.1-jre".toLowerCase()]
+  tags = ["domix/wonky:${project.version}-${jreVersion}-jre".toLowerCase()]
 }
 
 task pushImage(type: com.bmuschko.gradle.docker.tasks.image.DockerPushImage) {
