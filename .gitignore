@@ -10,6 +10,7 @@ README.html
 .classpath
 .project
 .settings
+.factorypath
 *.hprof
 src/test/resources/orgs_ignored.yaml
 orgs_ignored.yaml
