@@ -188,7 +188,8 @@ task buildImage(type: com.bmuschko.gradle.docker.tasks.image.DockerBuildImage) {
   dependsOn createDockerfile
   inputDir = createDockerfile.destFile.get().asFile.parentFile
   dockerFile = createDockerfile.destFile.get().asFile
-  tags = ["domix/wonky:${project.version}-jre-openj9-${jreVersion}".toLowerCase()]
+  //tags = ["domix/wonky:${project.version}-jre-openj9-${jreVersion}".toLowerCase()]
+  tags = ["domix/wonky:${project.version}-jre-${jreVersion}".toLowerCase()]
 }
 
 task pushImage(type: com.bmuschko.gradle.docker.tasks.image.DockerPushImage) {
