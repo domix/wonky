@@ -169,9 +169,9 @@ task pushImageNative(type: com.bmuschko.gradle.docker.tasks.image.DockerPushImag
 task createDockerfile(type: com.bmuschko.gradle.docker.tasks.image.Dockerfile) {
   destFile = project.file('build/libs/DockerfileJre')
 
-  //from "openjdk:${jreVersion}-jre-slim"
+  from "openjdk:${jreVersion}-jre-slim"
   //from "adoptopenjdk/openjdk11:jre-${jreVersion}_7-alpine"
-  from "adoptopenjdk/openjdk11-openj9:jre-${jreVersion}_7_openj9-0.14.0-alpine"
+  //from "adoptopenjdk/openjdk11-openj9:jre-${jreVersion}_7_openj9-0.14.0-alpine"
   def ci = System.getenv('CI') == "true"
   def extra = ''
   if(ci) {
