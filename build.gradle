@@ -76,6 +76,13 @@ dependencies {
   compileOnly "io.micronaut:micronaut-inject-java"
   compileOnly "org.codehaus.groovy:groovy-all:${groovyVersion}"
   compileOnly "com.oracle.substratevm:svm"
+
+  /*
+  compile 'com.kohlschutter.junixsocket:junixsocket-common:2.2.0'
+  compile 'com.kohlschutter.junixsocket:junixsocket-native-common:2.2.0'
+  compile 'com.kohlschutter.junixsocket:junixsocket-native:2.2.0'
+  */
+
   runtime "ch.qos.logback:logback-classic:1.2.3"
   runtime "io.micronaut:micronaut-graal"
   //compile 'javax.xml.bind:jaxb-api:2.3.0'
@@ -169,9 +176,10 @@ task pushImageNative(type: com.bmuschko.gradle.docker.tasks.image.DockerPushImag
 task createDockerfile(type: com.bmuschko.gradle.docker.tasks.image.Dockerfile) {
   destFile = project.file('build/libs/DockerfileJre')
 
-  from "openjdk:${jreVersion}-jre-slim"
+  //from "adoptopenjdk/openjdk11:jdk-${jreVersion}_7-slim"
+  //from "openjdk:${jreVersion}-jre-slim"
   //from "adoptopenjdk/openjdk11:jre-${jreVersion}_7-alpine"
-  //from "adoptopenjdk/openjdk11-openj9:jre-${jreVersion}_7_openj9-0.14.0-alpine"
+  from "adoptopenjdk/openjdk11-openj9:jre-${jreVersion}_7_openj9-0.14.0-alpine"
   def ci = System.getenv('CI') == "true"
   def extra = ''
   if(ci) {
