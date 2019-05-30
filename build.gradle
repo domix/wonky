@@ -170,7 +170,7 @@ task pushImageNative(type: com.bmuschko.gradle.docker.tasks.image.DockerPushImag
     enabledPush = false
   }
   enabled = enabledPush
-  println "Push enabled: ${enabled}"
+  println "Push enabled native: ${enabled}"
 }
 
 task createDockerfile(type: com.bmuschko.gradle.docker.tasks.image.Dockerfile) {
