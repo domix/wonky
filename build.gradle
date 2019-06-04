@@ -121,6 +121,13 @@ jacocoTestReport {
     xml.enabled ci
     html.enabled !ci
   }
+  afterEvaluate {
+    classDirectories = files(classDirectories.files.collect {
+      fileTree(dir: it, exclude: [
+        'wonky.Application'
+      ])
+    })
+  }
 }
 
 run.classpath += configurations.developmentOnly
@@ -251,3 +258,9 @@ check.dependsOn licenseFormatTest
 jacocoTestReport.dependsOn check
 pushImage.dependsOn jacocoTestReport
 createReleaseTag.dependsOn pushImage
+
+test {
+  jacoco {
+    excludes = ['wonky.Application']
+  }
+}
