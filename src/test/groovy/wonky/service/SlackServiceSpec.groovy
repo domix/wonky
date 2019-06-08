@@ -22,6 +22,7 @@ import spock.lang.Specification
 import wonky.http.SlackClient
 import wonky.json.JacksonUtil
 import wonky.model.TelegramInfo
+import wonky.security.AuthenticationProviderUserPassword
 
 /**
  * Created by domix on 01/06/18.
@@ -33,6 +34,7 @@ class SlackServiceSpec extends Specification {
       def service = new SlackService(Mock(SlackClient), './src/test/resources/foo.yaml', 100)
       service.load()
       new TelegramInfo()
+      new AuthenticationProviderUserPassword()
     expect:
       service.orgs.size() == 2
   }
