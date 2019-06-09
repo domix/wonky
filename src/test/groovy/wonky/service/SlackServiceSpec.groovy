@@ -29,12 +29,19 @@ import wonky.security.AuthenticationProviderUserPassword
  */
 class SlackServiceSpec extends Specification {
 
+  def smoke() {
+    given:
+      new TelegramInfo()
+      new AuthenticationProviderUserPassword()
+    expect:
+      //WTF!
+      true
+  }
+
   def foo() {
     given:
       def service = new SlackService(Mock(SlackClient), './src/test/resources/foo.yaml', 100)
       service.load()
-      new TelegramInfo()
-      new AuthenticationProviderUserPassword()
     expect:
       service.orgs.size() == 2
   }
