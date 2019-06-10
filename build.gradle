@@ -179,7 +179,8 @@ task createDockerfile(type: com.bmuschko.gradle.docker.tasks.image.Dockerfile) {
   //from "adoptopenjdk/openjdk11:jdk-${jreVersion}_7-slim"
   //from "openjdk:${jreVersion}-jre-slim"
   //from "adoptopenjdk/openjdk11:jre-${jreVersion}_7-alpine"
-  from "adoptopenjdk/openjdk11-openj9:jre-${jreVersion}_7_openj9-0.14.0-alpine"
+  //from "adoptopenjdk/openjdk11-openj9:jre-${jreVersion}_7_openj9-0.14.0-alpine"
+  from "adoptopenjdk:${jreVersion}_7-jre-openj9-0.14.3"
   def ci = System.getenv('CI') == "true"
   def extra = ''
   if(ci) {
