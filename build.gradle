@@ -6,7 +6,6 @@ buildscript {
     maven { url "https://plugins.gradle.org/m2/" }
   }
   dependencies {
-    classpath 'com.bmuschko:gradle-docker-plugin:4.10.0'
     classpath "com.github.ben-manes:gradle-versions-plugin:0.21.0"
   }
 }
@@ -21,6 +20,7 @@ plugins {
   id "net.ltgt.apt-eclipse" version "0.21"
   id "net.ltgt.apt-idea" version "0.21"
   id "com.github.hierynomus.license" version "0.15.0"
+  id 'com.bmuschko.docker-remote-api' version '4.10.0'
 }
 
 group "wonky"
@@ -28,7 +28,6 @@ group "wonky"
 apply plugin: "application"
 apply plugin: 'groovy'
 apply plugin: 'jacoco'
-apply plugin: com.bmuschko.gradle.docker.DockerRemoteApiPlugin
 apply plugin: "com.github.ben-manes.versions"
 
 ext {
