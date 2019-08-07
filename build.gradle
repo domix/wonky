@@ -44,7 +44,7 @@ repositories {
 
 dependencyManagement {
   imports {
-    mavenBom 'io.micronaut:micronaut-bom:1.2.0.RC2'
+    mavenBom 'io.micronaut:micronaut-bom:1.2.0'
   }
 }
 
