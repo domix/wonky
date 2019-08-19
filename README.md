@@ -1,6 +1,7 @@
 # wonky
 [![Build Status](https://travis-ci.org/domix/wonky.svg)](https://travis-ci.org/domix/wonky)
 [![codecov.io](http://codecov.io/github/domix/wonky/coverage.svg?branch=master)](http://codecov.io/github/domix/wonky?branch=master)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdomix%2Fwonky.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fdomix%2Fwonky?ref=badge_shield)
 
 
 Wonky is a port of [slacking](https://github.com/rauchg/slackin/), to the JVM written in `Java` and [Micronaut](http://micronaut.io/).
@@ -110,3 +111,7 @@ $ docker run --rm -p 8080:8080 -v `pwd`/orgs_ignored.yaml:/etc/wonky/tenants.yam
 [![Throughput Graph](https://graphs.waffle.io/domix/wonky/throughput.svg)](https://waffle.io/domix/wonky/metrics)
 
 ![codecov.io](http://codecov.io/github/domix/wonky/branch.svg?branch=master)
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdomix%2Fwonky.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fdomix%2Fwonky?ref=badge_large)
