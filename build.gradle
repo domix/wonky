@@ -5,9 +5,6 @@ buildscript {
     jcenter()
     maven { url "https://plugins.gradle.org/m2/" }
   }
-  dependencies {
-    classpath "com.github.ben-manes:gradle-versions-plugin:0.26.0"
-  }
 }
 
 plugins {
@@ -20,6 +17,7 @@ plugins {
   id "net.ltgt.apt-idea" version "0.21"
   id "com.github.hierynomus.license" version "0.15.0"
   id 'com.bmuschko.docker-remote-api' version '5.2.0'
+  id 'com.github.ben-manes.versions' version '0.27.0'
 }
 
 group "wonky"
@@ -27,7 +25,6 @@ group "wonky"
 apply plugin: "application"
 apply plugin: 'groovy'
 apply plugin: 'jacoco'
-apply plugin: "com.github.ben-manes.versions"
 
 repositories {
   jcenter()
