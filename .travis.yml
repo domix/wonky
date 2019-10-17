@@ -10,8 +10,6 @@ cache:
   - "$HOME/.gradle/wrapper/"
 language: java
 jdk:
-#- oraclejdk8
-#- openjdk8
 - oraclejdk11
 - openjdk11
 
