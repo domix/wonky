@@ -29,21 +29,15 @@ apply plugin: 'groovy'
 apply plugin: 'jacoco'
 apply plugin: "com.github.ben-manes.versions"
 
-ext {
-  email = 'domingo.suarez@gmail.com'
-  lombokVersion = '1.18.10'
-  groovyVersion = '2.5.8'
-}
-
 repositories {
+  jcenter()
   mavenLocal()
   mavenCentral()
-  jcenter()
 }
 
 dependencyManagement {
   imports {
-    mavenBom 'io.micronaut:micronaut-bom:1.2.3'
+    mavenBom "io.micronaut:micronaut-bom:${micronautVersion}"
   }
 }
 
