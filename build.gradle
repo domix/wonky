@@ -16,7 +16,7 @@ plugins {
   id "net.ltgt.apt-eclipse" version "0.21"
   id "net.ltgt.apt-idea" version "0.21"
   id "com.github.hierynomus.license" version "0.15.0"
-  id 'com.bmuschko.docker-remote-api' version '5.3.0'
+  id 'com.bmuschko.docker-remote-api' version '6.1.1'
   id 'com.github.ben-manes.versions' version '0.27.0'
 }
 
@@ -146,13 +146,12 @@ task buildImageNative(type: com.bmuschko.gradle.docker.tasks.image.DockerBuildIm
   dependsOn createDockerfileNative
   inputDir = createDockerfileNative.destFile.get().asFile.parentFile
   dockerFile = createDockerfileNative.destFile.get().asFile
-  tags = ["domix/wonky:${project.version}-native".toLowerCase()]
+  images = ["domix/wonky:${project.version}-native".toLowerCase()]
 }
 
 task pushImageNative(type: com.bmuschko.gradle.docker.tasks.image.DockerPushImage) {
   dependsOn buildImageNative
-  def im = buildImageNative.tags.get().first()
-  imageName = im
+  images = buildImageNative.images
   def ci = System.getenv('CI') == "true"
   def enabledPush = true
   if(ci && project.version.toString().toLowerCase().endsWith("snapshot")) {
@@ -188,14 +187,13 @@ task buildImage(type: com.bmuschko.gradle.docker.tasks.image.DockerBuildImage) {
   dockerFile = createDockerfile.destFile.get().asFile
   //tags = ["domix/wonky:${project.version}-jre-openj9-${jreVersion}".toLowerCase()]
   def tag = "domix/wonky:${project.version}-jre-${jreVersion}".toLowerCase()
-  tags = [tag]
+  images = [tag]
   println "tag: ${tag}"
 }
 
 task pushImage(type: com.bmuschko.gradle.docker.tasks.image.DockerPushImage) {
   dependsOn buildImage
-  def im = buildImage.tags.get().first()
-  imageName = im
+  images = buildImage.images
   def ci = System.getenv('CI') == "true"
   def enabledPush = true
   if(ci && project.version.toString().toLowerCase().endsWith("snapshot")) {
