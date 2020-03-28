@@ -32,11 +32,6 @@ repositories {
   mavenCentral()
 }
 
-dependencyManagement {
-  imports {
-    mavenBom "io.micronaut:micronaut-bom:${micronautVersion}"
-  }
-}
 
 configurations {
   // for dependencies that are needed for development only
@@ -45,11 +40,13 @@ configurations {
 
 dependencies {
   //WARN: It's very important to preserve this order (https://github.com/micronaut-projects/micronaut-core/issues/218#issuecomment-392549294)
-  compileOnly "org.projectlombok:lombok:${lombokVersion}"
-  annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+  compileOnly "org.projectlombok:lombok:${ lombokVersion }"
+  annotationProcessor "org.projectlombok:lombok:${ lombokVersion }"
+  annotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
   annotationProcessor "io.micronaut:micronaut-graal"
   annotationProcessor "io.micronaut:micronaut-inject-java"
   annotationProcessor "io.micronaut:micronaut-validation"
+  implementation platform("io.micronaut:micronaut-bom:$micronautVersion")
   implementation "io.micronaut:micronaut-http-client"
   implementation "io.micronaut:micronaut-http-server-netty"
   implementation "io.micronaut:micronaut-inject"
@@ -72,11 +69,14 @@ dependencies {
   compile 'com.kohlschutter.junixsocket:junixsocket-native:2.2.0'
   */
 
-  runtimeOnly "ch.qos.logback:logback-classic:1.2.3"
   //runtime "io.micronaut:micronaut-graal"
   //compile 'javax.xml.bind:jaxb-api:2.3.0'
   //runtime "io.jaegertracing:jaeger-thrift"
+  runtimeOnly "ch.qos.logback:logback-classic:1.2.3"
+  testAnnotationProcessor "org.projectlombok:lombok:${ lombokVersion }"
+  testAnnotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
   testAnnotationProcessor "io.micronaut:micronaut-inject-java"
+  testImplementation platform("io.micronaut:micronaut-bom:$micronautVersion")
   testImplementation "org.junit.jupiter:junit-jupiter-api"
   testImplementation "io.micronaut.test:micronaut-test-junit5"
   testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
