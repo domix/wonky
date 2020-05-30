@@ -11,7 +11,7 @@ Wonky is a port of [slacking](https://github.com/rauchg/slackin/), to the JVM wr
 
 ## Build
 
-docker Engine
+Docker Engine
 
 ### Requirements
 
