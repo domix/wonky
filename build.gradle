@@ -87,7 +87,7 @@ dependencies {
   testImplementation "org.spockframework:spock-core", {
     exclude module: 'groovy-all'
   }
-  testImplementation 'net.bytebuddy:byte-buddy:1.10.6'
+  testImplementation 'net.bytebuddy:byte-buddy:1.10.13'
   testImplementation 'org.objenesis:objenesis:3.1'
 }
 
