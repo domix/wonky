@@ -81,7 +81,7 @@ dependencies {
   testImplementation "io.micronaut.test:micronaut-test-junit5"
   testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
   
-  testImplementation 'org.apache.commons:commons-lang3:3.9'
+  testImplementation 'org.apache.commons:commons-lang3:3.10'
   testImplementation "io.micronaut:micronaut-inject-java"
   testImplementation "org.codehaus.groovy:groovy-all:${groovyVersion}"
   testImplementation "org.spockframework:spock-core", {
