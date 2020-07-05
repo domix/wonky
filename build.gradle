@@ -118,6 +118,11 @@ run.jvmArgs('-noverify', '-XX:TieredStopAtLevel=1')
 
 mainClassName = "wonky.Application"
 
+java {
+    sourceCompatibility = JavaVersion.toVersion('11')
+    targetCompatibility = JavaVersion.toVersion('11')
+}
+
 tasks.withType(JavaCompile){
   options.encoding = "UTF-8"
   options.compilerArgs.add('-parameters')
