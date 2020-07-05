@@ -99,14 +99,8 @@ $ docker run --rm -p 8080:8080 -v `pwd`/orgs_ignored.yaml:/etc/wonky/tenants.yam
 - [JavaMexico.org](http://slack.javamexico.org)
 - [SpringHispano.org](http://slack.springhispano.org)
 - [Groovyando.org](http://slack.groovyando.org)
-- [PeruJUG](http://slack.perujug.org/)
-- [Functional Programming Club](http://functionalprogramming.club/)
 - [JavaHispano.org](http://slack.javahispano.org)
 
 ### Development badges
-
-[![Stories in Ready](https://badge.waffle.io/domix/wonky.svg?label=ready&title=Ready)](http://waffle.io/domix/wonky)
-
-[![Throughput Graph](https://graphs.waffle.io/domix/wonky/throughput.svg)](https://waffle.io/domix/wonky/metrics)
 
 ![codecov.io](http://codecov.io/github/domix/wonky/branch.svg?branch=master)
