@@ -57,7 +57,7 @@ dependencies {
   //compile "org.telegram:telegrambots:4.1.2"
   //compile "io.micronaut:micronaut-tracing"
   //compile 'io.jaegertracing:jaeger-core:0.33.1'
-  implementation 'commons-io:commons-io:2.6'
+  implementation 'commons-io:commons-io:2.7'
   implementation 'com.github.ben-manes.caffeine:caffeine:2.8.0'
   compileOnly "io.micronaut:micronaut-inject-java"
   compileOnly "org.codehaus.groovy:groovy-all:${groovyVersion}"
