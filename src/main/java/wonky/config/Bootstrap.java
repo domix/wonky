@@ -17,7 +17,7 @@
 package wonky.config;
 
 import groovy.util.logging.Slf4j;
-import io.micronaut.discovery.event.ServiceStartedEvent;
+import io.micronaut.context.event.StartupEvent;
 import io.micronaut.runtime.event.annotation.EventListener;
 import io.micronaut.scheduling.annotation.Async;
 import wonky.service.SlackService;
@@ -35,7 +35,7 @@ public class Bootstrap {
 
   @EventListener
   @Async
-  void onStartup(ServiceStartedEvent event) {
+  void onStartup(StartupEvent event) {
     slackService.loadAllOrgs();
   }
 }
