@@ -17,6 +17,8 @@
 package wonky.api;
 
 import io.micronaut.http.annotation.*;
+import io.micronaut.security.annotation.Secured;
+import io.micronaut.security.rules.SecurityRule;
 import io.reactivex.Maybe;
 import lombok.extern.slf4j.Slf4j;
 import wonky.model.Organization;
@@ -32,6 +34,7 @@ import static io.micronaut.http.HttpHeaders.HOST;
  */
 @Slf4j
 @Controller("/v1")
+@Secured(SecurityRule.IS_ANONYMOUS)
 public class ApiController {
   private SlackService slackService;
 
