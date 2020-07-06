@@ -1,6 +1,17 @@
 micronaut:
   application:
     name: wonky
+  security:
+    intercept-url-map:
+      -
+        pattern: /static/**
+        http-method: GET
+        access:
+          - isAnonymous()
+      - pattern: /**
+        http-method: GET
+        access:
+          - isAnonymous()
   router:
     static-resources:
       default:
