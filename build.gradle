@@ -169,11 +169,7 @@ task pushImageNative(type: com.bmuschko.gradle.docker.tasks.image.DockerPushImag
 task createDockerfile(type: com.bmuschko.gradle.docker.tasks.image.Dockerfile) {
   destFile = project.file('build/libs/DockerfileJre')
 
-  //from "adoptopenjdk/openjdk11:jdk-${jreVersion}_7-slim"
-  //from "openjdk:${jreVersion}-jre-slim"
-  //from "adoptopenjdk/openjdk11:jre-${jreVersion}_7-alpine"
-  //from "adoptopenjdk/openjdk11-openj9:jre-${jreVersion}_7_openj9-0.14.0-alpine"
-  from "adoptopenjdk:${jreVersion}_10-jre-openj9-0.17.0-bionic"
+  from project.image
   def ci = System.getenv('CI') == "true"
   def extra = ''
   if(ci) {
@@ -190,8 +186,7 @@ task buildImage(type: com.bmuschko.gradle.docker.tasks.image.DockerBuildImage) {
   dependsOn createDockerfile
   inputDir = createDockerfile.destFile.get().asFile.parentFile
   dockerFile = createDockerfile.destFile.get().asFile
-  //tags = ["domix/wonky:${project.version}-jre-openj9-${jreVersion}".toLowerCase()]
-  def tag = "domix/wonky:${project.version}-jre-${jreVersion}".toLowerCase()
+  def tag = "domix/wonky:${project.version}".toLowerCase()
   images = [tag]
   println "tag: ${tag}"
 }
