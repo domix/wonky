@@ -17,7 +17,7 @@ plugins {
   id "net.ltgt.apt-idea" version "0.21"
   id "com.github.hierynomus.license" version "0.15.0"
   id 'com.bmuschko.docker-remote-api' version '6.6.1'
-  id 'com.github.ben-manes.versions' version '0.33.0'
+  id 'com.github.ben-manes.versions' version '0.36.0'
 }
 
 group "wonky"
