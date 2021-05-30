@@ -15,7 +15,7 @@ plugins {
   id "com.github.johnrengelman.shadow" version "6.1.0"
   id "net.ltgt.apt-eclipse" version "0.21"
   id "net.ltgt.apt-idea" version "0.21"
-  id "com.github.hierynomus.license" version "0.15.0"
+  id "com.github.hierynomus.license" version "0.16.1"
   id 'com.bmuschko.docker-remote-api' version '6.7.0'
   id 'com.github.ben-manes.versions' version '0.39.0'
 }
