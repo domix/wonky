@@ -1,243 +1,50 @@
-buildscript {
-  repositories {
-    mavenCentral()
-    mavenLocal()
-    jcenter()
-    maven { url "https://plugins.gradle.org/m2/" }
-  }
-}
-
 plugins {
-  id 'net.researchgate.release' version '2.8.1'
-  //id 'com.github.kt3k.coveralls' version '2.8.2'
-
-  id "io.spring.dependency-management" version "1.0.11.RELEASE"
-  id "com.github.johnrengelman.shadow" version "7.0.0"
-  id "net.ltgt.apt-eclipse" version "0.21"
-  id "net.ltgt.apt-idea" version "0.21"
-  id "com.github.hierynomus.license" version "0.16.1"
-  id 'com.bmuschko.docker-remote-api' version '7.1.0'
-  id 'com.github.ben-manes.versions' version '0.39.0'
+  id("groovy")
+  id("com.github.johnrengelman.shadow") version "7.1.2"
+  id("io.micronaut.application") version "3.3.2"
 }
 
-group "wonky"
-
-apply plugin: "application"
-apply plugin: 'groovy'
-apply plugin: 'jacoco'
+version = "0.1"
+group = "com.example"
 
 repositories {
-  jcenter()
-  mavenLocal()
   mavenCentral()
 }
 
-
-configurations {
-  // for dependencies that are needed for development only
-  developmentOnly 
-}
-
 dependencies {
-  //WARN: It's very important to preserve this order (https://github.com/micronaut-projects/micronaut-core/issues/218#issuecomment-392549294)
-  compileOnly "org.projectlombok:lombok:${ lombokVersion }"
-  annotationProcessor "org.projectlombok:lombok:${ lombokVersion }"
-  annotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
-  annotationProcessor "io.micronaut:micronaut-graal"
-  annotationProcessor "io.micronaut:micronaut-inject-java"
-  annotationProcessor "io.micronaut:micronaut-validation"
-  implementation platform("io.micronaut:micronaut-bom:$micronautVersion")
-  implementation "io.micronaut:micronaut-http-client"
-  implementation "io.micronaut:micronaut-http-server-netty"
-  implementation "io.micronaut:micronaut-inject"
-  implementation "io.micronaut:micronaut-validation"
-  implementation "io.micronaut:micronaut-runtime"
-  implementation "io.micronaut.security:micronaut-security"
-  implementation "io.micronaut:micronaut-management"
-  //compile "org.telegram:telegrambots:4.1.2"
-  //compile "io.micronaut:micronaut-tracing"
-  //compile 'io.jaegertracing:jaeger-core:0.33.1'
+  annotationProcessor("org.projectlombok:lombok")
+  annotationProcessor("io.micronaut:micronaut-http-validation")
+  annotationProcessor("io.micronaut.security:micronaut-security-annotations")
+  implementation("io.micronaut:micronaut-http-client")
+  implementation("io.micronaut:micronaut-jackson-databind")
+  implementation("io.micronaut:micronaut-runtime")
+  implementation("io.micronaut.cache:micronaut-cache-caffeine")
+  implementation("io.micronaut.security:micronaut-security")
+  implementation("jakarta.annotation:jakarta.annotation-api")
+  compileOnly("org.projectlombok:lombok")
+  runtimeOnly("ch.qos.logback:logback-classic")
+  implementation("io.micronaut:micronaut-validation")
+
+
   implementation 'commons-io:commons-io:2.8.0'
-  implementation 'com.github.ben-manes.caffeine:caffeine:2.8.8'
-  compileOnly "io.micronaut:micronaut-inject-java"
-  compileOnly "org.codehaus.groovy:groovy-all:${groovyVersion}"
-  //compileOnly "com.oracle.substratevm:svm"
-
-  /*
-  compile 'com.kohlschutter.junixsocket:junixsocket-common:2.2.0'
-  compile 'com.kohlschutter.junixsocket:junixsocket-native-common:2.2.0'
-  compile 'com.kohlschutter.junixsocket:junixsocket-native:2.2.0'
-  */
-
-  //runtime "io.micronaut:micronaut-graal"
-  //compile 'javax.xml.bind:jaxb-api:2.3.0'
-  //runtime "io.jaegertracing:jaeger-thrift"
-  runtimeOnly "ch.qos.logback:logback-classic:1.2.3"
-  testAnnotationProcessor "org.projectlombok:lombok:${ lombokVersion }"
-  testAnnotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
-  testAnnotationProcessor "io.micronaut:micronaut-inject-java"
-  testImplementation platform("io.micronaut:micronaut-bom:$micronautVersion")
-  testImplementation "org.junit.jupiter:junit-jupiter-api"
-  testImplementation "io.micronaut.test:micronaut-test-junit5"
-  testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
-  
   testImplementation 'org.apache.commons:commons-lang3:3.12.0'
-  testImplementation "io.micronaut:micronaut-inject-java"
-  testImplementation "org.codehaus.groovy:groovy-all:${groovyVersion}"
-  testImplementation "org.spockframework:spock-core:2.0-groovy-3.0", {
-    exclude module: 'groovy-all'
-  }
-  testImplementation 'net.bytebuddy:byte-buddy:1.11.13'
-  testImplementation 'org.objenesis:objenesis:3.2'
 }
 
-shadowJar {
-  mergeServiceFiles()
+
+application {
+  mainClass.set("wonky.Application")
 }
-
-test.classpath += configurations.developmentOnly
-
-mainClassName = "wonky.Application"
-compileJava.options.compilerArgs += '-parameters'
-compileTestJava.options.compilerArgs += '-parameters'
-
-jacocoTestReport.dependsOn check
-
-jacocoTestReport {
-  //We are running on Continuos Integration environment
-  def ci = System.getenv('CI') == "true"
-  reports {
-    xml.enabled ci
-    html.enabled !ci
-  }
-}
-
-run.classpath += configurations.developmentOnly
-test.classpath += configurations.developmentOnly
-run.jvmArgs('-noverify', '-XX:TieredStopAtLevel=1')
-
-mainClassName = "wonky.Application"
-
 java {
-    sourceCompatibility = JavaVersion.toVersion('11')
-    targetCompatibility = JavaVersion.toVersion('11')
+  sourceCompatibility = JavaVersion.toVersion("17")
+  targetCompatibility = JavaVersion.toVersion("17")
 }
 
-tasks.withType(JavaCompile){
-  options.encoding = "UTF-8"
-  options.compilerArgs.add('-parameters')
-}
-
-task createDockerfileNative(type: com.bmuschko.gradle.docker.tasks.image.Dockerfile) {
-  destFile = project.file('build/libs/DockerfileNative')
-  from 'oracle/graalvm-ce:1.0.0-rc15 as graalvm'
-  def ci = System.getenv('CI') == "true"
-  def extra = ''
-  if(ci) {
-    extra = ' (CI builded)'
-  }
-  copyFile "wonky-${project.version}-all.jar", '/opt/wonky/wonky.jar'
-  workingDir '/opt/wonky'
-  runCommand 'native-image --no-server -cp wonky.jar'
-
-  from 'frolvlad/alpine-glibc'
-  label(['maintainer': "Domingo Suarez Torres${ extra } <${ email }>"])
-  exposePort 8080
-  copyFile(new com.bmuschko.gradle.docker.tasks.image.Dockerfile.CopyFile('/opt/wonky/wonky', '/opt/wonky/wonky').withStage('graalvm'))
-  entryPoint '/opt/wonky/wonky'
-}
-
-task buildImageNative(type: com.bmuschko.gradle.docker.tasks.image.DockerBuildImage) {
-  dependsOn createDockerfileNative
-  inputDir = createDockerfileNative.destFile.get().asFile.parentFile
-  dockerFile = createDockerfileNative.destFile.get().asFile
-  images = ["domix/wonky:${project.version}-native".toLowerCase()]
-}
-
-task pushImageNative(type: com.bmuschko.gradle.docker.tasks.image.DockerPushImage) {
-  dependsOn buildImageNative
-  images = buildImageNative.images
-  def ci = System.getenv('CI') == "true"
-  def enabledPush = true
-  if(ci && project.version.toString().toLowerCase().endsWith("snapshot")) {
-    enabledPush = false
-  }
-  enabled = enabledPush
-  println "Push enabled native: ${enabled}"
-}
-
-task createDockerfile(type: com.bmuschko.gradle.docker.tasks.image.Dockerfile) {
-  destFile = project.file('build/libs/DockerfileJre')
-
-  from project.image
-  def ci = System.getenv('CI') == "true"
-  def extra = ''
-  if(ci) {
-    extra = ' (CI builded)'
-  }
-  label(['maintainer': "Domingo Suarez Torres${ extra } <${ email }>"])
-  copyFile "wonky-${project.version}-all.jar", '/opt/wonky.jar'
-
-  exposePort 8080
-  entryPoint 'java', "-Djava.awt.headless=true", "-Xms128m", "-Xmx128m", '-jar', '/opt/wonky.jar'
-}
-
-task buildImage(type: com.bmuschko.gradle.docker.tasks.image.DockerBuildImage) {
-  dependsOn createDockerfile
-  inputDir = createDockerfile.destFile.get().asFile.parentFile
-  dockerFile = createDockerfile.destFile.get().asFile
-  def tag = "domix/wonky:${project.version}".toLowerCase()
-  images = [tag]
-  println "tag: ${tag}"
-}
-
-task pushImage(type: com.bmuschko.gradle.docker.tasks.image.DockerPushImage) {
-  dependsOn buildImage
-  images = buildImage.images
-  def ci = System.getenv('CI') == "true"
-  def enabledPush = true
-  if(ci && project.version.toString().toLowerCase().endsWith("snapshot")) {
-    enabledPush = false
-  }
-  enabled = enabledPush
-  println "Push enabled: ${enabled}"
-}
-
-createDockerfile.dependsOn assemble
-createDockerfileNative.dependsOn assemble
-
-docker {
-  registryCredentials {
-    username = (System.getenv('DOCKER_BUILDER_USERNAME') ?: (project.hasProperty('dockerRegistryUsername') ? dockerRegistryUsername : '')) ?: ''
-    password = (System.getenv('DOCKER_BUILDER_PASSWORD') ?: (project.hasProperty('dockerRegistryPassword') ? dockerRegistryPassword : '')) ?: ''
+graalvmNative.toolchainDetection = false
+micronaut {
+  runtime("netty")
+  testRuntime("spock2")
+  processing {
+    incremental(true)
+    annotations("com.example.*")
   }
 }
-
-dependencyUpdates.resolutionStrategy {
-  componentSelection { rules ->
-    rules.all { ComponentSelection selection ->
-      boolean rejected = ['alpha', 'beta', 'rc', 'cr', 'm'].any { qualifier ->
-        selection.candidate.version ==~ /(?i).*[.-]${qualifier}[.\d-]*/
-      }
-      if (rejected) {
-        selection.reject('Release candidate')
-      }
-    }
-  }
-}
-
-license {
-  excludes(["**/*.html", "**/*.factories", "**/*.yaml", "**/*.yml", "**/*.xml", "**/*.css", '**/*.png', '**/*.properties'])
-  ext.year = Calendar.getInstance().get(Calendar.YEAR)
-  ext.name = 'Domingo Suarez Torres'
-  ext.email = 'domingo.suarez@gmail.com'
-
-  header rootProject.file('HEADER_LICENSE')
-  strictCheck true
-}
-
-classes.dependsOn licenseFormat
-check.dependsOn licenseFormatTest
-jacocoTestReport.dependsOn check
-pushImage.dependsOn jacocoTestReport
-createReleaseTag.dependsOn pushImage

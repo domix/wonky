@@ -1,13 +1,12 @@
 /**
- *
  * Copyright (C) 2014-2019 the original author or authors.
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,7 +19,6 @@ import io.micronaut.caffeine.cache.Cache;
 import io.micronaut.caffeine.cache.Caffeine;
 import io.micronaut.context.annotation.Context;
 import io.micronaut.context.annotation.Value;
-import io.reactivex.Maybe;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.monitor.FileAlterationListener;
 import org.apache.commons.io.monitor.FileAlterationListenerAdaptor;
@@ -34,7 +32,11 @@ import wonky.model.Organization;
 import wonky.slack.Team;
 
 import javax.annotation.PostConstruct;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -53,11 +55,11 @@ public class SlackService {
   private List<SlackOrganization> orgs;
   private Cache<String, Organization> cache;
 
-  public SlackService(SlackClient slackClient,
-                      @Value("${wonky.tenants.file:/etc/wonky/tenants.yaml}")
-                        String tenantsFile,
-                      @Value("${wonky.tenants.file.pollinterval:100}")
-                        int pollInterval) {
+  public SlackService(
+    SlackClient slackClient,
+    @Value("${wonky.tenants.file:/etc/wonky/tenants.yaml}") final String tenantsFile,
+    @Value("${wonky.tenants.file.pollinterval:100}") final int pollInterval
+  ) {
     this.slackClient = slackClient;
     this.tenantsFile = tenantsFile;
     this.pollInterval = pollInterval;
@@ -105,7 +107,7 @@ public class SlackService {
 
   private void handleErrorFromSlack(SlackOrganization slackOrganization) {
     try {
-      this.get(slackOrganization.getWonkyDomain()).blockingGet();
+      this.get(slackOrganization.getWonkyDomain());
     } catch (SlackResponseException ex) {
       log.warn(ex.getMessage(), ex);
     }
@@ -133,25 +135,27 @@ public class SlackService {
     return orgs;
   }
 
-  public Maybe<Organization> get(String hostname) {
+  public Organization get(String hostname) {
     log.warn("Getting {}", hostname);
 
     return Optional.ofNullable(cache.getIfPresent(hostname))
       .map(organization -> {
         log.info("Cached Data");
-        return Maybe.just(organization);
+        return organization;
       })
-      .orElseGet(() ->
-        findTenant(hostname)
-          .map(slackOrganization -> tenantSlackInformation(slackOrganization.getToken())
-            .map(team -> {
-              Organization organization = new Organization();
-              organization.setTeam(team);
-              log.info("Saving in cache: {}...", organization.getTeam().getName());
-              cache.put(hostname, organization);
-              return organization;
-            }))
-          .orElseThrow(() -> throwSlackOrganizationNotFoundException(hostname)));
+      .orElseGet(() -> findTenant(hostname)
+        .map(slackOrganization -> {
+            Team team = tenantSlackInformation(slackOrganization.getToken());
+
+            Organization organization = new Organization();
+            organization.setTeam(team);
+            log.info("Saving in cache: {}...", organization.getTeam().getName());
+            cache.put(hostname, organization);
+            return organization;
+
+          }
+        )
+        .orElseThrow(() -> throwSlackOrganizationNotFoundException(hostname)));
   }
 
   public Optional<SlackOrganization> findTenant(String hostname) {
@@ -161,19 +165,19 @@ public class SlackService {
         .findFirst();
   }
 
-  public Maybe<Team> tenantSlackInformation(String token) {
-    return this.slackClient.fetchTeamInfo(token).firstElement();
+  public Team tenantSlackInformation(String token) {
+    return this.slackClient.fetchTeamInfo(token);
   }
 
-  public Maybe<String> invite(String hostname, Invite invite) {
+  public String invite(String hostname, Invite invite) {
     SlackOrganization tenant = findTenant(hostname)
       .orElseThrow(() -> throwSlackOrganizationNotFoundException(hostname));
 
-    return slackClient.invite(tenant, invite.getEmail())
-      .firstElement();
+    return slackClient.invite(tenant, invite.getEmail());
   }
 
   private EntityNotFoundException throwSlackOrganizationNotFoundException(String hostname) {
+    log.warn("No config found for {}", hostname);
     return new EntityNotFoundException("Slack Organization", hostname);
   }
 }

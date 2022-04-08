@@ -21,11 +21,12 @@ import io.micronaut.context.ApplicationContext
 import io.micronaut.core.type.Argument
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.HttpResponse
-import io.micronaut.http.client.RxStreamingHttpClient
+import io.micronaut.http.client.HttpClient
 import io.micronaut.http.client.exceptions.HttpClientResponseException
 import io.micronaut.runtime.server.EmbeddedServer
 import org.apache.commons.lang3.RandomStringUtils
 import spock.lang.AutoCleanup
+import spock.lang.Ignore
 import spock.lang.Shared
 import spock.lang.Specification
 import wonky.json.JacksonUtil
@@ -42,7 +43,7 @@ class ApiControllerSpec extends Specification {
 
   @Shared
   @AutoCleanup
-  RxStreamingHttpClient client = embeddedServer.applicationContext.createBean(RxStreamingHttpClient, embeddedServer.getURL())
+  HttpClient client = embeddedServer.applicationContext.createBean(HttpClient, embeddedServer.getURL())
 
   def "Getting the organization info"() {
     when:
@@ -100,7 +101,7 @@ class ApiControllerSpec extends Specification {
       JacksonUtil jacksonUtil = new JacksonUtil(new ObjectMapper())
       def jsonInvite = jacksonUtil.toJson(invite)
 
-      HttpRequest notFound = POST('/v1/invites', jsonInvite)
+      HttpRequest notFound = POST('/v1/invites', jsonInvite).header("Host", "localhost")
 
       def exchange = client.toBlocking().exchange(notFound, Argument.of(Map))
 

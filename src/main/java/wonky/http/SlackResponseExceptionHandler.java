@@ -1,13 +1,12 @@
 /**
- *
  * Copyright (C) 2014-2019 the original author or authors.
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,20 +20,18 @@ import io.micronaut.http.HttpRequest;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Produces;
 import io.micronaut.http.server.exceptions.ExceptionHandler;
-
-import javax.inject.Singleton;
-import java.util.Map;
+import jakarta.inject.Singleton;
 
 import static io.micronaut.core.util.CollectionUtils.mapOf;
 
 @Produces
 @Singleton
 @Requires(classes = {SlackResponseException.class, ExceptionHandler.class})
-public class SlackResponseExceptionHandler implements ExceptionHandler<SlackResponseException, HttpResponse> {
+public class SlackResponseExceptionHandler implements ExceptionHandler<SlackResponseException, HttpResponse<?>> {
 
   @Override
-  public HttpResponse handle(HttpRequest request, SlackResponseException exception) {
-    Map data = mapOf(
+  public HttpResponse<?> handle(HttpRequest request, SlackResponseException exception) {
+    final var data = mapOf(
       "message", exception.getMessage(),
       "error", exception.getError(),
       "slackResponse", exception.getSlackResponse());
