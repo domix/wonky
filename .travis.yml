@@ -10,8 +10,9 @@ env:
     - secure: VfRcsDTQyazo/zd1dzPiTjwU+NwfAMrFsemZXi8igi68ZdDOVlWYwhReJ6bX6rH1S5uFNe9ozgpU7j5+OzIRfFd94CvvFm1vGuXaIwam3BIR4coDx9f0H2+bct7zVR0bdWgtbPpSkAa3WEv1ASh1K2kYysgytEthExrXCjwwU4o/Dz5UFNEoIbPkCNf9yzyoGjr6uJHkOuf2HrIj3KUPUog/M9Cxd8h2xOBrIX4XicW7fJ4BMlfJRh9Y7pzttbJMQ4ER7hX4lCNaENduMLUmupgnNKAkkLW8HNR1ee0HbXK5olzG+YZza/NS+1XkDB/cpSaIHcdUu/3Gyn7v2Ve2X3q8rcLOoiBMQaCYWf/kA1EIEzyyh3ACCI3VwJCpFPZ2E+dmckYncG3g13Xs/Ff8rE1yaMMwes+muUdS58IrEj000nhMARc4/jnG93+4V7a/MHBNi0NhJhZJP5cF04ZkenF18yZAQFMZbQwLQG1ScVX5bw3mgmQzwDkLjWA4W5BBck704l1eyTAfkrYWbkqo7pgu1a+UumZnUMkka1nBgdPUxNT+ZZErlzbWwXOg9QUdEJGJAA3pLGOPCRZfE2pI6TBhC2Ls6we2Z9sKwrnW9uUN51r8Ahcc9I1696LLTrKZiUBWxaPthWfSUh06Il+EGvRl+W2JweiXRjETwbCAlm4=
 
 before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+  - rm -fr $HOME/.gradle/wrapper
 
 cache:
   directories:
