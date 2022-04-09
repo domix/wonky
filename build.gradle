@@ -1,7 +1,9 @@
 plugins {
   id("groovy")
+  id("jacoco")
   id("com.github.johnrengelman.shadow") version "7.1.2"
   id("io.micronaut.application") version "3.3.2"
+  id 'com.github.ben-manes.versions' version '0.42.0'
 }
 
 version = "0.1"
@@ -26,7 +28,7 @@ dependencies {
   implementation("io.micronaut:micronaut-validation")
 
 
-  implementation 'commons-io:commons-io:2.8.0'
+  implementation 'commons-io:commons-io:2.11.0'
   testImplementation 'org.apache.commons:commons-lang3:3.12.0'
 }
 
