@@ -4,9 +4,10 @@ plugins {
   id("com.github.johnrengelman.shadow") version "7.1.2"
   id("io.micronaut.application") version "3.3.2"
   id 'com.github.ben-manes.versions' version '0.42.0'
+  id 'com.google.cloud.tools.jib' version '3.2.1'
 }
 
-version = "0.1"
+version = "0.5.0"
 group = "com.example"
 
 repositories {
@@ -71,4 +72,17 @@ jacocoTestReport {
 
 jacoco {
   toolVersion = "0.8.8"
+}
+
+jib {
+  from {
+    image = 'amazoncorretto@sha256:5b35afdfbce6f11dcb5a0df84c5cc6d3f1765e5cb8ce54c43c6d7c1d12f42490' //sha256 for amazoncorretto:17-alpine3.15-full
+  }
+  to {
+    image = "domix/wonky:${ project.version }".toLowerCase()
+    auth {
+      username = System.getenv('DOCKER_BUILDER_USERNAME') ?: ''
+      password = System.getenv('DOCKER_BUILDER_PASSWORD') ?: ''
+    }
+  }
 }
