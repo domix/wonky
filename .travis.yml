@@ -12,7 +12,6 @@ env:
 before_cache:
   - rm -fr $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-  - rm -fr $HOME/.gradle/wrapper
 
 cache:
   directories:
@@ -26,4 +25,4 @@ before_install:
 install: skip
 
 script:
-  - "./gradlew jacocoTestReport --warning-mode=all"
+  - "./gradlew build --warning-mode=all"

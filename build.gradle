@@ -93,3 +93,6 @@ jib {
     volumes = ['/etc/wonky/tenants.yaml']
   }
 }
+
+
+build.dependsOn jibBuildTar
