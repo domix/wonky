@@ -56,4 +56,19 @@ test {
     events "passed", "skipped", "failed"
     exceptionFormat "full"
   }
+  finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+  dependsOn test
+  //We are running on Continuos Integration environment
+  def ci = System.getenv('CI') == "true"
+  reports {
+    xml.required = ci
+    html.required = !ci
+  }
+}
+
+jacoco {
+  toolVersion = "0.8.8"
 }

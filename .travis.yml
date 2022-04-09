@@ -22,5 +22,7 @@ before_install:
   - openssl aes-256-cbc -K $encrypted_55795232bcfe_key -iv $encrypted_55795232bcfe_iv
     -in orgs_ignored.yaml.enc -out orgs_ignored.yaml -d
 
+install: skip
+
 script:
   - "./gradlew jacocoTestReport --warning-mode=all"
