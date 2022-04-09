@@ -48,3 +48,10 @@ micronaut {
     annotations("com.example.*")
   }
 }
+
+test {
+  testLogging {
+    events "passed", "skipped", "failed"
+    exceptionFormat "full"
+  }
+}
