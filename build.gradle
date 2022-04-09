@@ -20,6 +20,7 @@ dependencies {
   annotationProcessor("io.micronaut.security:micronaut-security-annotations")
   implementation("io.micronaut:micronaut-http-client")
   implementation("io.micronaut:micronaut-jackson-databind")
+  implementation("io.micronaut:micronaut-management")
   implementation("io.micronaut:micronaut-runtime")
   implementation("io.micronaut.cache:micronaut-cache-caffeine")
   implementation("io.micronaut.security:micronaut-security")
