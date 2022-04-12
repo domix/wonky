@@ -95,4 +95,4 @@ jib {
 }
 
 build.dependsOn jibBuildTar
-createReleaseTag.dependsOn jib
+createReleaseTag.dependsOn 'jib'
