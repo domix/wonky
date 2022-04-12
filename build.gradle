@@ -94,5 +94,6 @@ jib {
   }
 }
 
-
 build.dependsOn jibBuildTar
+pushImage.dependsOn jacocoTestReport
+createReleaseTag.dependsOn pushImage
