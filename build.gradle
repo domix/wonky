@@ -3,9 +3,9 @@ plugins {
   id("jacoco")
   id("com.github.johnrengelman.shadow") version "7.1.2"
   id("io.micronaut.application") version "3.3.2"
-  id 'com.github.ben-manes.versions' version '0.42.0'
-  id 'com.google.cloud.tools.jib' version '3.2.1'
-  id 'net.researchgate.release' version '2.8.1'
+  id 'com.github.ben-manes.versions' version '0.49.0'
+  id 'com.google.cloud.tools.jib' version '3.4.0'
+  id 'net.researchgate.release' version '3.0.2'
 }
 
 group = "wonky"
