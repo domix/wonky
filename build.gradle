@@ -78,7 +78,7 @@ jacoco {
 
 jib {
   from {
-    image = 'amazoncorretto@21-alpine3.18'
+    image = 'amazoncorretto:21-alpine3.18'
   }
   to {
     image = "domix/wonky:${ project.version }".toLowerCase()
