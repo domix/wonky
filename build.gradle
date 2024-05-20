@@ -4,7 +4,7 @@ plugins {
   id("com.github.johnrengelman.shadow") version "7.1.2"
   id("io.micronaut.application") version "3.3.2"
   id 'com.github.ben-manes.versions' version '0.51.0'
-  id 'com.google.cloud.tools.jib' version '3.4.0'
+  id 'com.google.cloud.tools.jib' version '3.4.2'
   id 'net.researchgate.release' version '3.0.2'
 }
 
