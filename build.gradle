@@ -33,7 +33,7 @@ dependencies {
   implementation("io.micronaut:micronaut-validation")
 
 
-  testImplementation 'org.codehaus.groovy:groovy:3.0.21'
+  testImplementation 'org.codehaus.groovy:groovy:3.0.22'
   implementation 'commons-io:commons-io:2.16.1'
   testImplementation 'org.apache.commons:commons-lang3:3.14.0'
 }
