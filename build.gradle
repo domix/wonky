@@ -35,7 +35,7 @@ dependencies {
 
   testImplementation 'org.codehaus.groovy:groovy:3.0.22'
   implementation 'commons-io:commons-io:2.16.1'
-  testImplementation 'org.apache.commons:commons-lang3:3.14.0'
+  testImplementation 'org.apache.commons:commons-lang3:3.16.0'
 }
 
 application {
