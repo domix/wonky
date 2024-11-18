@@ -18,7 +18,7 @@ repositories {
 }
 
 dependencies {
-  annotationProcessor("org.projectlombok:lombok:1.18.34")
+  annotationProcessor("org.projectlombok:lombok:1.18.36")
   annotationProcessor("io.micronaut:micronaut-http-validation")
   annotationProcessor("io.micronaut.security:micronaut-security-annotations")
   implementation("io.micronaut:micronaut-http-client")
@@ -28,7 +28,7 @@ dependencies {
   implementation("io.micronaut.cache:micronaut-cache-caffeine")
   implementation("io.micronaut.security:micronaut-security")
   implementation("jakarta.annotation:jakarta.annotation-api")
-  compileOnly("org.projectlombok:lombok:1.18.34")
+  compileOnly("org.projectlombok:lombok:1.18.36")
   runtimeOnly("ch.qos.logback:logback-classic")
   implementation("io.micronaut:micronaut-validation")
 
